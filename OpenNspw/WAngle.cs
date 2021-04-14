@@ -4,7 +4,7 @@ namespace OpenNspw
 {
 	internal readonly struct WAngle : IEquatable<WAngle>
 	{
-		public static readonly WAngle Zero = new(0);
+		public static readonly WAngle Zero = new();
 
 		private const float _degreeRadian = (float)(Math.PI / 180.0);
 		private const float _radianDegree = (float)(180.0 / Math.PI);
