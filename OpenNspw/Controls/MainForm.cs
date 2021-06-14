@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Aigamo.Saruhashi;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using DColor = System.Drawing.Color;
 using DPoint = System.Drawing.Point;
@@ -11,6 +12,7 @@ namespace OpenNspw.Controls
 {
 	internal sealed class MainForm : Form
 	{
+		private readonly World _world;
 		private readonly Camera _camera;
 
 		private readonly Battlefield _battlefield;
@@ -52,15 +54,14 @@ namespace OpenNspw.Controls
 			private set => _gameSpeed = Math.Clamp(value, 0, 300);
 		}
 
-		public MainForm(World world, GraphicsDevice graphicsDevice)
+		public MainForm(World world, Camera camera, GraphicsDevice graphicsDevice)
 		{
-			_camera = world.Camera;
+			_world = world;
+			_camera = camera;
 
 			Size = new DSize(1024, 768);
 			BackColor = DColor.Transparent;
 			KeyPreview = true;
-
-			_camera.Viewport = WRect.FromCenter(WPos.Zero, new WVec(768, 768));
 
 			_battlefield = new Battlefield(world, _camera)
 			{
@@ -156,10 +157,8 @@ namespace OpenNspw.Controls
 			}
 		}
 
-		public void Update()
+		private void Scroll()
 		{
-			_battlefield.Update();
-
 			_scrollSpeed = (_scrollDirections == ScrollDirections.None)
 				? 0
 				: Math.Min(_scrollSpeed + ScrollAcceleration, MaxScrollSpeed);
@@ -172,6 +171,28 @@ namespace OpenNspw.Controls
 			}
 			_camera.Center += delta * _scrollSpeed;
 			_battlefield.UpdateSelection();
+		}
+
+		private TimeSpan _previousTotalGameTime;
+
+		public void Update(GameTime gameTime)
+		{
+			_battlefield.Update();
+
+			Scroll();
+
+			var delta = gameTime.TotalGameTime - _previousTotalGameTime;
+			if (delta >= TimeSpan.FromMilliseconds(50))
+			{
+				_previousTotalGameTime = gameTime.TotalGameTime;
+
+				for (var i = 0; i < GameSpeed; i++)
+				{
+					_world.Update();
+				}
+
+				_world.FrameCount++;
+			}
 		}
 	}
 }

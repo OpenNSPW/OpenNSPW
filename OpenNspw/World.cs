@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Aigamo.Saruhashi;
+using OpenNspw.Scenarios;
 
 namespace OpenNspw
 {
@@ -8,7 +10,6 @@ namespace OpenNspw
 	{
 		public int FrameCount { get; set; }
 
-		public Camera Camera { get; }
 
 		private readonly SortedDictionary<int, Unit> _units = new();
 
@@ -16,10 +17,22 @@ namespace OpenNspw
 
 		public Map Map { get; }
 
-		public World()
+		public IReadOnlyList<Player> Players { get; }
+
+		public Scenario Scenario { get; }
+
+		private World(Scenario scenario, Map map, IEnumerable<Player> players)
 		{
-			Map = new Map("Content/Maps/south_pacific.dat");
-			Camera = new Camera(Map.Bounds, flipY: true);
+			Scenario = scenario;
+			Map = map;
+			Players = players.ToArray();
+		}
+
+		public static World Create(Scenario scenario, Map map, IEnumerable<Player> players, Camera camera)
+		{
+			var world = new World(scenario, map, players);
+			scenario.Initialize(world, camera);
+			return world;
 		}
 
 		public IEnumerable<Unit> Units => _units.Values;
@@ -44,6 +57,50 @@ namespace OpenNspw
 
 			foreach (var unit in Units.Where(u => camera.Viewport.Intersects(WRect.FromCenter(u.Center, new WVec(80, 80)))))
 				unit.Draw(graphics, camera);
+		}
+	}
+
+	internal static class WorldExtensions
+	{
+		public sealed class UnitBuilder
+		{
+			public Unit Unit { get; }
+
+			public UnitBuilder(Unit unit)
+			{
+				Unit = unit;
+			}
+
+			public UnitBuilder AddAirplane(string name)
+			{
+				// TODO: implement
+				return this;
+			}
+		}
+
+		public sealed class WorldBuilder
+		{
+			public World World { get; }
+			public Player Owner { get; }
+
+			public WorldBuilder(World world, Player owner)
+			{
+				World = world;
+				Owner = owner;
+			}
+
+			public WorldBuilder AddUnit(string name, WPos center, WAngle angle, Action<UnitBuilder>? callback = null)
+			{
+				var unit = World.CreateUnit(name, Owner, center, angle);
+				World.Add(unit);
+				callback?.Invoke(new UnitBuilder(unit));
+				return this;
+			}
+		}
+
+		public static void AddUnits(this World world, Player owner, Action<WorldBuilder> callback)
+		{
+			callback(new WorldBuilder(world, owner));
 		}
 	}
 }

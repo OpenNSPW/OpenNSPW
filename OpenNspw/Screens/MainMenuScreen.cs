@@ -43,7 +43,7 @@ namespace OpenNspw.Screens
 				if (e.Button == MouseButtons.Left)
 					Assets.SoundEffects["SoundEffects/btn_4"].Play();
 			};
-			_singleplayerButton.Click += (sender, e) => ScreenManager.LoadScreen(new GameScreen(Game));
+			_singleplayerButton.Click += (sender, e) => ScreenManager.LoadScreen(new SingleplayerScreen(Game));
 			_form.Controls.Add(_singleplayerButton);
 
 			_multiplayerButton = new Button
@@ -56,7 +56,7 @@ namespace OpenNspw.Screens
 				if (e.Button == MouseButtons.Left)
 					Assets.SoundEffects["SoundEffects/btn_4"].Play();
 			};
-			_multiplayerButton.Click += (sender, e) => ScreenManager.LoadScreen(new GameScreen(Game));
+			_multiplayerButton.Click += (sender, e) => ScreenManager.LoadScreen(new MultiplayerScreen(Game));
 			_form.Controls.Add(_multiplayerButton);
 
 			_quitButton = new Button

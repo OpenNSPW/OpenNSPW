@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenNspw", "OpenNspw\OpenNs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenNspw.Tests", "OpenNspw.Tests\OpenNspw.Tests.csproj", "{C55A5828-B2B4-47B7-8C89-34402A934794}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenNspw.Interop", "OpenNspw.Interop\OpenNspw.Interop.csproj", "{662B07A4-5E56-4308-9933-00F16D760791}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{C55A5828-B2B4-47B7-8C89-34402A934794}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C55A5828-B2B4-47B7-8C89-34402A934794}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C55A5828-B2B4-47B7-8C89-34402A934794}.Release|Any CPU.Build.0 = Release|Any CPU
+		{662B07A4-5E56-4308-9933-00F16D760791}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{662B07A4-5E56-4308-9933-00F16D760791}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{662B07A4-5E56-4308-9933-00F16D760791}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{662B07A4-5E56-4308-9933-00F16D760791}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

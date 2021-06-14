@@ -19,6 +19,9 @@
 #begin Fonts/FreeSansBold.ttf
 /copy:Fonts/FreeSansBold.ttf
 
+#begin Interop/NSPW_122.bin
+/copy:Interop/NSPW_122.bin
+
 #begin Maps/central_pacific.dat
 /copy:Maps/central_pacific.dat
 

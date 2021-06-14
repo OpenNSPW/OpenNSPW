@@ -1,29 +1,38 @@
-﻿using System;
+﻿using System.Linq;
 using Aigamo.Saruhashi;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using OpenNspw.Controls;
+using OpenNspw.Scenarios;
 
 namespace OpenNspw.Screens
 {
 	internal sealed class GameScreen : Screen
 	{
-		private readonly World _world;
+		private readonly Scenario _scenario;
 
 		private MainForm _mainForm = default!;
 
 		private SoundEffectInstance _soundEffectInstance = default!;
 
-		public GameScreen(MainGame game) : base(game)
+		public GameScreen(MainGame game, Scenario scenario) : base(game)
 		{
-			_world = new World();
+			_scenario = scenario;
 		}
 
 		public override void LoadContent()
 		{
 			base.LoadContent();
 
-			_mainForm = new MainForm(_world, GraphicsDevice);
+			var map = new Map(_scenario.MapName);
+			var players = _scenario.Players.Select(p => new Player(p.Faction, p.Color));
+			var camera = new Camera(map.Bounds, flipY: true)
+			{
+				Viewport = WRect.FromCenter(WPos.Zero, new WVec(768, 768)),
+			};
+			var world = World.Create(_scenario, map, players, camera);
+
+			_mainForm = new MainForm(world, camera, GraphicsDevice);
 			WindowManager.Root.Controls.Add(_mainForm);
 			_mainForm.Show();
 			_mainForm.Focus();
@@ -41,26 +50,11 @@ namespace OpenNspw.Screens
 			_soundEffectInstance.Dispose();
 		}
 
-		private TimeSpan _previousTotalGameTime;
-
 		public override void Update(GameTime gameTime)
 		{
 			base.Update(gameTime);
 
-			_mainForm.Update();
-
-			var delta = gameTime.TotalGameTime - _previousTotalGameTime;
-			if (delta >= TimeSpan.FromMilliseconds(50))
-			{
-				_previousTotalGameTime = gameTime.TotalGameTime;
-
-				for (var i = 0; i < _mainForm.GameSpeed; i++)
-				{
-					_world.Update();
-				}
-
-				_world.FrameCount++;
-			}
+			_mainForm.Update(gameTime);
 		}
 
 		public override void Draw(GameTime gameTime)
