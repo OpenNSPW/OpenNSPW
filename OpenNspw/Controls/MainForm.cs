@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Aigamo.Saruhashi;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using OpenNspw.Components;
 using DColor = System.Drawing.Color;
 using DPoint = System.Drawing.Point;
 using DRect = System.Drawing.Rectangle;
@@ -18,6 +19,9 @@ namespace OpenNspw.Controls
 		private readonly Battlefield _battlefield;
 		private readonly Control _sidebar;
 
+		private readonly DynamicLabel _nameLabel;
+		private readonly DynamicLabel _damageStateLabel;
+		private readonly DynamicLabel _ammoLabel;
 		private readonly DynamicLabel _gameSpeedLabel;
 
 		private readonly Control _radarContainer;
@@ -74,6 +78,30 @@ namespace OpenNspw.Controls
 				Bounds = new DRect(768, 0, 256, 768),
 			};
 			Controls.Add(_sidebar);
+
+			_nameLabel = new DynamicLabel
+			{
+				Bounds = new DRect(130, 10, 126, 20),
+				ForeColor = DColor.Yellow,
+				GetText = () => world.Selection.MouseFocusUnit?.Components.GetComponent<Tooltip>()?.Options.Name ?? string.Empty,
+			};
+			_sidebar.Controls.Add(_nameLabel);
+
+			_damageStateLabel = new DynamicLabel
+			{
+				Bounds = new DRect(130, 30, 126, 20),
+				ForeColor = DColor.Yellow,
+				GetText = () => world.Selection.MouseFocusUnit?.DamageState.ToString() ?? string.Empty,
+			};
+			_sidebar.Controls.Add(_damageStateLabel);
+
+			_ammoLabel = new DynamicLabel
+			{
+				Bounds = new DRect(130, 50, 126, 20),
+				ForeColor = DColor.Yellow,
+				GetText = () => world.Selection.MouseFocusUnit is Unit mouseFocusUnit ? $"Ammo: {mouseFocusUnit?.Components.GetComponent<Armament>()?.Ammo ?? 0}" : string.Empty,
+			};
+			_sidebar.Controls.Add(_ammoLabel);
 
 			_gameSpeedLabel = new DynamicLabel
 			{

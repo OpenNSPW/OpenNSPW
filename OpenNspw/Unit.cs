@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.TextureAtlases;
+using OpenNspw.Components;
 
 namespace OpenNspw
 {
@@ -17,6 +18,10 @@ namespace OpenNspw
 		public Texture2D Texture { get; }
 		public WAngle Angle { get; }
 
+		public ComponentCollection Components { get; } = new();
+
+		private readonly Health? _health;
+
 		public Unit(int id, World world, string name, Player owner, WPos center, WAngle angle)
 		{
 			Id = id;
@@ -27,7 +32,14 @@ namespace OpenNspw
 			Angle = angle;
 
 			Texture = Assets.Textures[$"Textures/Units/{name}"];
+
+			foreach (var component in UnitOptions.Components[name])
+				Components.Add(component.CreateComponent(this));
+
+			_health = Components.GetComponent<Health>();
 		}
+
+		public DamageState DamageState => _health?.DamageState ?? DamageState.Undamaged;
 
 		public void Draw(Graphics graphics, Camera camera)
 		{
