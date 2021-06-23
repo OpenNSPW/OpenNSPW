@@ -5,12 +5,10 @@ namespace OpenNspw.Controls
 {
 	internal sealed class DynamicLabel : Label
 	{
-		public Func<string>? GetText { get; set; }
-
-		public override string Text
+		public new Func<string> GetText
 		{
-			get => GetText?.Invoke() ?? base.Text;
-			set => base.Text = value;
+			get => base.GetText;
+			set => base.GetText = value;
 		}
 	}
 }

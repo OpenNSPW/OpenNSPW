@@ -343,6 +343,30 @@
 /processorParam:TextureFormat=Color
 /build:Textures/Units/ap_jpn.png
 
+#begin Textures/Units/ap_jpn_deck.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Units/ap_jpn_deck.png
+
+#begin Textures/Units/ap_jpn_hangar.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Units/ap_jpn_hangar.png
+
 #begin Textures/Units/ap_usa.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -354,6 +378,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/Units/ap_usa.png
+
+#begin Textures/Units/ap_usa_deck.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Units/ap_usa_deck.png
+
+#begin Textures/Units/ap_usa_hangar.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Units/ap_usa_hangar.png
 
 #begin Textures/Units/at_jpn.png
 /importer:TextureImporter
@@ -415,6 +463,18 @@
 /processorParam:TextureFormat=Color
 /build:Textures/Units/bb_jpn.png
 
+#begin Textures/Units/bb_jpn_deck.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Units/bb_jpn_deck.png
+
 #begin Textures/Units/bb_usa.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -426,6 +486,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/Units/bb_usa.png
+
+#begin Textures/Units/bb_usa_deck.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Units/bb_usa_deck.png
 
 #begin Textures/Units/bm_jpn.png
 /importer:TextureImporter
@@ -463,6 +535,18 @@
 /processorParam:TextureFormat=Color
 /build:Textures/Units/ca_jpn.png
 
+#begin Textures/Units/ca_jpn_deck.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Units/ca_jpn_deck.png
+
 #begin Textures/Units/ca_usa.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -474,6 +558,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/Units/ca_usa.png
+
+#begin Textures/Units/ca_usa_deck.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Units/ca_usa_deck.png
 
 #begin Textures/Units/ct_jpn.png
 /importer:TextureImporter
@@ -511,6 +607,30 @@
 /processorParam:TextureFormat=Color
 /build:Textures/Units/cv_jpn.png
 
+#begin Textures/Units/cv_jpn_deck.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Units/cv_jpn_deck.png
+
+#begin Textures/Units/cv_jpn_hangar.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Units/cv_jpn_hangar.png
+
 #begin Textures/Units/cv_usa.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -522,6 +642,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/Units/cv_usa.png
+
+#begin Textures/Units/cv_usa_deck.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Units/cv_usa_deck.png
+
+#begin Textures/Units/cv_usa_hangar.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Units/cv_usa_hangar.png
 
 #begin Textures/Units/cvl_jpn.png
 /importer:TextureImporter
@@ -535,6 +679,30 @@
 /processorParam:TextureFormat=Color
 /build:Textures/Units/cvl_jpn.png
 
+#begin Textures/Units/cvl_jpn_deck.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Units/cvl_jpn_deck.png
+
+#begin Textures/Units/cvl_jpn_hangar.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Units/cvl_jpn_hangar.png
+
 #begin Textures/Units/cvl_usa.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -546,6 +714,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/Units/cvl_usa.png
+
+#begin Textures/Units/cvl_usa_deck.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Units/cvl_usa_deck.png
+
+#begin Textures/Units/cvl_usa_hangar.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Units/cvl_usa_hangar.png
 
 #begin Textures/Units/dd_jpn.png
 /importer:TextureImporter
@@ -559,6 +751,18 @@
 /processorParam:TextureFormat=Color
 /build:Textures/Units/dd_jpn.png
 
+#begin Textures/Units/dd_jpn_deck.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Units/dd_jpn_deck.png
+
 #begin Textures/Units/dd_usa.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -570,6 +774,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/Units/dd_usa.png
+
+#begin Textures/Units/dd_usa_deck.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Units/dd_usa_deck.png
 
 #begin Textures/Units/ft_jpn.png
 /importer:TextureImporter
@@ -787,6 +1003,18 @@
 /processorParam:TextureFormat=Color
 /build:Textures/Units/ss_jpn.png
 
+#begin Textures/Units/ss_jpn_deck.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Units/ss_jpn_deck.png
+
 #begin Textures/Units/ss_jpn_submerged.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -810,6 +1038,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/Units/ss_usa.png
+
+#begin Textures/Units/ss_usa_deck.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Units/ss_usa_deck.png
 
 #begin Textures/Units/ss_usa_submerged.png
 /importer:TextureImporter
@@ -835,6 +1075,18 @@
 /processorParam:TextureFormat=Color
 /build:Textures/Units/tr_jpn.png
 
+#begin Textures/Units/tr_jpn_deck.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Units/tr_jpn_deck.png
+
 #begin Textures/Units/tr_usa.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -846,4 +1098,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/Units/tr_usa.png
+
+#begin Textures/Units/tr_usa_deck.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Units/tr_usa_deck.png
 

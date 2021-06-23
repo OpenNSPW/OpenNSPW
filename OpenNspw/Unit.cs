@@ -1,4 +1,5 @@
-﻿using Aigamo.Saruhashi;
+﻿using System.Linq;
+using Aigamo.Saruhashi;
 using Aigamo.Saruhashi.MonoGame;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,30 +14,47 @@ namespace OpenNspw
 		public int Id { get; }
 		public World World { get; }
 		public Player Owner { get; }
-		public WPos Center { get; }
 		public string Name { get; }
 		public Texture2D Texture { get; }
-		public WAngle Angle { get; }
 
 		public ComponentCollection Components { get; } = new();
 
+		private readonly IUnit _unit;
 		private readonly Health? _health;
 
-		public Unit(int id, World world, string name, Player owner, WPos center, WAngle angle)
+		public T GetRequiredComponent<T>() where T : notnull => Components.GetRequiredComponent<T>();
+
+		public T? GetComponent<T>() => Components.GetComponent<T>();
+
+		public Unit(int id, World world, string name, Player owner)
 		{
 			Id = id;
 			World = world;
 			Name = name;
 			Owner = owner;
-			Center = center;
-			Angle = angle;
 
 			Texture = Assets.Textures[$"Textures/Units/{name}"];
 
 			foreach (var component in UnitOptions.Components[name])
 				Components.Add(component.CreateComponent(this));
 
-			_health = Components.GetComponent<Health>();
+			_unit = Components.OfType<IUnit>().Single();
+			_health = GetComponent<Health>();
+
+			foreach (var listener in Components.OfType<ICreatedEventListener>())
+				listener.OnCreated(this);
+		}
+
+		public WPos Center
+		{
+			get => _unit.Center;
+			set => _unit.Center = value;
+		}
+
+		public WAngle Angle
+		{
+			get => _unit.Angle;
+			set => _unit.Angle = value;
 		}
 
 		public DamageState DamageState => _health?.DamageState ?? DamageState.Undamaged;

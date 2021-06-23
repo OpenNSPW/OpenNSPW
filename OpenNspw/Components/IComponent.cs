@@ -26,4 +26,15 @@
 
 		IComponentOptions IComponent.Options => Options;
 	}
+
+	internal interface IUnit
+	{
+		WPos Center { get; set; }
+		WAngle Angle { get; set; }
+	}
+
+	internal interface ICreatedEventListener
+	{
+		void OnCreated(Unit self);
+	}
 }

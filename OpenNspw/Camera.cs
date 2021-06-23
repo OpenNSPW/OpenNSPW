@@ -31,6 +31,6 @@ namespace OpenNspw
 		public WPos ScreenToWorld(Vector2 value) => Position + new WVec(value).FlipY(FlipY);
 
 		public Vector2 WorldToScreen(WPos value) => (value - Position).FlipY(FlipY).ToVector2();
-		public RectangleF WorldToScreen(WRect value) => new(WorldToScreen(value.TopLeft), value.Size.ToVector2());
+		public RectangleF WorldToScreen(WRect value) => new(WorldToScreen(FlipY ? value.TopLeft : value.BottomLeft), value.Size.ToVector2());
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Aigamo.Saruhashi;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -19,10 +20,12 @@ namespace OpenNspw.Controls
 		private readonly Battlefield _battlefield;
 		private readonly Control _sidebar;
 
+		private readonly Deck _deck;
 		private readonly DynamicLabel _nameLabel;
 		private readonly DynamicLabel _damageStateLabel;
 		private readonly DynamicLabel _ammoLabel;
 		private readonly DynamicLabel _gameSpeedLabel;
+		private readonly DynamicCheckBox _hangarCheckBox;
 
 		private readonly Control _radarContainer;
 		private readonly Radar _radar;
@@ -58,6 +61,22 @@ namespace OpenNspw.Controls
 			private set => _gameSpeed = Math.Clamp(value, 0, 300);
 		}
 
+		private void OnSelectionAdded(object? sender, EventArgs e)
+		{
+			Assets.SoundEffects["SoundEffects/btn_1"].Play();
+		}
+
+		private void OnSelectionRemoved(object? sender, EventArgs e)
+		{
+			Assets.SoundEffects["SoundEffects/btn_2"].Play();
+		}
+
+		private void OnSelectionRestored(object? sender, EventArgs e)
+		{
+			if (_world.Selection.Units.FirstOrDefault()?.GetComponent<Airplane>() is not Airplane airplane || !airplane.IsInHangar)
+				_deck.DeckState = DeckState.Deck;
+		}
+
 		public MainForm(World world, Camera camera, GraphicsDevice graphicsDevice)
 		{
 			_world = world;
@@ -71,6 +90,9 @@ namespace OpenNspw.Controls
 			{
 				Bounds = new DRect(0, 0, 768, 768),
 			};
+			_battlefield.SelectionAdded += OnSelectionAdded;
+			_battlefield.SelectionRemoved += OnSelectionRemoved;
+			_battlefield.SelectionRestored += OnSelectionRestored;
 			Controls.Add(_battlefield);
 
 			_sidebar = new Control
@@ -79,11 +101,25 @@ namespace OpenNspw.Controls
 			};
 			Controls.Add(_sidebar);
 
+			var deckCamera = new Camera(mapBounds: null, flipY: false)
+			{
+				Viewport = WRect.FromCenter(WPos.Zero, new WVec(117, 436)),
+				Position = WPos.Zero,
+			};
+			_deck = new Deck(world, deckCamera)
+			{
+				Bounds = new DRect(0, 0, 117, 436),
+			};
+			_deck.SelectionAdded += OnSelectionAdded;
+			_deck.SelectionRemoved += OnSelectionRemoved;
+			_deck.SelectionRestored += OnSelectionRestored;
+			_sidebar.Controls.Add(_deck);
+
 			_nameLabel = new DynamicLabel
 			{
 				Bounds = new DRect(130, 10, 126, 20),
 				ForeColor = DColor.Yellow,
-				GetText = () => world.Selection.MouseFocusUnit?.Components.GetComponent<Tooltip>()?.Options.Name ?? string.Empty,
+				GetText = () => world.Selection.MouseFocusUnit?.GetComponent<Tooltip>()?.Options.Name ?? string.Empty,
 			};
 			_sidebar.Controls.Add(_nameLabel);
 
@@ -99,7 +135,7 @@ namespace OpenNspw.Controls
 			{
 				Bounds = new DRect(130, 50, 126, 20),
 				ForeColor = DColor.Yellow,
-				GetText = () => world.Selection.MouseFocusUnit is Unit mouseFocusUnit ? $"Ammo: {mouseFocusUnit?.Components.GetComponent<Armament>()?.Ammo ?? 0}" : string.Empty,
+				GetText = () => world.Selection.MouseFocusUnit is Unit mouseFocusUnit ? $"Ammo: {mouseFocusUnit?.GetComponent<Armament>()?.Ammo ?? 0}" : string.Empty,
 			};
 			_sidebar.Controls.Add(_ammoLabel);
 
@@ -110,6 +146,24 @@ namespace OpenNspw.Controls
 				GetText = () => $"Game Speed: {GameSpeed}",
 			};
 			_sidebar.Controls.Add(_gameSpeedLabel);
+
+			_hangarCheckBox = new DynamicCheckBox
+			{
+				Bounds = new DRect(0, 436, 140, 20),
+				Text = "Hangar",
+				Appearance = Appearance.Button,
+				IsVisible = () => world.Selection.MouseFocusUnit?.GetComponent<Hangar>() is not null,
+				AutoCheck = false,
+				IsChecked = () => _deck.DeckState == DeckState.Hangar,
+			};
+			_hangarCheckBox.Click += (sender, e) =>
+			{
+				Assets.SoundEffects["SoundEffects/btn_0"].Play();
+				world.Selection.Clear();
+
+				_deck.ToggleDeckState();
+			};
+			_sidebar.Controls.Add(_hangarCheckBox);
 
 			_radarContainer = new Control
 			{
@@ -206,6 +260,7 @@ namespace OpenNspw.Controls
 		public void Update(GameTime gameTime)
 		{
 			_battlefield.Update();
+			_deck.Update();
 
 			Scroll();
 

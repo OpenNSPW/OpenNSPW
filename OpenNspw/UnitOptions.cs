@@ -15,6 +15,9 @@ namespace OpenNspw
 					{
 						Name = "Battleship",
 					},
+					new ShipOptions
+					{
+					},
 					new ArmamentOptions
 					{
 						MaxAmmo = 1000,
@@ -32,6 +35,9 @@ namespace OpenNspw
 					new TooltipOptions
 					{
 						Name = "Battleship",
+					},
+					new ShipOptions
+					{
 					},
 					new ArmamentOptions
 					{
@@ -51,6 +57,9 @@ namespace OpenNspw
 					{
 						Name = "Yamato",
 					},
+					new ShipOptions
+					{
+					},
 					new ArmamentOptions
 					{
 						MaxAmmo = 1350,
@@ -68,6 +77,9 @@ namespace OpenNspw
 					new TooltipOptions
 					{
 						Name = "Cruiser",
+					},
+					new ShipOptions
+					{
 					},
 					new ArmamentOptions
 					{
@@ -87,6 +99,9 @@ namespace OpenNspw
 					{
 						Name = "Cruiser",
 					},
+					new ShipOptions
+					{
+					},
 					new ArmamentOptions
 					{
 						MaxAmmo = 600,
@@ -104,6 +119,9 @@ namespace OpenNspw
 					new TooltipOptions
 					{
 						Name = "Antiaircraft Cruiser",
+					},
+					new ShipOptions
+					{
 					},
 					new ArmamentOptions
 					{
@@ -123,6 +141,9 @@ namespace OpenNspw
 					{
 						Name = "Antiaircraft Cruiser",
 					},
+					new ShipOptions
+					{
+					},
 					new ArmamentOptions
 					{
 						MaxAmmo = 450,
@@ -140,6 +161,9 @@ namespace OpenNspw
 					new TooltipOptions
 					{
 						Name = "Destroyer",
+					},
+					new ShipOptions
+					{
 					},
 					new ArmamentOptions
 					{
@@ -159,6 +183,9 @@ namespace OpenNspw
 					{
 						Name = "Destroyer",
 					},
+					new ShipOptions
+					{
+					},
 					new ArmamentOptions
 					{
 						MaxAmmo = 120,
@@ -176,6 +203,9 @@ namespace OpenNspw
 					new TooltipOptions
 					{
 						Name = "Escort Destroyer",
+					},
+					new ShipOptions
+					{
 					},
 					new ArmamentOptions
 					{
@@ -195,6 +225,9 @@ namespace OpenNspw
 					{
 						Name = "Escort Destroyer",
 					},
+					new ShipOptions
+					{
+					},
 					new ArmamentOptions
 					{
 						MaxAmmo = 120,
@@ -212,6 +245,9 @@ namespace OpenNspw
 					new TooltipOptions
 					{
 						Name = "Submarine",
+					},
+					new ShipOptions
+					{
 					},
 					new ArmamentOptions
 					{
@@ -231,6 +267,9 @@ namespace OpenNspw
 					{
 						Name = "Submarine",
 					},
+					new ShipOptions
+					{
+					},
 					new ArmamentOptions
 					{
 						MaxAmmo = 25,
@@ -249,9 +288,17 @@ namespace OpenNspw
 					{
 						Name = "Aircraft Carrier",
 					},
+					new ShipOptions
+					{
+					},
 					new ArmamentOptions
 					{
 						MaxAmmo = 100,
+					},
+					new HangarOptions
+					{
+						Capacity = 12,
+						Offset = 25,
 					},
 					new HealthOptions
 					{
@@ -267,9 +314,17 @@ namespace OpenNspw
 					{
 						Name = "Aircraft Carrier",
 					},
+					new ShipOptions
+					{
+					},
 					new ArmamentOptions
 					{
 						MaxAmmo = 100,
+					},
+					new HangarOptions
+					{
+						Capacity = 12,
+						Offset = 25,
 					},
 					new HealthOptions
 					{
@@ -285,9 +340,17 @@ namespace OpenNspw
 					{
 						Name = "Essex",
 					},
+					new ShipOptions
+					{
+					},
 					new ArmamentOptions
 					{
 						MaxAmmo = 110,
+					},
+					new HangarOptions
+					{
+						Capacity = 14,
+						Offset = 25,
 					},
 					new HealthOptions
 					{
@@ -303,9 +366,17 @@ namespace OpenNspw
 					{
 						Name = "Light Aircraft Carrier",
 					},
+					new ShipOptions
+					{
+					},
 					new ArmamentOptions
 					{
 						MaxAmmo = 80,
+					},
+					new HangarOptions
+					{
+						Capacity = 8,
+						Offset = 25,
 					},
 					new HealthOptions
 					{
@@ -321,9 +392,17 @@ namespace OpenNspw
 					{
 						Name = "Light Aircraft Carrier",
 					},
+					new ShipOptions
+					{
+					},
 					new ArmamentOptions
 					{
 						MaxAmmo = 80,
+					},
+					new HangarOptions
+					{
+						Capacity = 8,
+						Offset = 25,
 					},
 					new HealthOptions
 					{
@@ -338,6 +417,9 @@ namespace OpenNspw
 					new TooltipOptions
 					{
 						Name = "Fighter",
+					},
+					new AirplaneOptions
+					{
 					},
 					new ArmamentOptions
 					{
@@ -357,6 +439,9 @@ namespace OpenNspw
 					{
 						Name = "Fighter",
 					},
+					new AirplaneOptions
+					{
+					},
 					new ArmamentOptions
 					{
 						MaxAmmo = 40,
@@ -374,6 +459,9 @@ namespace OpenNspw
 					new TooltipOptions
 					{
 						Name = "Interceptor",
+					},
+					new AirplaneOptions
+					{
 					},
 					new ArmamentOptions
 					{
@@ -393,6 +481,9 @@ namespace OpenNspw
 					{
 						Name = "Interceptor",
 					},
+					new AirplaneOptions
+					{
+					},
 					new ArmamentOptions
 					{
 						MaxAmmo = 60,
@@ -410,6 +501,9 @@ namespace OpenNspw
 					new TooltipOptions
 					{
 						Name = "Shinden",
+					},
+					new AirplaneOptions
+					{
 					},
 					new ArmamentOptions
 					{
@@ -429,6 +523,9 @@ namespace OpenNspw
 					{
 						Name = "Attack Bomber",
 					},
+					new AirplaneOptions
+					{
+					},
 					new ArmamentOptions
 					{
 						MaxAmmo = 1,
@@ -446,6 +543,9 @@ namespace OpenNspw
 					new TooltipOptions
 					{
 						Name = "Attack Bomber",
+					},
+					new AirplaneOptions
+					{
 					},
 					new ArmamentOptions
 					{
@@ -465,6 +565,9 @@ namespace OpenNspw
 					{
 						Name = "Strategic Bomber",
 					},
+					new AirplaneOptions
+					{
+					},
 					new ArmamentOptions
 					{
 						MaxAmmo = 9,
@@ -482,6 +585,9 @@ namespace OpenNspw
 					new TooltipOptions
 					{
 						Name = "Strategic Bomber",
+					},
+					new AirplaneOptions
+					{
 					},
 					new ArmamentOptions
 					{
@@ -501,6 +607,9 @@ namespace OpenNspw
 					{
 						Name = "Transport",
 					},
+					new ShipOptions
+					{
+					},
 					new HealthOptions
 					{
 						MaxHP = 9,
@@ -514,6 +623,9 @@ namespace OpenNspw
 					new TooltipOptions
 					{
 						Name = "Transport",
+					},
+					new ShipOptions
+					{
 					},
 					new HealthOptions
 					{
@@ -529,6 +641,14 @@ namespace OpenNspw
 					{
 						Name = "Airfield",
 					},
+					new BuildingOptions
+					{
+					},
+					new HangarOptions
+					{
+						Capacity = 16,
+						Offset = 35,
+					},
 					new HealthOptions
 					{
 						MaxHP = 260,
@@ -542,6 +662,14 @@ namespace OpenNspw
 					new TooltipOptions
 					{
 						Name = "Airfield",
+					},
+					new BuildingOptions
+					{
+					},
+					new HangarOptions
+					{
+						Capacity = 16,
+						Offset = 35,
 					},
 					new HealthOptions
 					{
@@ -557,6 +685,9 @@ namespace OpenNspw
 					{
 						Name = "Military Port",
 					},
+					new BuildingOptions
+					{
+					},
 					new HealthOptions
 					{
 						MaxHP = 320,
@@ -570,6 +701,9 @@ namespace OpenNspw
 					new TooltipOptions
 					{
 						Name = "Military Port",
+					},
+					new BuildingOptions
+					{
 					},
 					new HealthOptions
 					{
@@ -585,6 +719,9 @@ namespace OpenNspw
 					{
 						Name = "City",
 					},
+					new BuildingOptions
+					{
+					},
 					new HealthOptions
 					{
 						MaxHP = 150,
@@ -598,6 +735,9 @@ namespace OpenNspw
 					new TooltipOptions
 					{
 						Name = "City",
+					},
+					new BuildingOptions
+					{
 					},
 					new HealthOptions
 					{
@@ -613,6 +753,9 @@ namespace OpenNspw
 					{
 						Name = "Mine",
 					},
+					new BuildingOptions
+					{
+					},
 					new HealthOptions
 					{
 						MaxHP = 150,
@@ -627,6 +770,9 @@ namespace OpenNspw
 					{
 						Name = "Mine",
 					},
+					new BuildingOptions
+					{
+					},
 					new HealthOptions
 					{
 						MaxHP = 150,
@@ -640,6 +786,9 @@ namespace OpenNspw
 					new TooltipOptions
 					{
 						Name = "Trench",
+					},
+					new BuildingOptions
+					{
 					},
 					new ArmamentOptions
 					{
@@ -659,6 +808,9 @@ namespace OpenNspw
 					{
 						Name = "Trench",
 					},
+					new BuildingOptions
+					{
+					},
 					new ArmamentOptions
 					{
 						MaxAmmo = 700,
@@ -676,6 +828,9 @@ namespace OpenNspw
 					new TooltipOptions
 					{
 						Name = "Pillbox",
+					},
+					new BuildingOptions
+					{
 					},
 					new ArmamentOptions
 					{
@@ -695,6 +850,9 @@ namespace OpenNspw
 					{
 						Name = "Pillbox",
 					},
+					new BuildingOptions
+					{
+					},
 					new ArmamentOptions
 					{
 						MaxAmmo = 1500,
@@ -713,6 +871,9 @@ namespace OpenNspw
 					{
 						Name = "Fortress",
 					},
+					new BuildingOptions
+					{
+					},
 					new ArmamentOptions
 					{
 						MaxAmmo = 2000,
@@ -730,6 +891,9 @@ namespace OpenNspw
 					new TooltipOptions
 					{
 						Name = "Fortress",
+					},
+					new BuildingOptions
+					{
 					},
 					new ArmamentOptions
 					{

@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using OpenNspw.Components;
 using OpenNspw.Interop;
 
 namespace OpenNspw.Scenarios.Singleplayer
@@ -81,7 +82,22 @@ namespace OpenNspw.Scenarios.Singleplayer
 
 				if (interopUnit.ctgry == 2 && interopUnit.info[0] == 2)
 				{
-					// TODO
+					var unit = new Unit(
+						id: i,
+						world,
+						name,
+						owner: world.Players[interopUnit.used - 1]
+					)
+					{
+						Center = new WPos((float)interopUnit.x, (float)interopUnit.y),
+						Angle = new WAngle((float)interopUnit.drctn),
+					};
+					world.Add(unit);
+
+					var airplane = unit.GetRequiredComponent<Airplane>();
+					var hangar = world.AllUnits[interopUnit.info[1]].GetRequiredComponent<Hangar>();
+					hangar.Add(airplane);
+					hangar.Park(airplane);
 				}
 				else
 				{
@@ -89,10 +105,12 @@ namespace OpenNspw.Scenarios.Singleplayer
 						id: i,
 						world,
 						name,
-						owner: world.Players[interopUnit.used - 1],
-						center: new WPos((float)interopUnit.x, (float)interopUnit.y),
-						angle: new WAngle((float)interopUnit.drctn)
-					);
+						owner: world.Players[interopUnit.used - 1]
+					)
+					{
+						Center = new WPos((float)interopUnit.x, (float)interopUnit.y),
+						Angle = new WAngle((float)interopUnit.drctn),
+					};
 					world.Add(unit);
 				}
 			}
