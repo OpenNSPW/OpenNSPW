@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Aigamo.Saruhashi;
 using Aigamo.Saruhashi.MonoGame;
 using Microsoft.Xna.Framework;
@@ -23,12 +24,13 @@ namespace OpenNspw
 		private readonly IUnit _unit;
 		private readonly Health? _health;
 		private readonly IOrderHandler[] _orderHandlers;
+		private readonly IUpdatable[] _updatables;
 
 		public T GetRequiredComponent<T>() where T : notnull => Components.GetRequiredComponent<T>();
 
 		public T? GetComponent<T>() => Components.GetComponent<T>();
 
-		public Unit(int id, World world, string name, Player owner)
+		private Unit(int id, World world, string name, Player owner)
 		{
 			Id = id;
 			World = world;
@@ -43,9 +45,24 @@ namespace OpenNspw
 			_unit = Components.OfType<IUnit>().Single();
 			_health = GetComponent<Health>();
 			_orderHandlers = Components.OfType<IOrderHandler>().ToArray();
+			_updatables = Components.OfType<IUpdatable>().ToArray();
+		}
 
+		private void Initialize()
+		{
 			foreach (var listener in Components.OfType<ICreatedEventListener>())
 				listener.OnCreated(this);
+		}
+
+		public static Unit Create(int id, World world, string name, Player owner, WPos center, WAngle angle)
+		{
+			var unit = new Unit(id, world, name, owner)
+			{
+				Center = center,
+				Angle = angle,
+			};
+			unit.Initialize();
+			return unit;
 		}
 
 		public WPos Center
@@ -60,12 +77,21 @@ namespace OpenNspw
 			set => _unit.Angle = value;
 		}
 
+		public bool IsMoving => _unit.IsMoving;
+		public IEnumerable<WPos> Waypoints => _unit.Waypoints;
+
 		public DamageState DamageState => _health?.DamageState ?? DamageState.Undamaged;
 
 		public void HandleOrder(IOrder order)
 		{
 			foreach (var handler in _orderHandlers)
-				handler.HandleOrder(order);
+				handler.HandleOrder(World, order);
+		}
+
+		public void Update()
+		{
+			foreach (var updatable in _updatables)
+				updatable.Update(this);
 		}
 
 		public void Draw(Graphics graphics, Camera camera)

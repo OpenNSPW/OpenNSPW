@@ -37,7 +37,7 @@ namespace OpenNspw.Controls
 
 		public void Update()
 		{
-			Update(Units);
+			Update(Units.Where(u => !u.IsMoving));
 		}
 
 		protected override void OnPaintBackground(PaintEventArgs e)

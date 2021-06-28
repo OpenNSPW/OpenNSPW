@@ -17,6 +17,8 @@ namespace OpenNspw.Controls
 		private readonly World _world;
 		private readonly Camera _camera;
 
+		private bool _isQueued;
+
 		public Battlefield(World world, Camera camera) : base(world, camera)
 		{
 			_world = world;
@@ -39,6 +41,24 @@ namespace OpenNspw.Controls
 			DrawBackground(e, Units);
 		}
 
+		private void DrawUnitPath(PaintEventArgs e, Unit unit)
+		{
+			var center = (unit.GetComponent<Airplane>() is Airplane airplane && airplane.IsInHangar)
+				? airplane.Hangar.Self.Center
+				: unit.Center;
+			var previousWaypoint = center;
+			foreach (var waypoint in unit.Waypoints)
+			{
+				DrawLine(e, new DPen(DColor.White), previousWaypoint, waypoint);
+				DrawRectangle(e, new DPen(DColor.White), WRect.FromCenter(waypoint, new WVec(20, 20)));
+				previousWaypoint = waypoint;
+			}
+
+			var control = WindowManager.WindowFromPoint(MouseLocation);
+			if (((control is null || control == this) && WindowManager.Capture is null) || Capture)
+				DrawLine(e, new DPen(DColor.White), Selection.IsQueued ? unit.Waypoints.Last() : center, MouseWPos);
+		}
+
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			base.OnPaint(e);
@@ -46,16 +66,7 @@ namespace OpenNspw.Controls
 			Draw(e, Units);
 
 			if (Subject is not null)
-			{
-				var control = WindowManager.WindowFromPoint(MouseLocation);
-				if (((control is null || control == this) && WindowManager.Capture is null) || Capture)
-				{
-					var center = (Subject.GetComponent<Airplane>() is Airplane airplane && airplane.IsInHangar)
-						? airplane.Hangar.Self.Center
-						: Subject.Center;
-					e.Graphics.DrawLine(new DPen(DColor.White), _camera.WorldToScreen(center).ToPoint().ToDrawingPoint(), _camera.WorldToScreen(MouseWPos).ToPoint().ToDrawingPoint());
-				}
-			}
+				DrawUnitPath(e, Subject);
 		}
 
 		private DPoint _previousMouseLocation;
@@ -70,18 +81,35 @@ namespace OpenNspw.Controls
 			_previousMouseLocation = e.Location;
 		}
 
+		protected override void OnSelectionRestored(EventArgs e)
+		{
+			base.OnSelectionRestored(e);
+
+			_isQueued = false;
+		}
+
 		protected override void OnMapClick(EventArgs e)
 		{
 			base.OnMapClick(e);
 
 			if (Subject is not null)
 			{
-				_world.DispatchOrder(new WaypointOrder(
-					SubjectId: Subject.Id,
-					SelectionIds: Selection.Units.Select(u => u.Id).ToArray(),
-					Position: MouseWPos,
-					IsQueued: Selection.IsQueued
-				));
+				if (Subject.Components.OfType<Mobile>().SingleOrDefault() is Mobile mobile)
+				{
+					Assets.SoundEffects["SoundEffects/btn_4"].Play();
+
+					_world.DispatchOrder(new WaypointOrder(
+						SubjectId: mobile.Self.Id,
+						SelectionIds: Selection.Units.Select(u => u.Id).ToArray(),
+						Position: MouseWPos,
+						IsQueued: _isQueued
+					));
+
+					_isQueued = true;
+
+					if (mobile is Airplane airplane && airplane.IsInHangar)
+						Selection.Clear();
+				}
 			}
 		}
 	}

@@ -2,22 +2,18 @@
 
 namespace OpenNspw.Components
 {
-	internal sealed record AirplaneOptions : IComponentOptions<Airplane>
+	internal sealed record AirplaneOptions : MobileOptions
 	{
-		public Airplane CreateComponent(Unit self) => new(self, this);
+		public override Airplane CreateComponent(Unit self) => new(self, this);
 	}
 
-	internal sealed class Airplane : IComponent<AirplaneOptions>, IUnit
+	internal sealed class Airplane : Mobile
 	{
-		public Unit Self { get; }
-		public AirplaneOptions Options { get; }
-		public WPos Center { get; set; }
-		public WAngle Angle { get; set; }
+		public override AirplaneOptions Options { get; }
 		public Hangar? Hangar { get; set; }
 
-		public Airplane(Unit self, AirplaneOptions options)
+		public Airplane(Unit self, AirplaneOptions options) : base(self, options)
 		{
-			Self = self;
 			Options = options;
 		}
 

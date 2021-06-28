@@ -82,16 +82,14 @@ namespace OpenNspw.Scenarios.Singleplayer
 
 				if (interopUnit.ctgry == 2 && interopUnit.info[0] == 2)
 				{
-					var unit = new Unit(
+					var unit = Unit.Create(
 						id: i,
 						world,
 						name,
-						owner: world.Players[interopUnit.used - 1]
-					)
-					{
-						Center = new WPos((float)interopUnit.x, (float)interopUnit.y),
-						Angle = new WAngle((float)interopUnit.drctn),
-					};
+						owner: world.Players[interopUnit.used - 1],
+						center: new WPos((float)interopUnit.x, (float)interopUnit.y),
+						angle: new WAngle((float)interopUnit.drctn)
+					);
 					world.Add(unit);
 
 					var airplane = unit.GetRequiredComponent<Airplane>();
@@ -101,16 +99,14 @@ namespace OpenNspw.Scenarios.Singleplayer
 				}
 				else
 				{
-					var unit = new Unit(
+					var unit = Unit.Create(
 						id: i,
 						world,
 						name,
-						owner: world.Players[interopUnit.used - 1]
-					)
-					{
-						Center = new WPos((float)interopUnit.x, (float)interopUnit.y),
-						Angle = new WAngle((float)interopUnit.drctn),
-					};
+						owner: world.Players[interopUnit.used - 1],
+						center: new WPos((float)interopUnit.x, (float)interopUnit.y),
+						angle: new WAngle((float)interopUnit.drctn)
+					);
 					world.Add(unit);
 				}
 			}

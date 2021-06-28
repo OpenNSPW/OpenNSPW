@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Aigamo.Saruhashi;
 using Aigamo.Saruhashi.MonoGame;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using MonoGame.Extended;
 using OpenNspw.Components;
 using DColor = System.Drawing.Color;
 using DPen = System.Drawing.Pen;
@@ -30,16 +30,16 @@ namespace OpenNspw.Controls
 		}
 
 		public event EventHandler? SelectionAdded;
-		private void OnSelectionAdded(EventArgs e) => SelectionAdded?.Invoke(this, e);
+		protected virtual void OnSelectionAdded(EventArgs e) => SelectionAdded?.Invoke(this, e);
 
 		public event EventHandler? SelectionRemoved;
-		private void OnSelectionRemoved(EventArgs e) => SelectionRemoved?.Invoke(this, e);
+		protected virtual void OnSelectionRemoved(EventArgs e) => SelectionRemoved?.Invoke(this, e);
 
 		public event EventHandler? SelectionCanceled;
-		private void OnSelectionCanceled(EventArgs e) => SelectionCanceled?.Invoke(this, e);
+		protected virtual void OnSelectionCanceled(EventArgs e) => SelectionCanceled?.Invoke(this, e);
 
 		public event EventHandler? SelectionRestored;
-		private void OnSelectionRestored(EventArgs e) => SelectionRestored?.Invoke(this, e);
+		protected virtual void OnSelectionRestored(EventArgs e) => SelectionRestored?.Invoke(this, e);
 
 		public event EventHandler? MapClick;
 		protected virtual void OnMapClick(EventArgs e) => MapClick?.Invoke(this, e);
@@ -71,6 +71,16 @@ namespace OpenNspw.Controls
 			_mouseOverUnit = units.FirstOrDefault(u => WRect.FromCenter(u.Center, new WVec(40, 40)).Contains(MouseWPos));
 		}
 
+		protected void DrawLine(PaintEventArgs e, DPen pen, WPos point1, WPos point2)
+		{
+			e.Graphics.DrawLine(pen, _camera.WorldToScreen(point1).ToPoint().ToDrawingPoint(), _camera.WorldToScreen(point2).ToPoint().ToDrawingPoint());
+		}
+
+		protected void DrawRectangle(PaintEventArgs e, DPen pen, WRect rectangle)
+		{
+			e.Graphics.DrawRectangle(pen, ((Rectangle)_camera.WorldToScreen(rectangle)).ToDrawingRectangle());
+		}
+
 		protected void DrawBackground(PaintEventArgs e, IEnumerable<Unit> units)
 		{
 			foreach (var unit in units.Where(u => _camera.Viewport.Intersects(WRect.FromCenter(u.Center, new WVec(80, 80)))))
@@ -82,13 +92,13 @@ namespace OpenNspw.Controls
 			if (_mouseOverUnit is not null)
 			{
 				if (_world.FrameCount % 2 != 0)
-					e.Graphics.DrawRectangle(new DPen(DColor.White), _camera.WorldToScreen(WRect.FromCenter(_mouseOverUnit.Center, new WVec(50, 50))).ToRectangle().ToDrawingRectangle());
+					DrawRectangle(e, new DPen(DColor.White), WRect.FromCenter(_mouseOverUnit.Center, new WVec(50, 50)));
 			}
 
 			foreach (var unit in units.Intersect(SelectedUnits))
 			{
 				var size = (unit == Subject) ? new WVec(60, 60) : new WVec(40, 40);
-				e.Graphics.DrawRectangle(new DPen(DColor.White), _camera.WorldToScreen(WRect.FromCenter(unit.Center, size)).ToRectangle().ToDrawingRectangle());
+				DrawRectangle(e, new DPen(DColor.White), WRect.FromCenter(unit.Center, size));
 			}
 		}
 

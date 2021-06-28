@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenNspw.Components
 {
@@ -10,7 +11,7 @@ namespace OpenNspw.Components
 		public Hangar CreateComponent(Unit self) => new(self, this);
 	}
 
-	internal sealed class Hangar : IComponent<HangarOptions>
+	internal sealed class Hangar : IComponent<HangarOptions>, IUpdatable
 	{
 		public Unit Self { get; }
 		public HangarOptions Options { get; }
@@ -24,6 +25,12 @@ namespace OpenNspw.Components
 		{
 			Self = self;
 			Options = options;
+		}
+
+		void IUpdatable.Update(Unit self)
+		{
+			foreach (var airplane in Airplanes.Where(a => !a.IsMoving))
+				airplane.Waypoints[0] = self.Center;
 		}
 
 		public void Add(Airplane airplane)
@@ -60,6 +67,8 @@ namespace OpenNspw.Components
 					airplane.Center = new WPos(117/* TODO: const */ / 2 - Options.Offset, 436/* TODO: const */ - index / 2 * 40 - 100 - 20);
 					break;
 			}
+
+			airplane.IsMoving = false;
 		}
 	}
 }

@@ -1,4 +1,6 @@
-﻿using OpenNspw.Orders;
+﻿using System.Collections.Generic;
+using System.Linq;
+using OpenNspw.Orders;
 
 namespace OpenNspw.Components
 {
@@ -31,8 +33,11 @@ namespace OpenNspw.Components
 
 	internal interface IUnit
 	{
+		Unit Self { get; }
 		WPos Center { get; set; }
 		WAngle Angle { get; set; }
+		bool IsMoving => false;
+		IEnumerable<WPos> Waypoints => Enumerable.Repeat(Center, 1);
 	}
 
 	internal interface ICreatedEventListener
@@ -42,6 +47,11 @@ namespace OpenNspw.Components
 
 	internal interface IOrderHandler
 	{
-		void HandleOrder(IOrder order);
+		void HandleOrder(World world, IOrder order);
+	}
+
+	internal interface IUpdatable
+	{
+		void Update(Unit self);
 	}
 }

@@ -1,20 +1,16 @@
 ﻿namespace OpenNspw.Components
 {
-	internal sealed record ShipOptions : IComponentOptions<Ship>
+	internal sealed record ShipOptions : MobileOptions
 	{
-		public Ship CreateComponent(Unit self) => new(self, this);
+		public override Ship CreateComponent(Unit self) => new(self, this);
 	}
 
-	internal sealed class Ship : IComponent<ShipOptions>, IUnit
+	internal sealed class Ship : Mobile
 	{
-		public Unit Self { get; }
-		public ShipOptions Options { get; }
-		public WPos Center { get; set; }
-		public WAngle Angle { get; set; }
+		public override ShipOptions Options { get; }
 
-		public Ship(Unit self, ShipOptions options)
+		public Ship(Unit self, ShipOptions options) : base(self, options)
 		{
-			Self = self;
 			Options = options;
 		}
 	}

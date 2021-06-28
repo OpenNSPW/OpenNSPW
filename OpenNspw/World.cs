@@ -43,15 +43,7 @@ namespace OpenNspw
 
 		private int _nextUnitId = 1;
 
-		public Unit CreateUnit(string name, Player owner, WPos center, WAngle angle)
-		{
-			var unit = new Unit(_nextUnitId++, this, name, owner)
-			{
-				Center = center,
-				Angle = angle,
-			};
-			return unit;
-		}
+		public Unit CreateUnit(string name, Player owner, WPos center, WAngle angle) => Unit.Create(_nextUnitId++, this, name, owner, center, angle);
 
 		public void Add(Unit unit)
 		{
@@ -85,6 +77,9 @@ namespace OpenNspw
 
 			foreach (var order in OrderManager.FrameData.OrdersForFrame(OrderManager.FrameId))
 				HandleOrder(order);
+
+			foreach (var unit in AllUnits)
+				unit.Update();
 		}
 
 		public void Draw(Graphics graphics, Camera camera)
