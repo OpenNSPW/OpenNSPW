@@ -17,7 +17,7 @@ namespace OpenNspw.Controls
 		private readonly World _world;
 		private readonly Camera _camera;
 
-		private readonly Selection _selection;
+		public Selection Selection { get; }
 		private Unit? _mouseOverUnit;
 		private SelectionState _selectionState;
 
@@ -26,7 +26,7 @@ namespace OpenNspw.Controls
 			_world = world;
 			_camera = camera;
 
-			_selection = world.Selection;
+			Selection = world.Selection;
 		}
 
 		public event EventHandler? SelectionAdded;
@@ -41,14 +41,17 @@ namespace OpenNspw.Controls
 		public event EventHandler? SelectionRestored;
 		private void OnSelectionRestored(EventArgs e) => SelectionRestored?.Invoke(this, e);
 
-		private List<Unit> SelectedUnits => _selection.Units;
+		public event EventHandler? MapClick;
+		protected virtual void OnMapClick(EventArgs e) => MapClick?.Invoke(this, e);
+
+		private List<Unit> SelectedUnits => Selection.Units;
 
 		public Unit? Subject => SelectedUnits.FirstOrDefault();
 
 		public Unit? MouseFocusUnit
 		{
-			get => _selection.MouseFocusUnit;
-			set => _selection.MouseFocusUnit = value;
+			get => Selection.MouseFocusUnit;
+			set => Selection.MouseFocusUnit = value;
 		}
 
 		protected DPoint MouseLocation
@@ -137,7 +140,7 @@ namespace OpenNspw.Controls
 
 			RemoveSelectedUnit(Subject);
 
-			_selection.Clear();
+			Selection.Clear();
 
 			OnSelectionCanceled(EventArgs.Empty);
 		}
@@ -158,7 +161,12 @@ namespace OpenNspw.Controls
 
 			if (e.Button == MouseButtons.Left)
 			{
-				if (_mouseOverUnit is not null)
+				if (_mouseOverUnit is null)
+				{
+					if (_world.Map.Contains(MouseWPos))
+						OnMapClick(EventArgs.Empty);
+				}
+				else
 				{
 					if (_mouseOverUnit == Subject)
 						CancelSelection();

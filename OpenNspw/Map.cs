@@ -37,6 +37,8 @@ namespace OpenNspw
 
 		public WPos CenterOfCell(CPos value) => Bounds.TopLeft + new WVec(value.X * 80, value.Y * 80).FlipY();
 
+		public bool Contains(WPos value) => Bounds.Contains(value);
+
 		public void Draw(World world, Graphics graphics, Camera camera)
 		{
 			var viewport = camera.Viewport;

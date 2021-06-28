@@ -1,4 +1,6 @@
-﻿namespace OpenNspw.Components
+﻿using OpenNspw.Orders;
+
+namespace OpenNspw.Components
 {
 	internal interface IComponentOptions
 	{
@@ -36,5 +38,10 @@
 	internal interface ICreatedEventListener
 	{
 		void OnCreated(Unit self);
+	}
+
+	internal interface IOrderHandler
+	{
+		void HandleOrder(IOrder order);
 	}
 }

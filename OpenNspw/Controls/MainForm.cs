@@ -271,7 +271,11 @@ namespace OpenNspw.Controls
 
 				for (var i = 0; i < GameSpeed; i++)
 				{
+					_world.OrderManager.UpdateImmediate();
+
 					_world.Update();
+
+					_world.OrderManager.Update();
 				}
 
 				_world.FrameCount++;

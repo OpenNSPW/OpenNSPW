@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Aigamo.Saruhashi;
 using OpenNspw.Components;
+using OpenNspw.Orders;
 using OpenNspw.Scenarios;
 
 namespace OpenNspw
@@ -19,20 +20,23 @@ namespace OpenNspw
 
 		public Map Map { get; }
 
+		public OrderManager OrderManager { get; }
+
 		public IReadOnlyList<Player> Players { get; }
 
 		public Scenario Scenario { get; }
 
-		private World(Scenario scenario, Map map, IEnumerable<Player> players)
+		private World(Scenario scenario, OrderManager orderManager, Map map, IEnumerable<Player> players)
 		{
 			Scenario = scenario;
+			OrderManager = orderManager;
 			Map = map;
 			Players = players.ToArray();
 		}
 
-		public static World Create(Scenario scenario, Map map, IEnumerable<Player> players, Camera camera)
+		public static World Create(Scenario scenario, OrderManager orderManager, Map map, IEnumerable<Player> players, Camera camera)
 		{
-			var world = new World(scenario, map, players);
+			var world = new World(scenario, orderManager, map, players);
 			scenario.Initialize(world, camera);
 			return world;
 		}
@@ -61,8 +65,26 @@ namespace OpenNspw
 			Units.Remove(unit);
 		}
 
+		public void DispatchOrder(IOrder order) => OrderManager.DispatchOrder(order);
+
+		private void HandleOrder(IOrder order)
+		{
+			switch (order)
+			{
+				case IUnitOrder unitOrder:
+					var subject = AllUnits[unitOrder.SubjectId];
+					subject.HandleOrder(unitOrder);
+					break;
+			}
+		}
+
 		public void Update()
 		{
+			if (!OrderManager.IsReadyForNextFrame)
+				return;
+
+			foreach (var order in OrderManager.FrameData.OrdersForFrame(OrderManager.FrameId))
+				HandleOrder(order);
 		}
 
 		public void Draw(Graphics graphics, Camera camera)

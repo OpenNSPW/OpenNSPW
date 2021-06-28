@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.TextureAtlases;
 using OpenNspw.Components;
+using OpenNspw.Orders;
 
 namespace OpenNspw
 {
@@ -21,6 +22,7 @@ namespace OpenNspw
 
 		private readonly IUnit _unit;
 		private readonly Health? _health;
+		private readonly IOrderHandler[] _orderHandlers;
 
 		public T GetRequiredComponent<T>() where T : notnull => Components.GetRequiredComponent<T>();
 
@@ -40,6 +42,7 @@ namespace OpenNspw
 
 			_unit = Components.OfType<IUnit>().Single();
 			_health = GetComponent<Health>();
+			_orderHandlers = Components.OfType<IOrderHandler>().ToArray();
 
 			foreach (var listener in Components.OfType<ICreatedEventListener>())
 				listener.OnCreated(this);
@@ -58,6 +61,12 @@ namespace OpenNspw
 		}
 
 		public DamageState DamageState => _health?.DamageState ?? DamageState.Undamaged;
+
+		public void HandleOrder(IOrder order)
+		{
+			foreach (var handler in _orderHandlers)
+				handler.HandleOrder(order);
+		}
 
 		public void Draw(Graphics graphics, Camera camera)
 		{

@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Aigamo.Saruhashi;
 using Aigamo.Saruhashi.MonoGame;
 using OpenNspw.Components;
+using OpenNspw.Orders;
 using DColor = System.Drawing.Color;
 using DPen = System.Drawing.Pen;
 using DPoint = System.Drawing.Point;
@@ -65,6 +68,21 @@ namespace OpenNspw.Controls
 				_camera.Center += new WVec((_previousMouseLocation - (DSize)e.Location).ToXnaPoint().ToVector2()).FlipY(_camera.FlipY);
 
 			_previousMouseLocation = e.Location;
+		}
+
+		protected override void OnMapClick(EventArgs e)
+		{
+			base.OnMapClick(e);
+
+			if (Subject is not null)
+			{
+				_world.DispatchOrder(new WaypointOrder(
+					SubjectId: Subject.Id,
+					SelectionIds: Selection.Units.Select(u => u.Id).ToArray(),
+					Position: MouseWPos,
+					IsQueued: Selection.IsQueued
+				));
+			}
 		}
 	}
 }

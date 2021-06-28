@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 
 namespace OpenNspw
 {
@@ -20,5 +22,19 @@ namespace OpenNspw
 	internal static class RectangleExtensions
 	{
 		public static bool Contains(this Rectangle rectangle, CPos value) => value.X >= rectangle.Left && value.X <= rectangle.Right && value.Y >= rectangle.Top && value.Y <= rectangle.Bottom;
+	}
+
+	internal static class DictionaryExtensions
+	{
+		public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> source, TKey key) where TValue : new() => source.GetOrAdd(key, _ => new TValue());
+
+		// Code from: https://github.com/OpenRA/OpenRA/blob/88cdad4189a278e1aab34273b046ab3a1f709a50/OpenRA.Game/Exts.cs#L126
+		public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> source, TKey key, Func<TKey, TValue> valueFactory)
+		{
+			if (!source.TryGetValue(key, out var ret))
+				source.Add(key, ret = valueFactory(key));
+
+			return ret;
+		}
 	}
 }

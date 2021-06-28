@@ -3,6 +3,7 @@ using Aigamo.Saruhashi;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using OpenNspw.Controls;
+using OpenNspw.Orders;
 using OpenNspw.Scenarios;
 
 namespace OpenNspw.Screens
@@ -10,6 +11,7 @@ namespace OpenNspw.Screens
 	internal sealed class GameScreen : Screen
 	{
 		private readonly Scenario _scenario;
+		private readonly OrderManager _orderManager;
 
 		private MainForm _mainForm = default!;
 
@@ -18,6 +20,7 @@ namespace OpenNspw.Screens
 		public GameScreen(MainGame game, Scenario scenario) : base(game)
 		{
 			_scenario = scenario;
+			_orderManager = new OrderManager(new EchoConnection());
 		}
 
 		public override void LoadContent()
@@ -30,7 +33,7 @@ namespace OpenNspw.Screens
 			{
 				Viewport = WRect.FromCenter(WPos.Zero, new WVec(768, 768)),
 			};
-			var world = World.Create(_scenario, map, players, camera);
+			var world = World.Create(_scenario, _orderManager, map, players, camera);
 
 			_mainForm = new MainForm(world, camera, GraphicsDevice);
 			WindowManager.Root.Controls.Add(_mainForm);
@@ -40,6 +43,8 @@ namespace OpenNspw.Screens
 			_soundEffectInstance = Assets.SoundEffects["SoundEffects/sea1"].CreateInstance();
 			_soundEffectInstance.IsLooped = true;
 			_soundEffectInstance.Play();
+
+			_orderManager.StartGame();
 		}
 
 		public override void UnloadContent()
