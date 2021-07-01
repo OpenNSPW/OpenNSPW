@@ -4,6 +4,7 @@ using System.Linq;
 using Aigamo.Saruhashi;
 using Aigamo.Saruhashi.MonoGame;
 using Microsoft.Xna.Framework;
+using OpenNspw.Activities;
 using OpenNspw.Components;
 using DPoint = System.Drawing.Point;
 
@@ -25,11 +26,18 @@ namespace OpenNspw.Controls
 		{
 			get
 			{
+				static bool IsInFlightDeck(Airplane airplane) => airplane.Self.CurrentActivity switch
+				{
+					TakeOff takeOff => takeOff.State >= TakeOff.TakeOffState.TaxiOut,
+					Land land => true,
+					_ => false,
+				};
+
 				var airplanes = MouseFocusUnit?.GetComponent<Hangar>()?.Airplanes ?? Array.Empty<Airplane>();
 				return DeckState switch
 				{
-					DeckState.Deck => airplanes.Where(a => false).Select(a => a.Self),
-					DeckState.Hangar => airplanes.Where(a => true).Select(a => a.Self),
+					DeckState.Deck => airplanes.Where(a => IsInFlightDeck(a)).Select(a => a.Self),
+					DeckState.Hangar => airplanes.Where(a => !IsInFlightDeck(a)).Select(a => a.Self),
 					_ => throw new InvalidOperationException(),
 				};
 			}

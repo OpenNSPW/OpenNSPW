@@ -152,7 +152,7 @@ namespace OpenNspw.Controls
 				Bounds = new DRect(0, 436, 140, 20),
 				Text = "Hangar",
 				Appearance = Appearance.Button,
-				IsVisible = () => world.Selection.MouseFocusUnit?.GetComponent<Hangar>() is not null,
+				IsVisible = () => world.Selection.MouseFocusUnit?.HasComponent<Hangar>() == true,
 				AutoCheck = false,
 				IsChecked = () => _deck.DeckState == DeckState.Hangar,
 			};

@@ -18,7 +18,7 @@ namespace OpenNspw.Controls
 		private readonly Camera _camera;
 
 		public Selection Selection { get; }
-		private Unit? _mouseOverUnit;
+		public Unit? MouseOverUnit { get; private set; }
 		private SelectionState _selectionState;
 
 		public Controller(World world, Camera camera) : base()
@@ -40,9 +40,6 @@ namespace OpenNspw.Controls
 
 		public event EventHandler? SelectionRestored;
 		protected virtual void OnSelectionRestored(EventArgs e) => SelectionRestored?.Invoke(this, e);
-
-		public event EventHandler? MapClick;
-		protected virtual void OnMapClick(EventArgs e) => MapClick?.Invoke(this, e);
 
 		private List<Unit> SelectedUnits => Selection.Units;
 
@@ -68,7 +65,7 @@ namespace OpenNspw.Controls
 
 		protected void Update(IEnumerable<Unit> units)
 		{
-			_mouseOverUnit = units.FirstOrDefault(u => WRect.FromCenter(u.Center, new WVec(40, 40)).Contains(MouseWPos));
+			MouseOverUnit = units.FirstOrDefault(u => WRect.FromCenter(u.Center, new WVec(40, 40)).Contains(MouseWPos));
 		}
 
 		protected void DrawLine(PaintEventArgs e, DPen pen, WPos point1, WPos point2)
@@ -89,10 +86,10 @@ namespace OpenNspw.Controls
 
 		protected void Draw(PaintEventArgs e, IEnumerable<Unit> units)
 		{
-			if (_mouseOverUnit is not null)
+			if (MouseOverUnit is not null)
 			{
 				if (_world.FrameCount % 2 != 0)
-					DrawRectangle(e, new DPen(DColor.White), WRect.FromCenter(_mouseOverUnit.Center, new WVec(50, 50)));
+					DrawRectangle(e, new DPen(DColor.White), WRect.FromCenter(MouseOverUnit.Center, new WVec(50, 50)));
 			}
 
 			foreach (var unit in units.Intersect(SelectedUnits))
@@ -118,19 +115,19 @@ namespace OpenNspw.Controls
 
 		public void UpdateSelection()
 		{
-			if (_mouseOverUnit is null)
+			if (MouseOverUnit is null)
 				return;
 
 			switch (_selectionState)
 			{
 				case SelectionState.Selecting:
-					if (!SelectedUnits.Contains(_mouseOverUnit))
-						AddSelectedUnit(_mouseOverUnit);
+					if (!SelectedUnits.Contains(MouseOverUnit))
+						AddSelectedUnit(MouseOverUnit);
 					break;
 
 				case SelectionState.Unselecting:
-					if (SelectedUnits.Contains(_mouseOverUnit) && _mouseOverUnit != Subject)
-						RemoveSelectedUnit(_mouseOverUnit);
+					if (SelectedUnits.Contains(MouseOverUnit) && MouseOverUnit != Subject)
+						RemoveSelectedUnit(MouseOverUnit);
 					break;
 			}
 		}
@@ -160,6 +157,8 @@ namespace OpenNspw.Controls
 			if (unit is null)
 				return;
 
+			Selection.Clear();
+
 			AddSelectedUnit(unit);
 
 			OnSelectionRestored(EventArgs.Empty);
@@ -171,33 +170,28 @@ namespace OpenNspw.Controls
 
 			if (e.Button == MouseButtons.Left)
 			{
-				if (_mouseOverUnit is null)
+				if (MouseOverUnit is not null)
 				{
-					if (_world.Map.Contains(MouseWPos))
-						OnMapClick(EventArgs.Empty);
-				}
-				else
-				{
-					if (_mouseOverUnit == Subject)
+					if (MouseOverUnit == Subject)
 						CancelSelection();
-					else if (SelectedUnits.Contains(_mouseOverUnit))
+					else if (SelectedUnits.Contains(MouseOverUnit))
 					{
 						_selectionState = SelectionState.Unselecting;
 
-						RemoveSelectedUnit(_mouseOverUnit);
+						RemoveSelectedUnit(MouseOverUnit);
 					}
 					else
 					{
 						_selectionState = SelectionState.Selecting;
 
 						if (SelectedUnits.Any())
-							AddSelectedUnit(_mouseOverUnit);
+							AddSelectedUnit(MouseOverUnit);
 						else
 						{
-							if (_mouseOverUnit?.GetComponent<Airplane>() is not Airplane airplane || !airplane.IsInHangar)
-								MouseFocusUnit = _mouseOverUnit;
+							if (MouseOverUnit?.GetComponent<Airplane>() is not Airplane airplane || !airplane.IsInHangar)
+								MouseFocusUnit = MouseOverUnit;
 
-							RestoreSelection(_mouseOverUnit);
+							RestoreSelection(MouseOverUnit);
 						}
 					}
 				}

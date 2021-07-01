@@ -3,6 +3,7 @@ using Aigamo.Saruhashi.MonoGame;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
+using OpenNspw.Components;
 using DColor = System.Drawing.Color;
 using DPen = System.Drawing.Pen;
 using DPoint = System.Drawing.Point;
@@ -96,7 +97,8 @@ namespace OpenNspw.Controls
 			foreach (var unit in _world.Units)
 			{
 				var cell = _map.CellContaining(unit.Center);
-				e.Graphics.FillRectangle(new DSolidBrush(unit.Owner.Color.ToDrawingColor()), new DRect(cell.X - 1, cell.Y - 1, 3, 3));
+				if (!(unit.HasComponent<Airplane>() && _world.FrameCount % 4 == 0))
+					e.Graphics.FillRectangle(new DSolidBrush(unit.Owner.Color.ToDrawingColor()), new DRect(cell.X - 1, cell.Y - 1, 3, 3));
 			}
 		}
 

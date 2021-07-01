@@ -26,6 +26,8 @@ namespace OpenNspw
 
 		public Scenario Scenario { get; }
 
+		public Random Random { get; } = new();
+
 		private World(Scenario scenario, OrderManager orderManager, Map map, IEnumerable<Player> players)
 		{
 			Scenario = scenario;

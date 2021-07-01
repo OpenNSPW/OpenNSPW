@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.TextureAtlases;
+using OpenNspw.Activities;
 using OpenNspw.Components;
 using OpenNspw.Orders;
 
@@ -17,9 +18,11 @@ namespace OpenNspw
 		public World World { get; }
 		public Player Owner { get; }
 		public string Name { get; }
-		public Texture2D Texture { get; }
+		public Texture2D Texture { get; set; }
 
 		public ComponentCollection Components { get; } = new();
+
+		public Activity? CurrentActivity { get; set; }
 
 		private readonly IUnit _unit;
 		private readonly Health? _health;
@@ -29,6 +32,8 @@ namespace OpenNspw
 		public T GetRequiredComponent<T>() where T : notnull => Components.GetRequiredComponent<T>();
 
 		public T? GetComponent<T>() => Components.GetComponent<T>();
+
+		public bool HasComponent<T>() => GetComponent<T>() is not null;
 
 		private Unit(int id, World world, string name, Player owner)
 		{
@@ -90,6 +95,8 @@ namespace OpenNspw
 
 		public void Update()
 		{
+			CurrentActivity = CurrentActivity?.Update(this);
+
 			foreach (var updatable in _updatables)
 				updatable.Update(this);
 		}

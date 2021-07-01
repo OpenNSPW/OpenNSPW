@@ -81,36 +81,74 @@ namespace OpenNspw.Controls
 			_previousMouseLocation = e.Location;
 		}
 
+		private bool CanDispatchWaypointOrder(Unit subject)
+		{
+			if (MouseOverUnit is not null)
+				return false;
+
+			if (subject.Components.OfType<Mobile>().SingleOrDefault() is not Mobile mobile)
+				return false;
+
+			return mobile switch
+			{
+				Airplane airplane => !(airplane.IsInHangar && !airplane.CanTakeOff),
+				Ship => true,
+				_ => throw new InvalidOperationException(),
+			};
+		}
+
+		private IUnitOrder? GenerateUnitOrder(Unit subject)
+		{
+			if (CanDispatchWaypointOrder(subject))
+			{
+				return new WaypointOrder(
+					subject.Id,
+					Selection.Units.Select(u => u.Id).ToArray(),
+					MouseWPos,
+					_isQueued
+				);
+			}
+
+			return null;
+		}
+
+		private void DispatchUnitOrder(Unit subject, IUnitOrder unitOrder)
+		{
+			_world.DispatchOrder(unitOrder);
+
+			switch (unitOrder)
+			{
+				case WaypointOrder:
+					Assets.SoundEffects[$"SoundEffects/btn_4"].Play();
+
+					_isQueued = true;
+
+					if (subject.GetComponent<Airplane>()?.IsInHangar == true)
+						Selection.Clear();
+					break;
+			}
+		}
+
+		protected override void OnMouseDown(MouseEventArgs e)
+		{
+			base.OnMouseDown(e);
+
+			if (e.Button == MouseButtons.Left)
+			{
+				if (Subject is not null)
+				{
+					var unitOrder = GenerateUnitOrder(Subject);
+					if (unitOrder is not null)
+						DispatchUnitOrder(Subject, unitOrder);
+				}
+			}
+		}
+
 		protected override void OnSelectionRestored(EventArgs e)
 		{
 			base.OnSelectionRestored(e);
 
 			_isQueued = false;
-		}
-
-		protected override void OnMapClick(EventArgs e)
-		{
-			base.OnMapClick(e);
-
-			if (Subject is not null)
-			{
-				if (Subject.Components.OfType<Mobile>().SingleOrDefault() is Mobile mobile)
-				{
-					Assets.SoundEffects["SoundEffects/btn_4"].Play();
-
-					_world.DispatchOrder(new WaypointOrder(
-						SubjectId: mobile.Self.Id,
-						SelectionIds: Selection.Units.Select(u => u.Id).ToArray(),
-						Position: MouseWPos,
-						IsQueued: _isQueued
-					));
-
-					_isQueued = true;
-
-					if (mobile is Airplane airplane && airplane.IsInHangar)
-						Selection.Clear();
-				}
-			}
 		}
 	}
 }

@@ -14,7 +14,6 @@ namespace OpenNspw.Components
 		public virtual MobileOptions Options { get; }
 		public WPos Center { get; set; }
 		public WAngle Angle { get; set; }
-		public bool IsMoving { get; set; } = true;
 		public List<WPos> Waypoints { get; } = new();
 
 		public Mobile(Unit self, MobileOptions options)
@@ -23,7 +22,7 @@ namespace OpenNspw.Components
 			Options = options;
 		}
 
-		bool IUnit.IsMoving => IsMoving;
+		public virtual bool IsMoving => false;
 		IEnumerable<WPos> IUnit.Waypoints => Waypoints;
 
 		void ICreatedEventListener.OnCreated(Unit self)
@@ -39,11 +38,9 @@ namespace OpenNspw.Components
 				Waypoints.Clear();
 
 			Waypoints.Add(waypointOrder.Position);
-
-			IsMoving = true;
 		}
 
-		void IOrderHandler.HandleOrder(World world, IOrder order)
+		public virtual void HandleOrder(World world, IOrder order)
 		{
 			switch (order)
 			{

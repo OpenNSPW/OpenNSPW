@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using OpenNspw.Activities;
 
 namespace OpenNspw.Components
 {
@@ -15,6 +16,7 @@ namespace OpenNspw.Components
 	{
 		public Unit Self { get; }
 		public HangarOptions Options { get; }
+		public int TakeOffCount { get; set; }
 
 		private readonly Dictionary<Airplane, int> _indices = new();
 
@@ -25,6 +27,42 @@ namespace OpenNspw.Components
 		{
 			Self = self;
 			Options = options;
+		}
+
+		private bool HasSpace => Airplanes.Count() < Options.Capacity;
+
+		public bool AllowTakeoff
+		{
+			get
+			{
+				if (Self.DamageState >= DamageState.Critical)
+					return false;
+
+				if (Airplanes.Any(a => a.Self.CurrentActivity is TakeOff or Land))
+					return false;
+
+				return true;
+			}
+		}
+
+		public bool AllowLanding
+		{
+			get
+			{
+				if (Self.DamageState >= DamageState.Critical)
+					return false;
+
+				if (!HasSpace)
+					return false;
+
+				if (Airplanes.Any(a => a.Self.CurrentActivity is TakeOff))
+					return false;
+
+				if (Airplanes.Any(a => (a.Self.CurrentActivity as Land)?.State == Land.LandState.Approach))
+					return false;
+
+				return true;
+			}
 		}
 
 		void IUpdatable.Update(Unit self)
@@ -44,12 +82,12 @@ namespace OpenNspw.Components
 				}
 			}
 
-			Self.World.Units.Remove(airplane.Self);
-
 			_indices.Add(airplane, ChooseFreeAirplaneIndex());
 			_airplanes.Add(airplane);
 
 			airplane.Hangar = this;
+
+			Self.World.Units.Remove(airplane.Self);
 		}
 
 		public void Park(Airplane airplane)
@@ -68,7 +106,15 @@ namespace OpenNspw.Components
 					break;
 			}
 
-			airplane.IsMoving = false;
+			airplane.Fold();
+		}
+
+		public void Remove(Airplane airplane)
+		{
+			_indices.Remove(airplane);
+			_airplanes.Remove(airplane);
+
+			Self.World.Units.Add(airplane.Self);
 		}
 	}
 }
