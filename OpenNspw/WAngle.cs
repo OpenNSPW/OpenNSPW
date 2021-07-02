@@ -11,7 +11,7 @@ namespace OpenNspw
 
 		public float Degrees { get; }
 
-		public WAngle(float degrees)
+		private WAngle(float degrees)
 		{
 			Degrees = degrees % 360;
 
@@ -19,9 +19,10 @@ namespace OpenNspw
 				Degrees += 360;
 		}
 
-		public static WAngle FromRadians(float radians) => new(radians * _radianDegree);
+		public static WAngle FromDegrees(float degrees) => new(degrees);
+		public static WAngle FromRadians(float radians) => FromDegrees(radians * _radianDegree);
 		public static WAngle FromVector(WVec value) => FromRadians((float)Math.Atan2(value.Y, value.X));
-		public static WAngle FromFacing(int facing) => new((facing + 1) % 16 / 2 * 45.0f);
+		public static WAngle FromFacing(int facing) => FromDegrees((facing + 1) % 16 / 2 * 45.0f);
 
 		public float Radians => Degrees * _degreeRadian;
 
@@ -33,10 +34,10 @@ namespace OpenNspw
 		public static bool operator ==(WAngle left, WAngle right) => left.Equals(right);
 		public static bool operator !=(WAngle left, WAngle right) => !left.Equals(right);
 
-		public static WAngle operator -(WAngle value) => new(-value.Degrees);
+		public static WAngle operator -(WAngle value) => FromDegrees(-value.Degrees);
 
-		public static WAngle operator +(WAngle left, WAngle right) => new(left.Degrees + right.Degrees);
-		public static WAngle operator -(WAngle left, WAngle right) => new(left.Degrees - right.Degrees);
+		public static WAngle operator +(WAngle left, WAngle right) => FromDegrees(left.Degrees + right.Degrees);
+		public static WAngle operator -(WAngle left, WAngle right) => FromDegrees(left.Degrees - right.Degrees);
 
 		public bool Equals(WAngle other) => Degrees == other.Degrees;
 		public override bool Equals(object? obj) => obj is WAngle other && Equals(other);

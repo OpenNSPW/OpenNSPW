@@ -17,6 +17,10 @@ namespace OpenNspw
 					},
 					new ShipOptions
 					{
+						TurnSpeed = WAngle.FromDegrees(0.3f),
+						Acceleration = 0.01f,
+						MinSpeed = 0.0f,
+						MaxSpeed = 0.7f,
 					},
 					new ArmamentOptions
 					{
@@ -38,6 +42,10 @@ namespace OpenNspw
 					},
 					new ShipOptions
 					{
+						TurnSpeed = WAngle.FromDegrees(0.3f),
+						Acceleration = 0.01f,
+						MinSpeed = 0.0f,
+						MaxSpeed = 0.7f,
 					},
 					new ArmamentOptions
 					{
@@ -59,6 +67,10 @@ namespace OpenNspw
 					},
 					new ShipOptions
 					{
+						TurnSpeed = WAngle.FromDegrees(0.27f),
+						Acceleration = 0.009f,
+						MinSpeed = 0.0f,
+						MaxSpeed = 0.63f,
 					},
 					new ArmamentOptions
 					{
@@ -80,6 +92,10 @@ namespace OpenNspw
 					},
 					new ShipOptions
 					{
+						TurnSpeed = WAngle.FromDegrees(0.5f),
+						Acceleration = 0.01f,
+						MinSpeed = 0.0f,
+						MaxSpeed = 0.8f,
 					},
 					new ArmamentOptions
 					{
@@ -101,6 +117,10 @@ namespace OpenNspw
 					},
 					new ShipOptions
 					{
+						TurnSpeed = WAngle.FromDegrees(0.5f),
+						Acceleration = 0.01f,
+						MinSpeed = 0.0f,
+						MaxSpeed = 0.8f,
 					},
 					new ArmamentOptions
 					{
@@ -122,6 +142,10 @@ namespace OpenNspw
 					},
 					new ShipOptions
 					{
+						TurnSpeed = WAngle.FromDegrees(0.5f),
+						Acceleration = 0.01f,
+						MinSpeed = 0.0f,
+						MaxSpeed = 0.8f,
 					},
 					new ArmamentOptions
 					{
@@ -143,6 +167,10 @@ namespace OpenNspw
 					},
 					new ShipOptions
 					{
+						TurnSpeed = WAngle.FromDegrees(0.5f),
+						Acceleration = 0.01f,
+						MinSpeed = 0.0f,
+						MaxSpeed = 0.8f,
 					},
 					new ArmamentOptions
 					{
@@ -164,6 +192,10 @@ namespace OpenNspw
 					},
 					new ShipOptions
 					{
+						TurnSpeed = WAngle.FromDegrees(1.3f),
+						Acceleration = 0.05f,
+						MinSpeed = 0.0f,
+						MaxSpeed = 1.00f,
 					},
 					new ArmamentOptions
 					{
@@ -185,6 +217,10 @@ namespace OpenNspw
 					},
 					new ShipOptions
 					{
+						TurnSpeed = WAngle.FromDegrees(1.3f),
+						Acceleration = 0.05f,
+						MinSpeed = 0.0f,
+						MaxSpeed = 1.00f,
 					},
 					new ArmamentOptions
 					{
@@ -206,6 +242,10 @@ namespace OpenNspw
 					},
 					new ShipOptions
 					{
+						TurnSpeed = WAngle.FromDegrees(1.3f),
+						Acceleration = 0.05f,
+						MinSpeed = 0.0f,
+						MaxSpeed = 1.00f,
 					},
 					new ArmamentOptions
 					{
@@ -227,6 +267,10 @@ namespace OpenNspw
 					},
 					new ShipOptions
 					{
+						TurnSpeed = WAngle.FromDegrees(1.3f),
+						Acceleration = 0.05f,
+						MinSpeed = 0.0f,
+						MaxSpeed = 1.00f,
 					},
 					new ArmamentOptions
 					{
@@ -248,6 +292,10 @@ namespace OpenNspw
 					},
 					new ShipOptions
 					{
+						TurnSpeed = WAngle.FromDegrees(0.5f),
+						Acceleration = 0.02f,
+						MinSpeed = 0.0f,
+						MaxSpeed = 0.5f,
 					},
 					new ArmamentOptions
 					{
@@ -269,6 +317,10 @@ namespace OpenNspw
 					},
 					new ShipOptions
 					{
+						TurnSpeed = WAngle.FromDegrees(0.5f),
+						Acceleration = 0.02f,
+						MinSpeed = 0.0f,
+						MaxSpeed = 0.5f,
 					},
 					new ArmamentOptions
 					{
@@ -290,6 +342,10 @@ namespace OpenNspw
 					},
 					new ShipOptions
 					{
+						TurnSpeed = WAngle.FromDegrees(0.3f),
+						Acceleration = 0.01f,
+						MinSpeed = 0.0f,
+						MaxSpeed = 0.7f,
 					},
 					new ArmamentOptions
 					{
@@ -316,6 +372,10 @@ namespace OpenNspw
 					},
 					new ShipOptions
 					{
+						TurnSpeed = WAngle.FromDegrees(0.3f),
+						Acceleration = 0.01f,
+						MinSpeed = 0.0f,
+						MaxSpeed = 0.7f,
 					},
 					new ArmamentOptions
 					{
@@ -342,6 +402,10 @@ namespace OpenNspw
 					},
 					new ShipOptions
 					{
+						TurnSpeed = WAngle.FromDegrees(0.27f),
+						Acceleration = 0.009f,
+						MinSpeed = 0.0f,
+						MaxSpeed = 0.63f,
 					},
 					new ArmamentOptions
 					{
@@ -368,6 +432,10 @@ namespace OpenNspw
 					},
 					new ShipOptions
 					{
+						TurnSpeed = WAngle.FromDegrees(0.5f),
+						Acceleration = 0.01f,
+						MinSpeed = 0.0f,
+						MaxSpeed = 0.9f,
 					},
 					new ArmamentOptions
 					{
@@ -394,6 +462,10 @@ namespace OpenNspw
 					},
 					new ShipOptions
 					{
+						TurnSpeed = WAngle.FromDegrees(0.5f),
+						Acceleration = 0.01f,
+						MinSpeed = 0.0f,
+						MaxSpeed = 0.9f,
 					},
 					new ArmamentOptions
 					{
@@ -420,6 +492,10 @@ namespace OpenNspw
 					},
 					new AirplaneOptions
 					{
+						TurnSpeed = WAngle.FromDegrees(4.0f),
+						Acceleration = 0.01f,
+						MinSpeed = 0.5f,
+						MaxSpeed = 2.35f,
 					},
 					new ArmamentOptions
 					{
@@ -441,6 +517,10 @@ namespace OpenNspw
 					},
 					new AirplaneOptions
 					{
+						TurnSpeed = WAngle.FromDegrees(2.2f),
+						Acceleration = 0.01f,
+						MinSpeed = 0.5f,
+						MaxSpeed = 2.5f,
 					},
 					new ArmamentOptions
 					{
@@ -462,6 +542,10 @@ namespace OpenNspw
 					},
 					new AirplaneOptions
 					{
+						TurnSpeed = WAngle.FromDegrees(1.8f),
+						Acceleration = 0.008f,
+						MinSpeed = 0.5f,
+						MaxSpeed = 2.35f,
 					},
 					new ArmamentOptions
 					{
@@ -483,6 +567,10 @@ namespace OpenNspw
 					},
 					new AirplaneOptions
 					{
+						TurnSpeed = WAngle.FromDegrees(2.0f),
+						Acceleration = 0.02f,
+						MinSpeed = 0.5f,
+						MaxSpeed = 2.7f,
 					},
 					new ArmamentOptions
 					{
@@ -504,6 +592,10 @@ namespace OpenNspw
 					},
 					new AirplaneOptions
 					{
+						TurnSpeed = WAngle.FromDegrees(3.0f),
+						Acceleration = 0.03f,
+						MinSpeed = 0.5f,
+						MaxSpeed = 3.0f,
 					},
 					new ArmamentOptions
 					{
@@ -525,6 +617,10 @@ namespace OpenNspw
 					},
 					new AirplaneOptions
 					{
+						TurnSpeed = WAngle.FromDegrees(3.0f),
+						Acceleration = 0.01f,
+						MinSpeed = 0.5f,
+						MaxSpeed = 2.2f,
 					},
 					new ArmamentOptions
 					{
@@ -546,6 +642,10 @@ namespace OpenNspw
 					},
 					new AirplaneOptions
 					{
+						TurnSpeed = WAngle.FromDegrees(3.0f),
+						Acceleration = 0.01f,
+						MinSpeed = 0.5f,
+						MaxSpeed = 2.2f,
 					},
 					new ArmamentOptions
 					{
@@ -567,6 +667,10 @@ namespace OpenNspw
 					},
 					new AirplaneOptions
 					{
+						TurnSpeed = WAngle.FromDegrees(2.4f),
+						Acceleration = 0.005f,
+						MinSpeed = 0.5f,
+						MaxSpeed = 1.8f,
 					},
 					new ArmamentOptions
 					{
@@ -588,6 +692,10 @@ namespace OpenNspw
 					},
 					new AirplaneOptions
 					{
+						TurnSpeed = WAngle.FromDegrees(2.0f),
+						Acceleration = 0.005f,
+						MinSpeed = 0.5f,
+						MaxSpeed = 1.9f,
 					},
 					new ArmamentOptions
 					{
@@ -609,6 +717,10 @@ namespace OpenNspw
 					},
 					new ShipOptions
 					{
+						TurnSpeed = WAngle.FromDegrees(0.3f),
+						Acceleration = 0.01f,
+						MinSpeed = 0.0f,
+						MaxSpeed = 0.65f,
 					},
 					new HealthOptions
 					{
@@ -626,6 +738,10 @@ namespace OpenNspw
 					},
 					new ShipOptions
 					{
+						TurnSpeed = WAngle.FromDegrees(0.3f),
+						Acceleration = 0.01f,
+						MinSpeed = 0.0f,
+						MaxSpeed = 0.65f,
 					},
 					new HealthOptions
 					{

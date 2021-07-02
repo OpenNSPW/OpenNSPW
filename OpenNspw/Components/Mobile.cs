@@ -5,6 +5,11 @@ namespace OpenNspw.Components
 {
 	internal record MobileOptions : IComponentOptions<Mobile>
 	{
+		public WAngle TurnSpeed { get; init; }
+		public float Acceleration { get; init; }
+		public float MinSpeed { get; init; }
+		public float MaxSpeed { get; init; }
+
 		public virtual Mobile CreateComponent(Unit self) => new(self, this);
 	}
 

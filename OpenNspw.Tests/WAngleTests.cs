@@ -17,8 +17,8 @@ namespace OpenNspw.Tests
 		[InlineData(0)]
 		public void NonDefaultConstructorTest(float degrees)
 		{
-			var a1 = new WAngle(degrees);
-			var a2 = new WAngle(degrees);
+			var a1 = WAngle.FromDegrees(degrees);
+			var a2 = WAngle.FromDegrees(degrees);
 
 			a2.Should().Be(a1);
 		}
@@ -26,7 +26,7 @@ namespace OpenNspw.Tests
 		[Fact]
 		public void EqualityTest_NotWAngle()
 		{
-			var angle = new WAngle(0);
+			var angle = WAngle.FromDegrees(0);
 			angle.Equals(null).Should().BeFalse();
 			angle.Equals(0).Should().BeFalse();
 		}
@@ -34,9 +34,9 @@ namespace OpenNspw.Tests
 		[Fact]
 		public void GetHashCodeTest()
 		{
-			var angle = new WAngle(10);
-			new WAngle(10).GetHashCode().Should().Be(angle.GetHashCode());
-			new WAngle(20).GetHashCode().Should().NotBe(angle.GetHashCode());
+			var angle = WAngle.FromDegrees(10);
+			WAngle.FromDegrees(10).GetHashCode().Should().Be(angle.GetHashCode());
+			WAngle.FromDegrees(20).GetHashCode().Should().NotBe(angle.GetHashCode());
 		}
 
 		[Theory]
@@ -44,7 +44,7 @@ namespace OpenNspw.Tests
 		[InlineData(5)]
 		public void ToStringTest(float degrees)
 		{
-			var a = new WAngle(degrees);
+			var a = WAngle.FromDegrees(degrees);
 			a.ToString().Should().Be($"{a.Degrees}");
 		}
 	}

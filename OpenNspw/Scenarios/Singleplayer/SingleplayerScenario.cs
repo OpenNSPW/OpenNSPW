@@ -88,7 +88,7 @@ namespace OpenNspw.Scenarios.Singleplayer
 						name,
 						owner: world.Players[interopUnit.used - 1],
 						center: new WPos((float)interopUnit.x, (float)interopUnit.y),
-						angle: new WAngle((float)interopUnit.drctn)
+						angle: WAngle.FromDegrees((float)interopUnit.drctn)
 					);
 					world.Add(unit);
 
@@ -105,7 +105,7 @@ namespace OpenNspw.Scenarios.Singleplayer
 						name,
 						owner: world.Players[interopUnit.used - 1],
 						center: new WPos((float)interopUnit.x, (float)interopUnit.y),
-						angle: new WAngle((float)interopUnit.drctn)
+						angle: WAngle.FromDegrees((float)interopUnit.drctn)
 					);
 					world.Add(unit);
 				}
