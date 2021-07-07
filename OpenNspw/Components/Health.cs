@@ -52,5 +52,7 @@
 				return DamageState.Light;
 			}
 		}
+
+		public bool IsDead => DamageState == DamageState.Dead;
 	}
 }

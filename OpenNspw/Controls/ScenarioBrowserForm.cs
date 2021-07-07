@@ -61,11 +61,11 @@ namespace OpenNspw.Controls
 				_scenarioButtons[i].MouseDown += (sender, e) =>
 				{
 					if (e.Button == MouseButtons.Left)
-						Assets.SoundEffects["SoundEffects/btn_4"].Play();
+						Sound.Default.Play("SoundEffects/btn_4");
 				};
 				_scenarioButtons[i].Click += (sender, e) =>
 				{
-					Assets.SoundEffects["SoundEffects/combat_start"].Play();
+					Sound.Default.Play("SoundEffects/combat_start");
 
 					Close();
 				};
@@ -80,7 +80,7 @@ namespace OpenNspw.Controls
 			};
 			_previousButton.MouseDown += (sender, e) =>
 			{
-				Assets.SoundEffects["SoundEffects/btn_4"].Play();
+				Sound.Default.Play("SoundEffects/btn_4");
 			};
 			_previousButton.Click += (sender, e) => Page--;
 			Controls.Add(_previousButton);
@@ -92,7 +92,7 @@ namespace OpenNspw.Controls
 			};
 			_nextButton.MouseDown += (sender, e) =>
 			{
-				Assets.SoundEffects["SoundEffects/btn_4"].Play();
+				Sound.Default.Play("SoundEffects/btn_4");
 			};
 			_nextButton.Click += (sender, e) => Page++;
 			Controls.Add(_nextButton);

@@ -63,12 +63,12 @@ namespace OpenNspw.Controls
 
 		private void OnSelectionAdded(object? sender, EventArgs e)
 		{
-			Assets.SoundEffects["SoundEffects/btn_1"].Play();
+			Sound.Default.Play("SoundEffects/btn_1");
 		}
 
 		private void OnSelectionRemoved(object? sender, EventArgs e)
 		{
-			Assets.SoundEffects["SoundEffects/btn_2"].Play();
+			Sound.Default.Play("SoundEffects/btn_2");
 		}
 
 		private void OnSelectionRestored(object? sender, EventArgs e)
@@ -158,7 +158,7 @@ namespace OpenNspw.Controls
 			};
 			_hangarCheckBox.Click += (sender, e) =>
 			{
-				Assets.SoundEffects["SoundEffects/btn_0"].Play();
+				Sound.Default.Play("SoundEffects/btn_0");
 				world.Selection.Clear();
 
 				_deck.ToggleDeckState();
@@ -277,6 +277,13 @@ namespace OpenNspw.Controls
 
 					_world.OrderManager.Update();
 				}
+
+				var airplanes = _world.Units
+					.Where(u => /* TODO: check visibility */ !u.IsDead && WRect.FromCenter(_camera.Center, new WVec(768, 768)).Inflate(new WVec(500, 500)).Contains(u.Center))
+					.Select(u => u.GetComponent<Airplane>())
+					.WhereNotNull();
+				if (_world.FrameCount % 10 == 0 && airplanes.FirstOrDefault() is Airplane airplane)
+					_world.PlaySound("SoundEffects/plane_flying", airplane.Center);
 
 				_world.FrameCount++;
 			}
