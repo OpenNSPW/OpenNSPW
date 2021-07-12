@@ -15,6 +15,8 @@ namespace OpenNspw
 					{
 						Name = "Battleship",
 					},
+					new LeaderOptions(),
+					new FollowerOptions(),
 					new ShipOptions
 					{
 						TurnSpeed = WAngle.FromDegrees(0.3f),
@@ -40,6 +42,8 @@ namespace OpenNspw
 					{
 						Name = "Battleship",
 					},
+					new LeaderOptions(),
+					new FollowerOptions(),
 					new ShipOptions
 					{
 						TurnSpeed = WAngle.FromDegrees(0.3f),
@@ -65,6 +69,8 @@ namespace OpenNspw
 					{
 						Name = "Yamato",
 					},
+					new LeaderOptions(),
+					new FollowerOptions(),
 					new ShipOptions
 					{
 						TurnSpeed = WAngle.FromDegrees(0.27f),
@@ -90,6 +96,8 @@ namespace OpenNspw
 					{
 						Name = "Cruiser",
 					},
+					new LeaderOptions(),
+					new FollowerOptions(),
 					new ShipOptions
 					{
 						TurnSpeed = WAngle.FromDegrees(0.5f),
@@ -115,6 +123,8 @@ namespace OpenNspw
 					{
 						Name = "Cruiser",
 					},
+					new LeaderOptions(),
+					new FollowerOptions(),
 					new ShipOptions
 					{
 						TurnSpeed = WAngle.FromDegrees(0.5f),
@@ -140,6 +150,8 @@ namespace OpenNspw
 					{
 						Name = "Antiaircraft Cruiser",
 					},
+					new LeaderOptions(),
+					new FollowerOptions(),
 					new ShipOptions
 					{
 						TurnSpeed = WAngle.FromDegrees(0.5f),
@@ -165,6 +177,8 @@ namespace OpenNspw
 					{
 						Name = "Antiaircraft Cruiser",
 					},
+					new LeaderOptions(),
+					new FollowerOptions(),
 					new ShipOptions
 					{
 						TurnSpeed = WAngle.FromDegrees(0.5f),
@@ -190,6 +204,8 @@ namespace OpenNspw
 					{
 						Name = "Destroyer",
 					},
+					new LeaderOptions(),
+					new FollowerOptions(),
 					new ShipOptions
 					{
 						TurnSpeed = WAngle.FromDegrees(1.3f),
@@ -215,6 +231,8 @@ namespace OpenNspw
 					{
 						Name = "Destroyer",
 					},
+					new LeaderOptions(),
+					new FollowerOptions(),
 					new ShipOptions
 					{
 						TurnSpeed = WAngle.FromDegrees(1.3f),
@@ -240,6 +258,8 @@ namespace OpenNspw
 					{
 						Name = "Escort Destroyer",
 					},
+					new LeaderOptions(),
+					new FollowerOptions(),
 					new ShipOptions
 					{
 						TurnSpeed = WAngle.FromDegrees(1.3f),
@@ -265,6 +285,8 @@ namespace OpenNspw
 					{
 						Name = "Escort Destroyer",
 					},
+					new LeaderOptions(),
+					new FollowerOptions(),
 					new ShipOptions
 					{
 						TurnSpeed = WAngle.FromDegrees(1.3f),
@@ -290,6 +312,8 @@ namespace OpenNspw
 					{
 						Name = "Submarine",
 					},
+					new LeaderOptions(),
+					new FollowerOptions(),
 					new ShipOptions
 					{
 						TurnSpeed = WAngle.FromDegrees(0.5f),
@@ -315,6 +339,8 @@ namespace OpenNspw
 					{
 						Name = "Submarine",
 					},
+					new LeaderOptions(),
+					new FollowerOptions(),
 					new ShipOptions
 					{
 						TurnSpeed = WAngle.FromDegrees(0.5f),
@@ -340,6 +366,8 @@ namespace OpenNspw
 					{
 						Name = "Aircraft Carrier",
 					},
+					new LeaderOptions(),
+					new FollowerOptions(),
 					new ShipOptions
 					{
 						TurnSpeed = WAngle.FromDegrees(0.3f),
@@ -370,6 +398,8 @@ namespace OpenNspw
 					{
 						Name = "Aircraft Carrier",
 					},
+					new LeaderOptions(),
+					new FollowerOptions(),
 					new ShipOptions
 					{
 						TurnSpeed = WAngle.FromDegrees(0.3f),
@@ -400,6 +430,8 @@ namespace OpenNspw
 					{
 						Name = "Essex",
 					},
+					new LeaderOptions(),
+					new FollowerOptions(),
 					new ShipOptions
 					{
 						TurnSpeed = WAngle.FromDegrees(0.27f),
@@ -430,6 +462,8 @@ namespace OpenNspw
 					{
 						Name = "Light Aircraft Carrier",
 					},
+					new LeaderOptions(),
+					new FollowerOptions(),
 					new ShipOptions
 					{
 						TurnSpeed = WAngle.FromDegrees(0.5f),
@@ -460,6 +494,8 @@ namespace OpenNspw
 					{
 						Name = "Light Aircraft Carrier",
 					},
+					new LeaderOptions(),
+					new FollowerOptions(),
 					new ShipOptions
 					{
 						TurnSpeed = WAngle.FromDegrees(0.5f),
@@ -490,6 +526,15 @@ namespace OpenNspw
 					{
 						Name = "Fighter",
 					},
+					new ReturnToBaseOptions(),
+					new LeaderOptions
+					{
+						PauseOnCondition = new("hangar"),
+					},
+					new FollowerOptions
+					{
+						PauseOnCondition = new("hangar"),
+					},
 					new AirplaneOptions
 					{
 						TurnSpeed = WAngle.FromDegrees(4.0f),
@@ -515,6 +560,15 @@ namespace OpenNspw
 					new TooltipOptions
 					{
 						Name = "Fighter",
+					},
+					new ReturnToBaseOptions(),
+					new LeaderOptions
+					{
+						PauseOnCondition = new("hangar"),
+					},
+					new FollowerOptions
+					{
+						PauseOnCondition = new("hangar"),
 					},
 					new AirplaneOptions
 					{
@@ -542,6 +596,15 @@ namespace OpenNspw
 					{
 						Name = "Interceptor",
 					},
+					new ReturnToBaseOptions(),
+					new LeaderOptions
+					{
+						PauseOnCondition = new("hangar"),
+					},
+					new FollowerOptions
+					{
+						PauseOnCondition = new("hangar"),
+					},
 					new AirplaneOptions
 					{
 						TurnSpeed = WAngle.FromDegrees(1.8f),
@@ -567,6 +630,15 @@ namespace OpenNspw
 					new TooltipOptions
 					{
 						Name = "Interceptor",
+					},
+					new ReturnToBaseOptions(),
+					new LeaderOptions
+					{
+						PauseOnCondition = new("hangar"),
+					},
+					new FollowerOptions
+					{
+						PauseOnCondition = new("hangar"),
 					},
 					new AirplaneOptions
 					{
@@ -594,6 +666,15 @@ namespace OpenNspw
 					{
 						Name = "Shinden",
 					},
+					new ReturnToBaseOptions(),
+					new LeaderOptions
+					{
+						PauseOnCondition = new("hangar"),
+					},
+					new FollowerOptions
+					{
+						PauseOnCondition = new("hangar"),
+					},
 					new AirplaneOptions
 					{
 						TurnSpeed = WAngle.FromDegrees(3.0f),
@@ -619,6 +700,15 @@ namespace OpenNspw
 					new TooltipOptions
 					{
 						Name = "Attack Bomber",
+					},
+					new ReturnToBaseOptions(),
+					new LeaderOptions
+					{
+						PauseOnCondition = new("hangar"),
+					},
+					new FollowerOptions
+					{
+						PauseOnCondition = new("hangar"),
 					},
 					new AirplaneOptions
 					{
@@ -646,6 +736,15 @@ namespace OpenNspw
 					{
 						Name = "Attack Bomber",
 					},
+					new ReturnToBaseOptions(),
+					new LeaderOptions
+					{
+						PauseOnCondition = new("hangar"),
+					},
+					new FollowerOptions
+					{
+						PauseOnCondition = new("hangar"),
+					},
 					new AirplaneOptions
 					{
 						TurnSpeed = WAngle.FromDegrees(3.0f),
@@ -671,6 +770,15 @@ namespace OpenNspw
 					new TooltipOptions
 					{
 						Name = "Strategic Bomber",
+					},
+					new ReturnToBaseOptions(),
+					new LeaderOptions
+					{
+						PauseOnCondition = new("hangar"),
+					},
+					new FollowerOptions
+					{
+						PauseOnCondition = new("hangar"),
 					},
 					new AirplaneOptions
 					{
@@ -698,6 +806,15 @@ namespace OpenNspw
 					{
 						Name = "Strategic Bomber",
 					},
+					new ReturnToBaseOptions(),
+					new LeaderOptions
+					{
+						PauseOnCondition = new("hangar"),
+					},
+					new FollowerOptions
+					{
+						PauseOnCondition = new("hangar"),
+					},
 					new AirplaneOptions
 					{
 						TurnSpeed = WAngle.FromDegrees(2.0f),
@@ -724,6 +841,8 @@ namespace OpenNspw
 					{
 						Name = "Transport",
 					},
+					new LeaderOptions(),
+					new FollowerOptions(),
 					new ShipOptions
 					{
 						TurnSpeed = WAngle.FromDegrees(0.3f),
@@ -751,6 +870,8 @@ namespace OpenNspw
 					{
 						Name = "Transport",
 					},
+					new LeaderOptions(),
+					new FollowerOptions(),
 					new ShipOptions
 					{
 						TurnSpeed = WAngle.FromDegrees(0.3f),

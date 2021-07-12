@@ -58,7 +58,7 @@ namespace OpenNspw.Components
 				if (Airplanes.Any(a => a.Self.CurrentActivity is TakeOff))
 					return false;
 
-				if (Airplanes.Any(a => (a.Self.CurrentActivity as Land)?.State == Land.LandState.Approach))
+				if (Airplanes.Any(a => (a.Self.CurrentActivity as Land)?.LandState == LandState.Approach))
 					return false;
 
 				return true;
@@ -67,7 +67,7 @@ namespace OpenNspw.Components
 
 		void IUpdatable.Update(Unit self)
 		{
-			foreach (var airplane in Airplanes.Where(a => !a.IsMoving))
+			foreach (var airplane in Airplanes.Where(a => !(a.Self.CurrentActivity is TakeOff or Land)))
 				airplane.Waypoints[0] = self.Center;
 		}
 
@@ -87,7 +87,7 @@ namespace OpenNspw.Components
 
 			airplane.Hangar = this;
 
-			Self.World.Units.Remove(airplane.Self);
+			Self.World.Remove(airplane.Self, fromAll: false);
 		}
 
 		public void Park(Airplane airplane)
@@ -114,7 +114,7 @@ namespace OpenNspw.Components
 			_indices.Remove(airplane);
 			_airplanes.Remove(airplane);
 
-			Self.World.Units.Add(airplane.Self);
+			Self.World.Add(airplane.Self, toAll: false);
 		}
 	}
 }

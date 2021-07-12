@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using OpenNspw.Activities;
 using OpenNspw.Components;
 using OpenNspw.Interop;
 
@@ -92,7 +93,7 @@ namespace OpenNspw.Scenarios.Singleplayer
 						center: new WPos((float)interopUnit.x, (float)interopUnit.y),
 						angle: WAngle.FromDegrees((float)interopUnit.drctn)
 					);
-					world.Add(unit);
+					world.Add(unit, toAll: true);
 
 					var airplane = unit.GetRequiredComponent<Airplane>();
 					var hangar = world.AllUnits[interopUnit.info[1]].GetRequiredComponent<Hangar>();
@@ -109,7 +110,14 @@ namespace OpenNspw.Scenarios.Singleplayer
 						center: new WPos((float)interopUnit.x, (float)interopUnit.y),
 						angle: WAngle.FromDegrees((float)interopUnit.drctn)
 					);
-					world.Add(unit);
+					world.Add(unit, toAll: true);
+
+					if (unit.TryGetComponent<Airplane>(out var airplane))
+					{
+						airplane.Stop = false;
+
+						unit.QueueActivity(new Move(airplane, speed: 0, acceleration: 0));
+					}
 				}
 			}
 

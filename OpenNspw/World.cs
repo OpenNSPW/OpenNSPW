@@ -13,6 +13,8 @@ namespace OpenNspw
 		public IAssetManager Assets { get; }
 		public Sound Sound { get; }
 
+		public int WorldTick { get; private set; }
+
 		public int FrameCount { get; set; }
 
 		public Camera Camera { get; }
@@ -81,27 +83,41 @@ namespace OpenNspw
 
 		public Unit CreateUnit(string name, Player owner, WPos center, WAngle angle) => Unit.Create(_nextUnitId++, this, name, owner, center, angle);
 
-		public void Add(Unit unit)
+		public void Add(Unit unit, bool toAll)
 		{
-			AllUnits.Add(unit);
+			if (toAll)
+				AllUnits.Add(unit);
+
 			Units.Add(unit);
+
+			foreach (var listener in unit.Components.OfType<IAddedToWorldEventListener>())
+				listener.OnAddedToWorld(unit);
 		}
 
-		public void Remove(Unit unit)
+		public void Remove(Unit unit, bool fromAll)
 		{
-			AllUnits.Remove(unit);
+			if (fromAll)
+				AllUnits.Remove(unit);
+
 			Units.Remove(unit);
+
+			foreach (var listener in unit.Components.OfType<IRemovedFromWorldEventListener>())
+				listener.OnRemovedFromWorld(unit);
 		}
 
 		public void DispatchOrder(IOrder order) => OrderManager.DispatchOrder(order);
 
-		private void HandleOrder(IOrder order)
+		internal void HandleOrder(IOrder order)
 		{
 			switch (order)
 			{
+				case ISelectionOrder selectionOrder:
+					foreach (var unit in selectionOrder.Selection)
+						unit.HandleOrder(selectionOrder);
+					break;
+
 				case IUnitOrder unitOrder:
-					var subject = AllUnits[unitOrder.SubjectId];
-					subject.HandleOrder(unitOrder);
+					unitOrder.Subject.HandleOrder(unitOrder);
 					break;
 			}
 		}
@@ -113,6 +129,8 @@ namespace OpenNspw
 
 			foreach (var order in OrderManager.FrameData.OrdersForFrame(OrderManager.FrameId))
 				HandleOrder(order);
+
+			WorldTick++;
 
 			foreach (var unit in AllUnits)
 				unit.Update();
@@ -148,7 +166,7 @@ namespace OpenNspw
 			public UnitBuilder AddAirplane(string name)
 			{
 				var unit = Unit.World.CreateUnit(name, Unit.Owner, Unit.Center, Unit.Angle);
-				unit.World.Add(unit);
+				unit.World.Add(unit, toAll: true);
 
 				var airplane = unit.GetRequiredComponent<Airplane>();
 				var hangar = Unit.GetRequiredComponent<Hangar>();
@@ -172,7 +190,7 @@ namespace OpenNspw
 			public WorldBuilder AddUnit(string name, WPos center, WAngle angle, Action<UnitBuilder>? callback = null)
 			{
 				var unit = World.CreateUnit(name, Owner, center, angle);
-				World.Add(unit);
+				World.Add(unit, toAll: true);
 				callback?.Invoke(new UnitBuilder(unit));
 				return this;
 			}

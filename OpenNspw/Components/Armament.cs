@@ -26,12 +26,12 @@ namespace OpenNspw.Components
 
 		private void HandleOrder(World world, TargetOrder targetOrder)
 		{
-			var target = targetOrder.TargetId is int targetId ? world.AllUnits[targetId] : null;
+			var target = targetOrder.Target;
 
 			if (target?.Owner == Self.Owner)
 				return;
 
-			var armaments = targetOrder.ToSelection(world)
+			var armaments = targetOrder.Selection
 				.Select(u => u.GetComponent<Armament>())
 				.WhereNotNull();
 

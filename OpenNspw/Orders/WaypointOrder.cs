@@ -1,9 +1,8 @@
 ﻿namespace OpenNspw.Orders
 {
-
 	internal sealed record WaypointOrder(
-		int SubjectId,
-		int[] SelectionIds,
+		Unit Subject,
+		Unit[] Selection,
 		WPos Position,
 		bool IsQueued
 	) : ISelectionOrder;

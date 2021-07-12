@@ -1,8 +1,8 @@
 ﻿namespace OpenNspw.Orders
 {
 	internal sealed record TargetOrder(
-		int SubjectId,
-		int[] SelectionIds,
-		int? TargetId
+		Unit Subject,
+		Unit[] Selection,
+		Unit? Target
 	) : ISelectionOrder;
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using Aigamo.Saruhashi;
 
-namespace OpenNspw.Components
+namespace OpenNspw.Controls
 {
 	internal sealed class DynamicCheckBox : CheckBox
 	{

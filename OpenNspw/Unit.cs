@@ -22,8 +22,14 @@ namespace OpenNspw
 		public Texture2D Texture { get; set; }
 
 		public ComponentCollection Components { get; } = new();
+		public ConditionManager Conditions { get; } = new();
 
-		public Activity? CurrentActivity { get; set; }
+		private Activity? _currentActivity;
+		public Activity? CurrentActivity
+		{
+			get => Activity.SkipDoneActivities(_currentActivity);
+			private set => _currentActivity = value;
+		}
 
 		private readonly IUnit _unit;
 		private readonly Health? _health;
@@ -31,7 +37,6 @@ namespace OpenNspw
 		private readonly IUpdatable[] _updatables;
 
 		public T GetRequiredComponent<T>() where T : notnull => Components.GetRequiredComponent<T>();
-
 		public T? GetComponent<T>() => Components.GetComponent<T>();
 
 		public bool TryGetComponent<T>([NotNullWhen(true)] out T? component)
@@ -41,6 +46,10 @@ namespace OpenNspw
 		}
 
 		public bool HasComponent<T>() => GetComponent<T>() is not null;
+
+		public ConditionToken GrantCondition(string? condition) => Conditions.GrantCondition(this, condition);
+		public ConditionToken RevokeCondition(ConditionToken token) => Conditions.RevokeCondition(this, token);
+		public bool HasToken(ConditionToken token) => Conditions.HasToken(token);
 
 		private Unit(int id, World world, string name, Player owner)
 		{
@@ -60,10 +69,13 @@ namespace OpenNspw
 			_updatables = Components.OfType<IUpdatable>().ToArray();
 		}
 
+		// Code from: https://github.com/OpenRA/OpenRA/blob/6810469634d43a7a3e8ab2664942e162c3f4436a/OpenRA.Game/Actor.cs#L205
 		private void Initialize()
 		{
 			foreach (var listener in Components.OfType<ICreatedEventListener>())
 				listener.OnCreated(this);
+
+			Conditions.Initialize(this);
 		}
 
 		public static Unit Create(int id, World world, string name, Player owner, WPos center, WAngle angle)
@@ -89,13 +101,12 @@ namespace OpenNspw
 			set => _unit.Angle = value;
 		}
 
-		public bool CanBeViewedBy(Player player) => true/* TODO */;
-
-		public bool IsMoving => _unit.IsMoving;
 		public IEnumerable<WPos> Waypoints => _unit.Waypoints;
 
 		public DamageState DamageState => _health?.DamageState ?? DamageState.Undamaged;
 		public bool IsDead => _health?.IsDead ?? false;
+
+		public bool CanBeViewedBy(Player player) => true/* TODO */;
 
 		public void HandleOrder(IOrder order)
 		{
@@ -105,7 +116,7 @@ namespace OpenNspw
 
 		public void Update()
 		{
-			CurrentActivity = CurrentActivity?.Update(this);
+			CurrentActivity = Activity.Run(this, CurrentActivity);
 
 			foreach (var updatable in _updatables)
 				updatable.Update(this);
@@ -115,6 +126,27 @@ namespace OpenNspw
 		{
 			var sprite = new Sprite(new TextureRegion2D(Texture, new Rectangle(80 * (Angle.Quantize() % (Texture.Width / 80)), 0, 80, 80)));
 			graphics.DrawImage(MonoGameImage.Create(sprite), camera.WorldToScreen(Center).ToPoint().ToDrawingPoint());
+		}
+
+		public void CancelActivity()
+		{
+			CurrentActivity?.Cancel(this);
+		}
+
+		public void QueueActivity(Activity activity)
+		{
+			if (CurrentActivity is null)
+				CurrentActivity = activity;
+			else
+				CurrentActivity.Queue(activity);
+		}
+
+		public void QueueActivity(bool isQueued, Activity activity)
+		{
+			if (!isQueued)
+				CancelActivity();
+
+			QueueActivity(activity);
 		}
 	}
 }

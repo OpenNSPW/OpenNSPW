@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Aigamo.Saruhashi;
 using Aigamo.Saruhashi.MonoGame;
+using OpenNspw.Activities;
 using OpenNspw.Components;
 using OpenNspw.Orders;
 using DColor = System.Drawing.Color;
@@ -17,7 +18,7 @@ namespace OpenNspw.Controls
 		private readonly World _world;
 		private readonly Camera _camera;
 
-		private bool _isQueued;
+		public bool IsQueued { get; set; }
 
 		public Battlefield(World world, Camera camera) : base(world, camera)
 		{
@@ -28,12 +29,18 @@ namespace OpenNspw.Controls
 		private static bool CanDispatchLandingCellOrder(Transport transport, WPos position) =>
 			transport.CanLand(position) && WRect.FromCenter(transport.Self.World.Map.CenterOfCell(position), new WVec(40, 40)).Contains(position);
 
-		private static bool CanDispatchWaypointOrder(Mobile mobile) => mobile switch
+		private static bool CanDispatchWaypointOrder(Mobile mobile, WPos position)
 		{
-			Airplane airplane => !(airplane.IsInHangar && !airplane.CanTakeOff),
-			Ship => true,
-			_ => throw new InvalidOperationException(),
-		};
+			if (!mobile.Self.World.Map.Contains(position))
+				return false;
+
+			return mobile switch
+			{
+				Airplane airplane => !(airplane.IsInHangar && !airplane.CanTakeOff),
+				Ship => true,
+				_ => throw new InvalidOperationException(),
+			};
+		}
 
 		private IEnumerable<Unit> Units => _world.Units;
 
@@ -67,6 +74,9 @@ namespace OpenNspw.Controls
 			var control = WindowManager.WindowFromPoint(MouseLocation);
 			if (((control is null || control == this) && WindowManager.Capture is null) || Capture)
 				DrawLine(e, new DPen(DColor.White), Selection.IsQueued ? unit.Waypoints.Last() : center, MouseWPos);
+
+			if (unit.CurrentActivity is Evade evade && evade.IsMoving)
+				DrawLine(e, new DPen(DColor.Red), unit.Center, evade.Destination);
 		}
 
 		private void DrawArrow(PaintEventArgs e, Unit unit, WPos targetPosition)
@@ -152,18 +162,18 @@ namespace OpenNspw.Controls
 					var canceled = transport.LandingCell == newLandingCell;
 
 					return new LandingCellOrder(
-						subject.Id,
+						subject,
 						canceled ? null : newLandingCell
 					);
 				}
 
-				if (subject.Components.OfType<Mobile>().SingleOrDefault() is Mobile mobile && CanDispatchWaypointOrder(mobile))
+				if (subject.Components.OfType<Mobile>().SingleOrDefault() is Mobile mobile && CanDispatchWaypointOrder(mobile, MouseWPos))
 				{
 					return new WaypointOrder(
-						subject.Id,
-						Selection.ToArray(),
+						subject,
+						Selection.Units.ToArray(),
 						MouseWPos,
-						_isQueued
+						IsQueued
 					);
 				}
 			}
@@ -174,9 +184,9 @@ namespace OpenNspw.Controls
 					var canceled = armament?.Target == MouseOverUnit;
 
 					return new TargetOrder(
-						subject.Id,
-						Selection.ToArray(),
-						canceled ? null : MouseOverUnit.Id
+						subject,
+						Selection.Units.ToArray(),
+						canceled ? null : MouseOverUnit
 					);
 				}
 			}
@@ -200,14 +210,14 @@ namespace OpenNspw.Controls
 				case WaypointOrder:
 					_world.Sound.Play("SoundEffects/btn_4");
 
-					_isQueued = true;
+					IsQueued = true;
 
 					if (subject.GetComponent<Airplane>()?.IsInHangar == true)
 						Selection.Clear();
 					break;
 
 				case TargetOrder targetOrder:
-					if (targetOrder.TargetId is null)
+					if (targetOrder.Target is null)
 						_world.Sound.Play("SoundEffects/btn_6");
 					else
 						_world.Sound.Play("SoundEffects/btn_3");
@@ -228,13 +238,6 @@ namespace OpenNspw.Controls
 						DispatchUnitOrder(Subject, unitOrder);
 				}
 			}
-		}
-
-		protected override void OnSelectionRestored(EventArgs e)
-		{
-			base.OnSelectionRestored(e);
-
-			_isQueued = false;
 		}
 	}
 }

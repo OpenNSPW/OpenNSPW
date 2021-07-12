@@ -45,6 +45,16 @@ namespace OpenNspw.Components
 		void OnCreated(Unit self);
 	}
 
+	internal interface IAddedToWorldEventListener
+	{
+		void OnAddedToWorld(Unit self);
+	}
+
+	internal interface IRemovedFromWorldEventListener
+	{
+		void OnRemovedFromWorld(Unit self);
+	}
+
 	internal interface IOrderHandler
 	{
 		void HandleOrder(World world, IOrder order);
@@ -75,5 +85,10 @@ namespace OpenNspw.Components
 	internal interface IObservesVariables
 	{
 		IEnumerable<VariableObserver> GetVariableObservers();
+	}
+
+	internal interface IArrivalEventListener
+	{
+		void OnArrival(Unit self);
 	}
 }

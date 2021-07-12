@@ -33,7 +33,7 @@ namespace OpenNspw.Controls
 			{
 				static bool IsInFlightDeck(Airplane airplane) => airplane.Self.CurrentActivity switch
 				{
-					TakeOff takeOff => takeOff.State >= TakeOff.TakeOffState.TaxiOut,
+					TakeOff takeOff => takeOff.TakeOffState >= TakeOffState.TaxiOut,
 					Land land => true,
 					_ => false,
 				};
@@ -50,7 +50,7 @@ namespace OpenNspw.Controls
 
 		public void Update()
 		{
-			Update(Units.Where(u => !u.IsMoving));
+			Update(Units.Where(u => !(u.CurrentActivity is TakeOff or Land)));
 		}
 
 		protected override void OnPaintBackground(PaintEventArgs e)

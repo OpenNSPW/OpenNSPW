@@ -6,6 +6,7 @@ using Aigamo.Saruhashi.MonoGame;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using OpenNspw.Components;
+using OpenNspw.Orders;
 using DColor = System.Drawing.Color;
 using DPoint = System.Drawing.Point;
 using DRect = System.Drawing.Rectangle;
@@ -28,6 +29,8 @@ namespace OpenNspw.Controls
 		private readonly DynamicLabel _ammoLabel;
 		private readonly DynamicLabel _gameSpeedLabel;
 		private readonly DynamicCheckBox _hangarCheckBox;
+		private readonly DynamicCheckBox _cruiseCheckBox;
+		private readonly DynamicCheckBox _returnToBaseCheckBox;
 		private readonly Control _flag;
 		private readonly Control _radarContainer;
 		private readonly Radar _radar;
@@ -75,6 +78,8 @@ namespace OpenNspw.Controls
 
 		private void OnSelectionRestored(object? sender, EventArgs e)
 		{
+			_battlefield.IsQueued = false;
+
 			if (_world.Selection.Units.FirstOrDefault()?.GetComponent<Airplane>() is not Airplane airplane || !airplane.IsInHangar)
 				_deck.DeckState = DeckState.Deck;
 		}
@@ -166,6 +171,56 @@ namespace OpenNspw.Controls
 				_deck.ToggleDeckState();
 			};
 			_sidebar.Controls.Add(_hangarCheckBox);
+
+			static Airplane? GetSelectedAirplane(World world) => world.Selection.Units.FirstOrDefault()?.GetComponent<Airplane>();
+
+			_cruiseCheckBox = new DynamicCheckBox
+			{
+				Bounds = new DRect(0, 456, 140, 20),
+				Text = "Cruise",
+				Appearance = Appearance.Button,
+				AutoCheck = false,
+				IsVisible = () => GetSelectedAirplane(world)?.IsInHangar == false,
+				IsChecked = () => GetSelectedAirplane(world)?.FlightMode == FlightMode.Cruise,
+			};
+			_cruiseCheckBox.Click += (sender, e) =>
+			{
+				if (GetSelectedAirplane(world) is Airplane airplane && airplane.FlightMode != FlightMode.Cruise)
+				{
+					world.Sound.Play("SoundEffects/btn_5");
+
+					world.DispatchOrder(new FlightModeOrder(
+						Subject: airplane.Self,
+						Selection: world.Selection.Units.ToArray(),
+						FlightMode.Cruise
+					));
+				}
+			};
+			_sidebar.Controls.Add(_cruiseCheckBox);
+
+			_returnToBaseCheckBox = new DynamicCheckBox
+			{
+				Bounds = new DRect(0, 476, 140, 20),
+				Text = "Return to Base",
+				Appearance = Appearance.Button,
+				AutoCheck = false,
+				IsVisible = () => GetSelectedAirplane(world)?.IsInHangar == false,
+				IsChecked = () => GetSelectedAirplane(world)?.FlightMode == FlightMode.ReturnToBase,
+			};
+			_returnToBaseCheckBox.Click += (sender, e) =>
+			{
+				if (GetSelectedAirplane(world) is Airplane airplane && airplane.FlightMode != FlightMode.ReturnToBase)
+				{
+					world.Sound.Play("SoundEffects/btn_5");
+
+					world.DispatchOrder(new FlightModeOrder(
+						Subject: airplane.Self,
+						Selection: world.Selection.Units.ToArray(),
+						FlightMode.ReturnToBase
+					));
+				}
+			};
+			_sidebar.Controls.Add(_returnToBaseCheckBox);
 
 			_flag = new Control
 			{

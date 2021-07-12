@@ -1,7 +1,7 @@
 ﻿namespace OpenNspw.Orders
 {
 	internal sealed record LandingCellOrder(
-		int SubjectId,
+		Unit Subject,
 		CPos? LandingCell
 	) : IUnitOrder;
 }

@@ -174,6 +174,9 @@ namespace OpenNspw.Controls
 
 			AddSelectedUnit(unit);
 
+			if (unit.Components.OfType<Mobile>().SingleOrDefault() is Mobile mobile)
+				Selection.Units.AddRange(mobile.Followers.Select(f => f.Self));
+
 			OnSelectionRestored(EventArgs.Empty);
 		}
 

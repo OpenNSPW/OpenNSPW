@@ -59,7 +59,7 @@ namespace OpenNspw.Components
 			}
 		}
 
-		public IEnumerable<VariableObserver> GetVariableObservers()
+		public virtual IEnumerable<VariableObserver> GetVariableObservers()
 		{
 			if (Options.RequiresCondition is not null)
 				yield return new VariableObserver(RequiredConditionsChanged, Options.RequiresCondition.Variables);
