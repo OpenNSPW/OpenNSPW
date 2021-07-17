@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Aigamo.Saruhashi;
 using Aigamo.Saruhashi.MonoGame;
@@ -32,6 +33,12 @@ namespace OpenNspw
 		public T GetRequiredComponent<T>() where T : notnull => Components.GetRequiredComponent<T>();
 
 		public T? GetComponent<T>() => Components.GetComponent<T>();
+
+		public bool TryGetComponent<T>([NotNullWhen(true)] out T? component)
+		{
+			component = GetComponent<T>();
+			return component is not null;
+		}
 
 		public bool HasComponent<T>() => GetComponent<T>() is not null;
 

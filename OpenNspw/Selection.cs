@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenNspw
 {
@@ -13,5 +14,7 @@ namespace OpenNspw
 			Units.Clear();
 			IsQueued = false;
 		}
+
+		public int[] ToArray() => Units.Select(u => u.Id).ToArray();
 	}
 }

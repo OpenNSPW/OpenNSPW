@@ -36,8 +36,10 @@ namespace OpenNspw
 		public CPos CellContaining(WPos value) => new(Vector2.Floor(((value - Bounds.TopLeft).FlipY().ToVector2() + new Vector2(40, 40)) / new Vector2(80, 80)).ToPoint());
 
 		public WPos CenterOfCell(CPos value) => Bounds.TopLeft + new WVec(value.X * 80, value.Y * 80).FlipY();
+		public WPos CenterOfCell(WPos value) => CenterOfCell(CellContaining(value));
 
 		public bool Contains(WPos value) => Bounds.Contains(value);
+		public bool Contains(CPos value) => Contains(CenterOfCell(value));
 
 		public void Draw(World world, Graphics graphics, Camera camera)
 		{

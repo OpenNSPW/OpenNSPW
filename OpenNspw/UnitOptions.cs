@@ -735,6 +735,9 @@ namespace OpenNspw
 					{
 						MaxHP = 9,
 					},
+					new TransportOptions
+					{
+					},
 				}
 			},
 			{
@@ -755,6 +758,9 @@ namespace OpenNspw
 					new HealthOptions
 					{
 						MaxHP = 9,
+					},
+					new TransportOptions
+					{
 					},
 				}
 			},
