@@ -10,9 +10,11 @@ namespace OpenNspw.Controls
 {
 	internal sealed class ScenarioBrowserForm : Form
 	{
-		private TextButton[] _scenarioButtons = default!;
-		private TextButton _previousButton = default!;
-		private TextButton _nextButton = default!;
+		private readonly IAssetManager _assets;
+
+		private readonly TextButton[] _scenarioButtons;
+		private readonly TextButton _previousButton;
+		private readonly TextButton _nextButton;
 
 		public IReadOnlyList<(string Title, Type ScenarioType)> Scenarios { get; }
 
@@ -40,8 +42,10 @@ namespace OpenNspw.Controls
 
 		public Type? SelectedScenario { get; private set; }
 
-		public ScenarioBrowserForm(IEnumerable<(string Title, Type ScenarioType)> scenarios)
+		public ScenarioBrowserForm(IAssetManager assets, Sound sound, IEnumerable<(string Title, Type ScenarioType)> scenarios)
 		{
+			_assets = assets;
+
 			Size = new(1024, 768);
 
 			Scenarios = scenarios.ToList();
@@ -61,11 +65,11 @@ namespace OpenNspw.Controls
 				_scenarioButtons[i].MouseDown += (sender, e) =>
 				{
 					if (e.Button == MouseButtons.Left)
-						Sound.Default.Play("SoundEffects/btn_4");
+						sound.Play("SoundEffects/btn_4");
 				};
 				_scenarioButtons[i].Click += (sender, e) =>
 				{
-					Sound.Default.Play("SoundEffects/combat_start");
+					sound.Play("SoundEffects/combat_start");
 
 					Close();
 				};
@@ -80,7 +84,7 @@ namespace OpenNspw.Controls
 			};
 			_previousButton.MouseDown += (sender, e) =>
 			{
-				Sound.Default.Play("SoundEffects/btn_4");
+				sound.Play("SoundEffects/btn_4");
 			};
 			_previousButton.Click += (sender, e) => Page--;
 			Controls.Add(_previousButton);
@@ -92,7 +96,7 @@ namespace OpenNspw.Controls
 			};
 			_nextButton.MouseDown += (sender, e) =>
 			{
-				Sound.Default.Play("SoundEffects/btn_4");
+				sound.Play("SoundEffects/btn_4");
 			};
 			_nextButton.Click += (sender, e) => Page++;
 			Controls.Add(_nextButton);
@@ -114,7 +118,7 @@ namespace OpenNspw.Controls
 			base.OnPaint(e);
 
 			var month = DateTime.Today.Month;
-			e.Graphics.DrawImage(MonoGameImage.Create(new Sprite(Assets.Textures[$"Textures/background_{(month - 1) % 4}"])), new DPoint(1024 / 2, 768 / 2));
+			e.Graphics.DrawImage(MonoGameImage.Create(new Sprite(_assets.Textures[$"Textures/background_{(month - 1) % 4}"])), new DPoint(1024 / 2, 768 / 2));
 		}
 	}
 }

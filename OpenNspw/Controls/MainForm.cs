@@ -63,12 +63,12 @@ namespace OpenNspw.Controls
 
 		private void OnSelectionAdded(object? sender, EventArgs e)
 		{
-			Sound.Default.Play("SoundEffects/btn_1");
+			_world.Sound.Play("SoundEffects/btn_1");
 		}
 
 		private void OnSelectionRemoved(object? sender, EventArgs e)
 		{
-			Sound.Default.Play("SoundEffects/btn_2");
+			_world.Sound.Play("SoundEffects/btn_2");
 		}
 
 		private void OnSelectionRestored(object? sender, EventArgs e)
@@ -158,7 +158,7 @@ namespace OpenNspw.Controls
 			};
 			_hangarCheckBox.Click += (sender, e) =>
 			{
-				Sound.Default.Play("SoundEffects/btn_0");
+				world.Sound.Play("SoundEffects/btn_0");
 				world.Selection.Clear();
 
 				_deck.ToggleDeckState();

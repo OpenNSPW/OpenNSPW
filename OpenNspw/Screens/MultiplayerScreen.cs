@@ -36,7 +36,7 @@ namespace OpenNspw.Screens
 
 		public override void LoadContent()
 		{
-			_scenarioBrowserForm = new ScenarioBrowserForm(s_scenarios);
+			_scenarioBrowserForm = new ScenarioBrowserForm(Game.Assets, Game.Sound, s_scenarios);
 			_scenarioBrowserForm.FormClosed += (sender, e) =>
 			{
 				if (_scenarioBrowserForm.SelectedScenario is Type scenarioType && Activator.CreateInstance(scenarioType) is Scenario scenario)

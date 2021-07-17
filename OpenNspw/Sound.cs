@@ -40,13 +40,11 @@ namespace OpenNspw
 			}
 		}
 
-		public static Sound Default { get; } = new();
-
 		private readonly IReadOnlyDictionary<string, SoundEffectInstancePool> _pools;
 
-		public Sound()
+		public Sound(IAssetManager assets)
 		{
-			_pools = new Dictionary<string, SoundEffectInstancePool>(Assets.SoundEffects.ToDictionary(kv => kv.Key, kv => new SoundEffectInstancePool(kv.Value)));
+			_pools = new Dictionary<string, SoundEffectInstancePool>(assets.SoundEffects.ToDictionary(kv => kv.Key, kv => new SoundEffectInstancePool(kv.Value)));
 		}
 
 		public void Dispose()

@@ -17,14 +17,16 @@ using XnaKeys = Microsoft.Xna.Framework.Input.Keys;
 
 namespace OpenNspw
 {
-	public class MainGame : Game
+	internal sealed class MainGame : Game
 	{
 		private readonly GraphicsDeviceManager _graphics;
-		private SpriteBatch _spriteBatch = default!;
+		public SpriteBatch SpriteBatch { get; private set; } = default!;
+		public IAssetManager Assets { get; private set; } = default!;
+		public Sound Sound { get; private set; } = default!;
 
 		private readonly ScreenManager _screenManager;
 		private ViewportAdapter _viewportAdapter = default!;
-		private WindowManager _windowManager = default!;
+		public WindowManager WindowManager { get; private set; } = default!;
 
 		public MainGame()
 		{
@@ -35,10 +37,6 @@ namespace OpenNspw
 
 			_screenManager = Components.Add<ScreenManager>();
 		}
-
-		public SpriteBatch SpriteBatch => _spriteBatch;
-
-		public WindowManager WindowManager => _windowManager;
 
 		protected override void Initialize()
 		{
@@ -55,9 +53,10 @@ namespace OpenNspw
 
 		protected override void LoadContent()
 		{
-			_spriteBatch = new SpriteBatch(GraphicsDevice);
+			SpriteBatch = new SpriteBatch(GraphicsDevice);
 
-			Assets.Initialize(Content);
+			Assets = new AssetManager(Content);
+			Sound = new Sound(Assets);
 
 			var mouseListener = new SaruhashiMouseListener(_viewportAdapter);
 			var keyboardListener = new KeyboardListener(new KeyboardListenerSettings
@@ -71,13 +70,13 @@ namespace OpenNspw
 			using var stream = TitleContainer.OpenStream("Content/Fonts/FreeSans.ttf");
 			fontSystem.AddFont(stream);
 			var defaultFont = new DynamicSpriteFontWrapper(fontSystem.GetFont(fontSize: 16));
-			_windowManager = new WindowManager(new DRect(0, 0, 1024, 768), new MonoGameGraphicsFactory(_spriteBatch, _viewportAdapter), defaultFont);
-			mouseListener.MouseDown += (sender, e) => _windowManager.OnMouseDown(e);
-			mouseListener.MouseMove += (sender, e) => _windowManager.OnMouseMove(e);
-			mouseListener.MouseUp += (sender, e) => _windowManager.OnMouseUp(e);
-			keyboardListener.KeyPressed += (sender, e) => _windowManager.OnKeyDown(new KeyEventArgs((SaruhashiKeys)e.Key));
-			keyboardListener.KeyReleased += (sender, e) => _windowManager.OnKeyUp(new KeyEventArgs((SaruhashiKeys)e.Key));
-			Window.TextInput += (sender, e) => _windowManager.OnKeyPress(new KeyPressEventArgs(e.Character));
+			WindowManager = new WindowManager(new DRect(0, 0, 1024, 768), new MonoGameGraphicsFactory(SpriteBatch, _viewportAdapter), defaultFont);
+			mouseListener.MouseDown += (sender, e) => WindowManager.OnMouseDown(e);
+			mouseListener.MouseMove += (sender, e) => WindowManager.OnMouseMove(e);
+			mouseListener.MouseUp += (sender, e) => WindowManager.OnMouseUp(e);
+			keyboardListener.KeyPressed += (sender, e) => WindowManager.OnKeyDown(new KeyEventArgs((SaruhashiKeys)e.Key));
+			keyboardListener.KeyReleased += (sender, e) => WindowManager.OnKeyUp(new KeyEventArgs((SaruhashiKeys)e.Key));
+			Window.TextInput += (sender, e) => WindowManager.OnKeyPress(new KeyPressEventArgs(e.Character));
 
 			_screenManager.LoadScreen(new MainMenuScreen(this));
 		}
@@ -96,7 +95,7 @@ namespace OpenNspw
 
 			base.Draw(gameTime);
 
-			_windowManager.Draw();
+			WindowManager.Draw();
 		}
 	}
 }

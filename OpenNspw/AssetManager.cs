@@ -6,18 +6,24 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace OpenNspw
 {
-	// Code from: https://community.monogame.net/t/passing-the-contentmanager-to-every-class-feels-wrong-is-it/10470/12
-	internal static class Assets
+	internal interface IAssetManager
 	{
-		public static IReadOnlyDictionary<string, Texture2D> Textures { get; private set; } = default!;
-		public static IReadOnlyDictionary<string, SoundEffect> SoundEffects { get; private set; } = default!;
+		IReadOnlyDictionary<string, Texture2D> Textures { get; }
+		IReadOnlyDictionary<string, SoundEffect> SoundEffects { get; }
+	}
 
-		private static string GetProperMonoGameAssetPath(string path, string fileName, string rootDirectory)
+	// Code from: https://community.monogame.net/t/passing-the-contentmanager-to-every-class-feels-wrong-is-it/10470/12
+	internal sealed class AssetManager : IAssetManager
+	{
+		public IReadOnlyDictionary<string, Texture2D> Textures { get; }
+		public IReadOnlyDictionary<string, SoundEffect> SoundEffects { get; }
+
+		private string GetProperMonoGameAssetPath(string path, string fileName, string rootDirectory)
 		{
 			return Path.Combine(path[(path.IndexOf(rootDirectory) + rootDirectory.Length)..], fileName).Replace('\\', '/').Substring(1);
 		}
 
-		private static Dictionary<string, T> LoadAssets<T>(ContentManager content, string contentDirectory)
+		private Dictionary<string, T> LoadAssets<T>(ContentManager content, string contentDirectory)
 		{
 			var directory = new DirectoryInfo(Path.Combine(content.RootDirectory, contentDirectory));
 			if (!directory.Exists)
@@ -33,7 +39,7 @@ namespace OpenNspw
 			return ret;
 		}
 
-		public static void Initialize(ContentManager content)
+		public AssetManager(ContentManager content)
 		{
 			Textures = LoadAssets<Texture2D>(content, "Textures");
 			SoundEffects = LoadAssets<SoundEffect>(content, "SoundEffects");

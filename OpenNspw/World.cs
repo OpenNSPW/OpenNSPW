@@ -10,6 +10,9 @@ namespace OpenNspw
 {
 	internal sealed class World
 	{
+		public IAssetManager Assets { get; }
+		public Sound Sound { get; }
+
 		public int FrameCount { get; set; }
 
 		public Camera Camera { get; }
@@ -29,8 +32,18 @@ namespace OpenNspw
 
 		public Random Random { get; } = new();
 
-		private World(Scenario scenario, OrderManager orderManager, Map map, IEnumerable<Player> players, Camera camera)
+		private World(
+			IAssetManager assets,
+			Sound sound,
+			Scenario scenario,
+			OrderManager orderManager,
+			Map map,
+			IEnumerable<Player> players,
+			Camera camera
+		)
 		{
+			Assets = assets;
+			Sound = sound;
 			Scenario = scenario;
 			OrderManager = orderManager;
 			Map = map;
@@ -38,9 +51,17 @@ namespace OpenNspw
 			Camera = camera;
 		}
 
-		public static World Create(Scenario scenario, OrderManager orderManager, Map map, IEnumerable<Player> players, Camera camera)
+		public static World Create(
+			IAssetManager assets,
+			Sound sound,
+			Scenario scenario,
+			OrderManager orderManager,
+			Map map,
+			IEnumerable<Player> players,
+			Camera camera
+		)
 		{
-			var world = new World(scenario, orderManager, map, players, camera);
+			var world = new World(assets, sound, scenario, orderManager, map, players, camera);
 			scenario.Initialize(world, camera);
 			return world;
 		}
@@ -98,7 +119,7 @@ namespace OpenNspw
 			if (!WRect.FromCenter(Camera.Center, new WVec(768, 768)).Inflate(new WVec(500, 500)).Contains(position))
 				return;
 
-			Sound.Default.Play(name);
+			Sound.Play(name);
 		}
 	}
 

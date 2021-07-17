@@ -54,7 +54,7 @@ namespace OpenNspw.Activities
 					Count++;
 
 					if (Count == 40 /* TODO: check if the owner is the local player */ && self.World.Selection.MouseFocusUnit == _hangar.Self)
-						Sound.Default.Play("SoundEffects/take_off");
+						self.World.Sound.Play("SoundEffects/take_off");
 
 					_airplane.Center += _airplane.Angle.ToVector(Count / 20).FlipY();
 

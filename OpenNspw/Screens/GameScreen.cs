@@ -33,14 +33,14 @@ namespace OpenNspw.Screens
 			{
 				Viewport = WRect.FromCenter(WPos.Zero, new WVec(768, 768)),
 			};
-			var world = World.Create(_scenario, _orderManager, map, players, camera);
+			var world = World.Create(Game.Assets, Game.Sound, _scenario, _orderManager, map, players, camera);
 
 			_mainForm = new MainForm(world, camera, GraphicsDevice);
 			WindowManager.Root.Controls.Add(_mainForm);
 			_mainForm.Show();
 			_mainForm.Focus();
 
-			_soundEffectInstance = Assets.SoundEffects["SoundEffects/sea1"].CreateInstance();
+			_soundEffectInstance = Game.Assets.SoundEffects["SoundEffects/sea1"].CreateInstance();
 			_soundEffectInstance.IsLooped = true;
 			_soundEffectInstance.Play();
 

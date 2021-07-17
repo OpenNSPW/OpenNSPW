@@ -42,7 +42,7 @@ namespace OpenNspw
 			Name = name;
 			Owner = owner;
 
-			Texture = Assets.Textures[$"Textures/Units/{name}"];
+			Texture = world.Assets.Textures[$"Textures/Units/{name}"];
 
 			foreach (var component in UnitOptions.Components[name])
 				Components.Add(component.CreateComponent(this));

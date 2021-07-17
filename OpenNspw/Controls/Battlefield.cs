@@ -119,7 +119,7 @@ namespace OpenNspw.Controls
 			switch (unitOrder)
 			{
 				case WaypointOrder:
-					Sound.Default.Play("SoundEffects/btn_4");
+					_world.Sound.Play("SoundEffects/btn_4");
 
 					_isQueued = true;
 

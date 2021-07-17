@@ -51,7 +51,7 @@ namespace OpenNspw
 					var cell = new CPos(x, y);
 					if (new Rectangle(Point.Zero, MapSize).Contains(cell))
 					{
-						var texture = Assets.Textures["Textures/terrain"];
+						var texture = world.Assets.Textures["Textures/terrain"];
 						var tile = Tiles[cell];
 						var sprite = new Sprite(new TextureRegion2D(texture, tile switch
 						{

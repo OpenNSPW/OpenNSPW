@@ -42,13 +42,13 @@ namespace OpenNspw.Components
 
 		public void Fold()
 		{
-			if (Assets.Textures.TryGetValue($"Textures/Units/{Self.Name}_folded", out var texture))
+			if (Self.World.Assets.Textures.TryGetValue($"Textures/Units/{Self.Name}_folded", out var texture))
 				Self.Texture = texture;
 		}
 
 		public void Unfold()
 		{
-			Self.Texture = Assets.Textures[$"Textures/Units/{Self.Name}"];
+			Self.Texture = Self.World.Assets.Textures[$"Textures/Units/{Self.Name}"];
 		}
 	}
 }

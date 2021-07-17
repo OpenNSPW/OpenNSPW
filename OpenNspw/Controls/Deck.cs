@@ -18,9 +18,14 @@ namespace OpenNspw.Controls
 
 	internal sealed class Deck : Controller
 	{
+		private readonly World _world;
+
 		public DeckState DeckState { get; set; }
 
-		public Deck(World world, Camera camera) : base(world, camera) { }
+		public Deck(World world, Camera camera) : base(world, camera)
+		{
+			_world = world;
+		}
 
 		private IEnumerable<Unit> Units
 		{
@@ -54,7 +59,7 @@ namespace OpenNspw.Controls
 
 			if (MouseFocusUnit is not null)
 			{
-				if (Assets.Textures.TryGetValue($"Textures/Units/{MouseFocusUnit.Name}_{DeckState.ToString().ToLowerInvariant()}", out var texture))
+				if (_world.Assets.Textures.TryGetValue($"Textures/Units/{MouseFocusUnit.Name}_{DeckState.ToString().ToLowerInvariant()}", out var texture))
 					e.Graphics.DrawImage(MonoGameImage.Create(texture, Color.White), DPoint.Empty);
 			}
 
