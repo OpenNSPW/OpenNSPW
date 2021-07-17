@@ -496,6 +496,7 @@ namespace OpenNspw
 						Acceleration = 0.01f,
 						MinSpeed = 0.5f,
 						MaxSpeed = 2.35f,
+						LandingDistance = 280.0f,
 					},
 					new ArmamentOptions
 					{
@@ -521,6 +522,7 @@ namespace OpenNspw
 						Acceleration = 0.01f,
 						MinSpeed = 0.5f,
 						MaxSpeed = 2.5f,
+						LandingDistance = 280.0f,
 					},
 					new ArmamentOptions
 					{
@@ -546,6 +548,7 @@ namespace OpenNspw
 						Acceleration = 0.008f,
 						MinSpeed = 0.5f,
 						MaxSpeed = 2.35f,
+						LandingDistance = 280.0f,
 					},
 					new ArmamentOptions
 					{
@@ -571,6 +574,7 @@ namespace OpenNspw
 						Acceleration = 0.02f,
 						MinSpeed = 0.5f,
 						MaxSpeed = 2.7f,
+						LandingDistance = 280.0f,
 					},
 					new ArmamentOptions
 					{
@@ -596,6 +600,7 @@ namespace OpenNspw
 						Acceleration = 0.03f,
 						MinSpeed = 0.5f,
 						MaxSpeed = 3.0f,
+						LandingDistance = 280.0f,
 					},
 					new ArmamentOptions
 					{
@@ -621,6 +626,7 @@ namespace OpenNspw
 						Acceleration = 0.01f,
 						MinSpeed = 0.5f,
 						MaxSpeed = 2.2f,
+						LandingDistance = 280.0f,
 					},
 					new ArmamentOptions
 					{
@@ -646,6 +652,7 @@ namespace OpenNspw
 						Acceleration = 0.01f,
 						MinSpeed = 0.5f,
 						MaxSpeed = 2.2f,
+						LandingDistance = 280.0f,
 					},
 					new ArmamentOptions
 					{
@@ -671,6 +678,7 @@ namespace OpenNspw
 						Acceleration = 0.005f,
 						MinSpeed = 0.5f,
 						MaxSpeed = 1.8f,
+						LandingDistance = 560.0f,
 					},
 					new ArmamentOptions
 					{
@@ -696,6 +704,7 @@ namespace OpenNspw
 						Acceleration = 0.005f,
 						MinSpeed = 0.5f,
 						MaxSpeed = 1.9f,
+						LandingDistance = 560.0f,
 					},
 					new ArmamentOptions
 					{

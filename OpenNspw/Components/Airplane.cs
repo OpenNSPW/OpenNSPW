@@ -6,6 +6,8 @@ namespace OpenNspw.Components
 {
 	internal sealed record AirplaneOptions : MobileOptions
 	{
+		public float LandingDistance { get; init; }
+
 		public override Airplane CreateComponent(Unit self) => new(self, this);
 	}
 
