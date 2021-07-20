@@ -63,9 +63,22 @@ namespace OpenNspw.Controls
 
 		protected WPos MouseWPos => _camera.ScreenToWorld(PointToClient(MouseLocation).ToXnaPoint().ToVector2());
 
+		private bool CanMouseOver(Unit unit)
+		{
+			return true;
+		}
+
+		protected bool CanSelect(Unit unit)
+		{
+			if (unit.Owner != _world.LocalPlayer)
+				return false;
+
+			return CanMouseOver(unit);
+		}
+
 		protected void Update(IEnumerable<Unit> units)
 		{
-			MouseOverUnit = units.FirstOrDefault(u => WRect.FromCenter(u.Center, new WVec(40, 40)).Contains(MouseWPos));
+			MouseOverUnit = units.FirstOrDefault(u => WRect.FromCenter(u.Center, new WVec(40, 40)).Contains(MouseWPos) && CanMouseOver(u));
 		}
 
 		protected void DrawLine(PaintEventArgs e, DPen pen, WPos point1, WPos point2)
@@ -154,7 +167,7 @@ namespace OpenNspw.Controls
 
 		private void RestoreSelection(Unit? unit)
 		{
-			if (unit is null)
+			if (unit is null || !CanSelect(unit))
 				return;
 
 			Selection.Clear();
@@ -170,7 +183,7 @@ namespace OpenNspw.Controls
 
 			if (e.Button == MouseButtons.Left)
 			{
-				if (MouseOverUnit is not null)
+				if (MouseOverUnit is not null && CanSelect(MouseOverUnit))
 				{
 					if (MouseOverUnit == Subject)
 						CancelSelection();

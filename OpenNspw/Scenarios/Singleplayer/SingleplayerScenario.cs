@@ -17,6 +17,8 @@ namespace OpenNspw.Scenarios.Singleplayer
 
 		public override void Initialize(World world, Camera camera)
 		{
+			world.SetLocalPlayerIndex(Emulator.data.your_side - 1);
+
 			for (var i = 0; i < Emulator.data.unit.Length; i++)
 			{
 				var interopUnit = Emulator.data.unit[i];

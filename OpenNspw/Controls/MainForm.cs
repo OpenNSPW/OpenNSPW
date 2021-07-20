@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Aigamo.Saruhashi;
+using Aigamo.Saruhashi.MonoGame;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using OpenNspw.Components;
@@ -9,6 +10,7 @@ using DColor = System.Drawing.Color;
 using DPoint = System.Drawing.Point;
 using DRect = System.Drawing.Rectangle;
 using DSize = System.Drawing.Size;
+using DSolidBrush = System.Drawing.SolidBrush;
 
 namespace OpenNspw.Controls
 {
@@ -26,7 +28,7 @@ namespace OpenNspw.Controls
 		private readonly DynamicLabel _ammoLabel;
 		private readonly DynamicLabel _gameSpeedLabel;
 		private readonly DynamicCheckBox _hangarCheckBox;
-
+		private readonly Control _flag;
 		private readonly Control _radarContainer;
 		private readonly Radar _radar;
 
@@ -165,6 +167,19 @@ namespace OpenNspw.Controls
 			};
 			_sidebar.Controls.Add(_hangarCheckBox);
 
+			_flag = new Control
+			{
+				Bounds = new DRect(0, 456, 198, 116),
+			};
+			_flag.Paint += (sender, e) =>
+			{
+				e.Graphics.FillRectangle(new DSolidBrush(_world.LocalPlayer.Color.ToDrawingColor()), e.ClipRectangle);
+				var texture = _world.Assets.Textures[$"Textures/Flags/{_world.LocalPlayer.Faction}"];
+				e.Graphics.FillRectangle(new DSolidBrush(DColor.FromArgb(255, 210, 1)), new DRect((_flag.Width - (texture.Width + 6)) / 2, (_flag.Height - (texture.Height + 6)) / 2, texture.Width + 6, texture.Height + 6));
+				e.Graphics.DrawImage(MonoGameImage.Create(texture, Color.White), new DPoint((_flag.Width - texture.Width) / 2, (_flag.Height - texture.Height) / 2));
+			};
+			_sidebar.Controls.Add(_flag);
+
 			_radarContainer = new Control
 			{
 				Bounds = new DRect(0, 768 - 196, 256, 196),
@@ -212,6 +227,12 @@ namespace OpenNspw.Controls
 				case Keys.R:
 					GameSpeed = 1;
 					break;
+
+#if DEBUG
+				case Keys.F5:
+					_world.SetLocalPlayerIndex((_world.Players.ToList().IndexOf(_world.LocalPlayer) + 1) % _world.Players.Count);
+					break;
+#endif
 			}
 		}
 

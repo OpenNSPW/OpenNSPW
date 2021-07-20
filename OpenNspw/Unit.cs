@@ -89,6 +89,8 @@ namespace OpenNspw
 			set => _unit.Angle = value;
 		}
 
+		public bool CanBeViewedBy(Player player) => true/* TODO */;
+
 		public bool IsMoving => _unit.IsMoving;
 		public IEnumerable<WPos> Waypoints => _unit.Waypoints;
 

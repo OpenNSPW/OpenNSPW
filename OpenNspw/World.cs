@@ -28,6 +28,17 @@ namespace OpenNspw
 
 		public IReadOnlyList<Player> Players { get; }
 
+		private int _localPlayerIndex;
+		public Player LocalPlayer => Players[_localPlayerIndex];
+
+		public void SetLocalPlayerIndex(int value)
+		{
+			if (value == _localPlayerIndex)
+				return;
+
+			_localPlayerIndex = value;
+		}
+
 		public Scenario Scenario { get; }
 
 		public Random Random { get; } = new();

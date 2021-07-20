@@ -25,7 +25,8 @@ namespace OpenNspw.Controls
 			_camera = camera;
 		}
 
-		private bool CanDispatchLandingCellOrder(Transport transport, WPos position) => transport.CanLand(position) && WRect.FromCenter(_world.Map.CenterOfCell(position), new WVec(40, 40)).Contains(position);
+		private static bool CanDispatchLandingCellOrder(Transport transport, WPos position) =>
+			transport.CanLand(position) && WRect.FromCenter(transport.Self.World.Map.CenterOfCell(position), new WVec(40, 40)).Contains(position);
 
 		private static bool CanDispatchWaypointOrder(Mobile mobile) => mobile switch
 		{
@@ -52,7 +53,7 @@ namespace OpenNspw.Controls
 
 		private void DrawUnitPath(PaintEventArgs e, Unit unit)
 		{
-			var center = (unit.GetComponent<Airplane>() is Airplane airplane && airplane.IsInHangar)
+			var center = (unit.TryGetComponent<Airplane>(out var airplane) && airplane.IsInHangar)
 				? airplane.Hangar.Self.Center
 				: unit.Center;
 			var previousWaypoint = center;
@@ -99,11 +100,31 @@ namespace OpenNspw.Controls
 					}
 				}
 
+				if (Subject.TryGetComponent<Armament>(out var armament))
+				{
+					if (armament.Target is Unit target && target.CanBeViewedBy(_world.LocalPlayer))
+					{
+						var margin = 10 + _world.FrameCount % 8 * 2;
+						DrawRectangle(e, new DPen(DColor.White), WRect.FromCenter(target.Center, new WVec(80 - margin * 2, 80 - margin * 2)));
+					}
+				}
+
 				DrawUnitPath(e, Subject);
 			}
 
-			foreach (var unit in _world.Units)
+			foreach (var unit in _world.Units.Where(u => u.Owner == _world.LocalPlayer))
 			{
+				if (unit.GetComponent<Armament>()?.Target is Unit target)
+				{
+					if (target.CanBeViewedBy(_world.LocalPlayer))
+						DrawArrow(e, unit, targetPosition: target.Center);
+					else
+					{
+						DrawLine(e, new DPen(DColor.White), unit.Center + new WVec(30, 40), unit.Center + new WVec(10, 20));
+						DrawLine(e, new DPen(DColor.White), unit.Center + new WVec(10, 40), unit.Center + new WVec(30, 20));
+					}
+				}
+
 				if (unit.GetComponent<Transport>()?.LandingCell is CPos landingCell)
 					DrawArrow(e, unit, targetPosition: _world.Map.CenterOfCell(landingCell));
 			}
@@ -146,6 +167,19 @@ namespace OpenNspw.Controls
 					);
 				}
 			}
+			else
+			{
+				if (subject.TryGetComponent<Armament>(out var armament) && !CanSelect(MouseOverUnit))
+				{
+					var canceled = armament?.Target == MouseOverUnit;
+
+					return new TargetOrder(
+						subject.Id,
+						Selection.ToArray(),
+						canceled ? null : MouseOverUnit.Id
+					);
+				}
+			}
 
 			return null;
 		}
@@ -170,6 +204,13 @@ namespace OpenNspw.Controls
 
 					if (subject.GetComponent<Airplane>()?.IsInHangar == true)
 						Selection.Clear();
+					break;
+
+				case TargetOrder targetOrder:
+					if (targetOrder.TargetId is null)
+						_world.Sound.Play("SoundEffects/btn_6");
+					else
+						_world.Sound.Play("SoundEffects/btn_3");
 					break;
 			}
 		}

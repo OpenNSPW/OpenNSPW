@@ -731,6 +731,9 @@ namespace OpenNspw
 						MinSpeed = 0.0f,
 						MaxSpeed = 0.65f,
 					},
+					new ArmamentOptions
+					{
+					},
 					new HealthOptions
 					{
 						MaxHP = 9,
@@ -754,6 +757,9 @@ namespace OpenNspw
 						Acceleration = 0.01f,
 						MinSpeed = 0.0f,
 						MaxSpeed = 0.65f,
+					},
+					new ArmamentOptions
+					{
 					},
 					new HealthOptions
 					{
