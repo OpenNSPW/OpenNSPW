@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.Xna.Framework;
 
@@ -49,6 +50,30 @@ namespace OpenNspw
 				return Array.Empty<T>();
 
 			return source.Where(x => x is not null)!;
+		}
+	}
+
+	// Code from: https://github.com/OpenRA/OpenRA/blob/6810469634d43a7a3e8ab2664942e162c3f4436a/OpenRA.Game/Exts.cs#L582
+	internal static class Enum<T>
+	{
+		public static T Parse(string s) => (T)Enum.Parse(typeof(T), s);
+		public static T[] GetValues() => (T[])Enum.GetValues(typeof(T));
+
+		public static bool TryParse(string s, bool ignoreCase, [NotNullWhen(true)] out T? value)
+		{
+			// The string may be a comma delimited list of values
+			var names = ignoreCase ? Enum.GetNames(typeof(T)).Select(x => x.ToLowerInvariant()) : Enum.GetNames(typeof(T));
+			var values = ignoreCase ? s.Split(',').Select(x => x.Trim().ToLowerInvariant()) : s.Split(',').Select(x => x.Trim());
+
+			if (values.Any(x => !names.Contains(x)))
+			{
+				value = default;
+				return false;
+			}
+
+			value = (T)Enum.Parse(typeof(T), s, ignoreCase);
+
+			return true;
 		}
 	}
 }
