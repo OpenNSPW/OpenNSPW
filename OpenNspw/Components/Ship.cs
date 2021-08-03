@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace OpenNspw.Components
 {
-	internal sealed record ShipOptions : MobileOptions
+	internal sealed record ShipOptions : MobileOptions<Ship>
 	{
 		public ShipOptions()
 		{
@@ -14,16 +14,12 @@ namespace OpenNspw.Components
 		public override Ship CreateComponent(Unit self) => new(self, this);
 	}
 
-	internal sealed class Ship : Mobile
+	internal sealed class Ship : Mobile<ShipOptions>
 	{
-		public override ShipOptions Options { get; }
 		public WAngle AngleToLeader { get; set; }
 		public float DistanceToLeader { get; set; }
 
-		public Ship(Unit self, ShipOptions options) : base(self, options)
-		{
-			Options = options;
-		}
+		public Ship(Unit self, ShipOptions options) : base(self, options) { }
 
 		public override bool CanMove(WPos position)
 		{

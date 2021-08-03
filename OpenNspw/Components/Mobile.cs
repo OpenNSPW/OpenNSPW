@@ -7,7 +7,7 @@ using OpenNspw.Orders;
 
 namespace OpenNspw.Components
 {
-	internal record MobileOptions : IComponentOptions<Mobile>
+	internal abstract record MobileOptions : IComponentOptions<Mobile>
 	{
 		public WAngle TurnSpeed { get; init; }
 		public float Acceleration { get; init; }
@@ -18,7 +18,13 @@ namespace OpenNspw.Components
 		public string? LeaderCondition { get; init; } = "leader";
 		public string? FollowerCondition { get; init; } = "follower";
 
-		public virtual Mobile CreateComponent(Unit self) => new(self, this);
+		public abstract Mobile CreateComponent(Unit self);
+	}
+
+	internal abstract record MobileOptions<TComponent> : MobileOptions
+		where TComponent : Mobile
+	{
+		public abstract override TComponent CreateComponent(Unit self);
 	}
 
 	// TODO: rename
@@ -29,10 +35,10 @@ namespace OpenNspw.Components
 		Two,
 	}
 
-	internal class Mobile : IComponent<MobileOptions>, IUnit, ICreatedEventListener, IOrderHandler
+	internal abstract class Mobile : IComponent<MobileOptions>, IUnit, ICreatedEventListener, IOrderHandler
 	{
 		public Unit Self { get; }
-		public virtual MobileOptions Options { get; }
+		public MobileOptions Options { get; }
 		public WPos Center { get; set; }
 		public WAngle Angle { get; set; }
 		public WAngle TurnSpeed { get; set; }
@@ -48,7 +54,7 @@ namespace OpenNspw.Components
 
 		private readonly Lazy<IArrivalEventListener[]> _arrivalEventListeners;
 
-		public Mobile(Unit self, MobileOptions options)
+		protected Mobile(Unit self, MobileOptions options)
 		{
 			Self = self;
 			Options = options;
@@ -230,5 +236,16 @@ namespace OpenNspw.Components
 		}
 
 		public virtual void UpdateFormation(Mobile leader, int positionNumber) { }
+	}
+
+	internal abstract class Mobile<TOptions> : Mobile
+		where TOptions : MobileOptions
+	{
+		public new TOptions Options { get; }
+
+		protected Mobile(Unit self, TOptions options) : base(self, options)
+		{
+			Options = options;
+		}
 	}
 }

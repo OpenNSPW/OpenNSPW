@@ -6,7 +6,7 @@ using OpenNspw.Orders;
 
 namespace OpenNspw.Components
 {
-	internal sealed record AirplaneOptions : MobileOptions
+	internal sealed record AirplaneOptions : MobileOptions<Airplane>
 	{
 		public float LandingDistance { get; init; }
 		public string? ApproachCondition { get; init; } = "approach";
@@ -21,9 +21,8 @@ namespace OpenNspw.Components
 		ReturnToBase,
 	}
 
-	internal sealed class Airplane : Mobile, IAddedToWorldEventListener, IRemovedFromWorldEventListener, IOrderHandler
+	internal sealed class Airplane : Mobile<AirplaneOptions>, IAddedToWorldEventListener, IRemovedFromWorldEventListener, IOrderHandler
 	{
-		public override AirplaneOptions Options { get; }
 		public Hangar? Hangar { get; set; }
 		public FlightMode FlightMode { get; set; }
 
@@ -33,10 +32,7 @@ namespace OpenNspw.Components
 		public ConditionToken ApproachToken { get; private set; }
 		public ConditionToken HangarToken { get; private set; }
 
-		public Airplane(Unit self, AirplaneOptions options) : base(self, options)
-		{
-			Options = options;
-		}
+		public Airplane(Unit self, AirplaneOptions options) : base(self, options) { }
 
 		public bool CanTakeOff => Hangar?.AllowTakeoff ?? false;
 
