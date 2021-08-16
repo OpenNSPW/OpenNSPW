@@ -39,7 +39,7 @@ namespace OpenNspw.Components
 				armament.Target = target;
 		}
 
-		void IOrderHandler.HandleOrder(World world, IOrder order)
+		void IOrderHandler.HandleOrder(World world, IUnitOrder order)
 		{
 			switch (order)
 			{

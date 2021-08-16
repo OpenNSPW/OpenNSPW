@@ -72,6 +72,17 @@ namespace OpenNspw.Components
 
 		private IArrivalEventListener[] ArrivalEventListeners => _arrivalEventListeners.Value;
 
+		public virtual bool CanFollow(Mobile leader)
+		{
+			if (Self.Owner != leader.Self.Owner)
+				return false;
+
+			if (Self.IsInWorld != leader.Self.IsInWorld)
+				return false;
+
+			return true;
+		}
+
 		public virtual bool CanMove(WPos position)
 		{
 			if (!Self.World.Map.Contains(position))
@@ -219,7 +230,7 @@ namespace OpenNspw.Components
 				Self.QueueActivity(new Move(this, Speed, Acceleration));
 		}
 
-		public virtual void HandleOrder(World world, IOrder order)
+		public virtual void HandleOrder(World world, IUnitOrder order)
 		{
 			switch (order)
 			{

@@ -63,22 +63,25 @@ namespace OpenNspw.Controls
 
 		protected WPos MouseWPos => _camera.ScreenToWorld(PointToClient(MouseLocation).ToXnaPoint().ToVector2());
 
-		private bool CanMouseOver(Unit unit)
+		protected static bool CanSelect(Unit? self, Unit target)
 		{
-			return true;
-		}
-
-		protected bool CanSelect(Unit unit)
-		{
-			if (unit.Owner != _world.LocalPlayer)
+			if (target.Owner != target.World.LocalPlayer)
 				return false;
 
-			return CanMouseOver(unit);
+			if (self is null || self == target)
+				return true;
+
+			if (self.Components.OfType<Mobile>().SingleOrDefault() is Mobile leader && target.Components.OfType<Mobile>().SingleOrDefault() is Mobile mobile)
+				return mobile.CanFollow(leader);
+
+			return false;
 		}
+
+		private static bool CanMouseOver(Unit? self, Unit target) => CanSelect(self, target);
 
 		protected void Update(IEnumerable<Unit> units)
 		{
-			MouseOverUnit = units.FirstOrDefault(u => WRect.FromCenter(u.Center, new WVec(40, 40)).Contains(MouseWPos) && CanMouseOver(u));
+			MouseOverUnit = units.FirstOrDefault(u => WRect.FromCenter(u.Center, new WVec(40, 40)).Contains(MouseWPos) && CanMouseOver(Subject, u));
 		}
 
 		protected void DrawLine(PaintEventArgs e, DPen pen, WPos point1, WPos point2)
@@ -112,16 +115,22 @@ namespace OpenNspw.Controls
 			}
 		}
 
-		private void AddSelectedUnit(Unit unit)
+		private void AddSelectedUnit(Unit target)
 		{
-			SelectedUnits.Add(unit);
+			if (!CanSelect(Subject, target))
+				return;
+
+			SelectedUnits.Add(target);
 
 			OnSelectionAdded(EventArgs.Empty);
 		}
 
-		private void RemoveSelectedUnit(Unit unit)
+		private void RemoveSelectedUnit(Unit target)
 		{
-			SelectedUnits.Remove(unit);
+			if (!CanSelect(Subject, target))
+				return;
+
+			SelectedUnits.Remove(target);
 
 			OnSelectionRemoved(EventArgs.Empty);
 		}
@@ -165,16 +174,16 @@ namespace OpenNspw.Controls
 			OnSelectionCanceled(EventArgs.Empty);
 		}
 
-		private void RestoreSelection(Unit? unit)
+		private void RestoreSelection(Unit? target)
 		{
-			if (unit is null || !CanSelect(unit))
+			if (target is null || !CanSelect(Subject, target))
 				return;
 
 			Selection.Clear();
 
-			AddSelectedUnit(unit);
+			AddSelectedUnit(target);
 
-			if (unit.Components.OfType<Mobile>().SingleOrDefault() is Mobile mobile)
+			if (target.Components.OfType<Mobile>().SingleOrDefault() is Mobile mobile)
 				Selection.Units.AddRange(mobile.Followers.Select(f => f.Self));
 
 			OnSelectionRestored(EventArgs.Empty);
@@ -186,7 +195,7 @@ namespace OpenNspw.Controls
 
 			if (e.Button == MouseButtons.Left)
 			{
-				if (MouseOverUnit is not null && CanSelect(MouseOverUnit))
+				if (MouseOverUnit is not null && CanSelect(Subject, MouseOverUnit))
 				{
 					if (MouseOverUnit == Subject)
 						CancelSelection();

@@ -57,7 +57,7 @@ namespace OpenNspw.Components
 
 	internal interface IOrderHandler
 	{
-		void HandleOrder(World world, IOrder order);
+		void HandleOrder(World world, IUnitOrder order);
 	}
 
 	internal interface IUpdatable

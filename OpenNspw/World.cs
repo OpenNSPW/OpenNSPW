@@ -85,6 +85,8 @@ namespace OpenNspw
 
 		public void Add(Unit unit, bool toAll)
 		{
+			unit.IsInWorld = true;
+
 			if (toAll)
 				AllUnits.Add(unit);
 
@@ -96,6 +98,8 @@ namespace OpenNspw
 
 		public void Remove(Unit unit, bool fromAll)
 		{
+			unit.IsInWorld = false;
+
 			if (fromAll)
 				AllUnits.Remove(unit);
 

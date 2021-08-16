@@ -21,6 +21,14 @@ namespace OpenNspw.Components
 
 		public Ship(Unit self, ShipOptions options) : base(self, options) { }
 
+		public override bool CanFollow(Mobile leader)
+		{
+			if (leader is not Ship)
+				return false;
+
+			return base.CanFollow(leader);
+		}
+
 		public override bool CanMove(WPos position)
 		{
 			if (true/* TODO */)

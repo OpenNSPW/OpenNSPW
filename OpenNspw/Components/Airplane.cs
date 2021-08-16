@@ -88,7 +88,7 @@ namespace OpenNspw.Components
 				HangarToken = self.GrantCondition(Options.HangarCondition);
 		}
 
-		public override void HandleOrder(World world, IOrder order)
+		public override void HandleOrder(World world, IUnitOrder order)
 		{
 			base.HandleOrder(world, order);
 

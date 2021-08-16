@@ -25,7 +25,7 @@ namespace OpenNspw.Components
 		public bool CanLand(CPos value) => Self.World.Map.Contains(value) && Options.LandableTerrainTypes.Contains(Self.World.Map.Tiles[value]);
 		public bool CanLand(WPos value) => CanLand(Self.World.Map.CellContaining(value));
 
-		void IOrderHandler.HandleOrder(World world, IOrder order)
+		void IOrderHandler.HandleOrder(World world, IUnitOrder order)
 		{
 			switch (order)
 			{

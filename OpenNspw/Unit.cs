@@ -18,6 +18,7 @@ namespace OpenNspw
 		public int Id { get; }
 		public World World { get; }
 		public Player Owner { get; }
+		public bool IsInWorld { get; set; }
 		public string Name { get; }
 		public Texture2D Texture { get; set; }
 
@@ -108,7 +109,7 @@ namespace OpenNspw
 
 		public bool CanBeViewedBy(Player player) => true/* TODO */;
 
-		public void HandleOrder(IOrder order)
+		public void HandleOrder(IUnitOrder order)
 		{
 			foreach (var handler in _orderHandlers)
 				handler.HandleOrder(World, order);
