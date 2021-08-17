@@ -35,8 +35,21 @@ namespace OpenNspw.Components
 		Two,
 	}
 
-	internal abstract class Mobile : IComponent<MobileOptions>, IUnit, ICreatedEventListener, IOrderHandler
+	internal abstract class Mobile : IComponent<MobileOptions>, IUnit, ICreatedEventListener, IOrderDispatcher, IOrderHandler
 	{
+		private sealed class WaypointOrderTargeter : IOrderTargeter
+		{
+			public int Priority => 1;
+
+			public bool CanTarget(Unit self, Unit? target, WPos position)
+			{
+				if (target is not null)
+					return false;
+
+				return true;
+			}
+		}
+
 		public Unit Self { get; }
 		public MobileOptions Options { get; }
 		public WPos Center { get; set; }
@@ -200,6 +213,29 @@ namespace OpenNspw.Components
 			Waypoints.Add(Center);
 		}
 
+		public virtual IEnumerable<IOrderTargeter> OrderTargeters
+		{
+			get
+			{
+				yield return new WaypointOrderTargeter();
+			}
+		}
+
+		public virtual IUnitOrder? DispatchOrder(Unit self, IOrderTargeter orderTargeter, Unit? target, WPos position, bool isQueued)
+		{
+			if (orderTargeter is WaypointOrderTargeter)
+			{
+				return new WaypointOrder(
+					Subject: self,
+					Selection: self.World.Selection.Units.ToArray(),
+					Position: position,
+					IsQueued: isQueued
+				);
+			}
+
+			return null;
+		}
+
 		private void HandleOrder(World world, WaypointOrder waypointOrder)
 		{
 			var mobiles = waypointOrder.Selection
@@ -230,9 +266,9 @@ namespace OpenNspw.Components
 				Self.QueueActivity(new Move(this, Speed, Acceleration));
 		}
 
-		public virtual void HandleOrder(World world, IUnitOrder order)
+		public virtual void HandleOrder(World world, IUnitOrder unitOrder)
 		{
-			switch (order)
+			switch (unitOrder)
 			{
 				case WaypointOrder waypointOrder:
 					HandleOrder(world, waypointOrder);

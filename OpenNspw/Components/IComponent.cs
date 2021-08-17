@@ -55,9 +55,23 @@ namespace OpenNspw.Components
 		void OnRemovedFromWorld(Unit self);
 	}
 
+	internal interface IOrderTargeter
+	{
+		int Priority { get; }
+
+		bool CanTarget(Unit self, Unit? target, WPos position);
+	}
+
+	internal interface IOrderDispatcher
+	{
+		IEnumerable<IOrderTargeter> OrderTargeters { get; }
+
+		IUnitOrder? DispatchOrder(Unit self, IOrderTargeter orderTargeter, Unit? target, WPos position, bool isQueued);
+	}
+
 	internal interface IOrderHandler
 	{
-		void HandleOrder(World world, IUnitOrder order);
+		void HandleOrder(World world, IUnitOrder unitOrder);
 	}
 
 	internal interface IUpdatable

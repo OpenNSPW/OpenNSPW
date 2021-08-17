@@ -109,10 +109,10 @@ namespace OpenNspw
 
 		public bool CanBeViewedBy(Player player) => true/* TODO */;
 
-		public void HandleOrder(IUnitOrder order)
+		public void HandleOrder(IUnitOrder unitOrder)
 		{
 			foreach (var handler in _orderHandlers)
-				handler.HandleOrder(World, order);
+				handler.HandleOrder(World, unitOrder);
 		}
 
 		public void Update()

@@ -1,27 +1,64 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using OpenNspw.Orders;
 
 namespace OpenNspw.Components
 {
-	internal sealed record ArmamentOptions : IComponentOptions<Armament>
+	internal sealed record ArmamentOptions : ConditionalComponentOptions<Armament>
 	{
 		public int MaxAmmo { get; init; }
 
-		public Armament CreateComponent(Unit self) => new(self, this);
+		public override Armament CreateComponent(Unit self) => new(self, this);
 	}
 
-	internal sealed class Armament : IComponent<ArmamentOptions>, IOrderHandler
+	internal sealed class Armament : ConditionalComponent<ArmamentOptions>, IOrderDispatcher, IOrderHandler
 	{
-		public Unit Self { get; }
-		public ArmamentOptions Options { get; }
+		private sealed class TargetOrderTargeter : IOrderTargeter
+		{
+			public int Priority => 2;
+
+			public bool CanTarget(Unit self, Unit? target, WPos position)
+			{
+				if (target is null || target.Owner == self.Owner)
+					return false;
+
+				return true;
+			}
+		}
+
 		public int Ammo { get; private set; }
 		public Unit? Target { get; private set; }
 
-		public Armament(Unit self, ArmamentOptions options)
+		public Armament(Unit self, ArmamentOptions options) : base(self, options)
 		{
-			Self = self;
-			Options = options;
 			Ammo = options.MaxAmmo;
+		}
+
+		IEnumerable<IOrderTargeter> IOrderDispatcher.OrderTargeters
+		{
+			get
+			{
+				if (IsDisabled)
+					yield break;
+
+				yield return new TargetOrderTargeter();
+			}
+		}
+
+		IUnitOrder? IOrderDispatcher.DispatchOrder(Unit self, IOrderTargeter orderTargeter, Unit? target, WPos position, bool isQueued)
+		{
+			if (orderTargeter is TargetOrderTargeter)
+			{
+				var canceled = Target == target;
+
+				return new TargetOrder(
+					Subject: self,
+					Selection: self.World.Selection.Units.ToArray(),
+					Target: canceled ? null : target
+				);
+			}
+
+			return null;
 		}
 
 		private void HandleOrder(World world, TargetOrder targetOrder)
@@ -39,9 +76,9 @@ namespace OpenNspw.Components
 				armament.Target = target;
 		}
 
-		void IOrderHandler.HandleOrder(World world, IUnitOrder order)
+		void IOrderHandler.HandleOrder(World world, IUnitOrder unitOrder)
 		{
-			switch (order)
+			switch (unitOrder)
 			{
 				case TargetOrder targetOrder:
 					HandleOrder(world, targetOrder);

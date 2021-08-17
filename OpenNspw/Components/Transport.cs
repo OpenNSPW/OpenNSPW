@@ -10,8 +10,28 @@ namespace OpenNspw.Components
 		public Transport CreateComponent(Unit self) => new(self, this);
 	}
 
-	internal sealed class Transport : IComponent<TransportOptions>, IOrderHandler
+	internal sealed class Transport : IComponent<TransportOptions>, IOrderDispatcher, IOrderHandler
 	{
+		private sealed class LandingCellOrderTargeter : IOrderTargeter
+		{
+			private readonly Transport _transport;
+
+			public LandingCellOrderTargeter(Transport transport)
+			{
+				_transport = transport;
+			}
+
+			public int Priority => 3;
+
+			public bool CanTarget(Unit self, Unit? target, WPos position)
+			{
+				if (target is not null)
+					return false;
+
+				return _transport.CanLand(position) && WRect.FromCenter(self.World.Map.CenterOfCell(position), new WVec(40, 40)).Contains(position);
+			}
+		}
+
 		public Unit Self { get; }
 		public TransportOptions Options { get; }
 		public CPos? LandingCell { get; set; }
@@ -25,9 +45,33 @@ namespace OpenNspw.Components
 		public bool CanLand(CPos value) => Self.World.Map.Contains(value) && Options.LandableTerrainTypes.Contains(Self.World.Map.Tiles[value]);
 		public bool CanLand(WPos value) => CanLand(Self.World.Map.CellContaining(value));
 
-		void IOrderHandler.HandleOrder(World world, IUnitOrder order)
+		IEnumerable<IOrderTargeter> IOrderDispatcher.OrderTargeters
 		{
-			switch (order)
+			get
+			{
+				yield return new LandingCellOrderTargeter(this);
+			}
+		}
+
+		IUnitOrder? IOrderDispatcher.DispatchOrder(Unit self, IOrderTargeter orderTargeter, Unit? target, WPos position, bool isQueued)
+		{
+			if (orderTargeter is LandingCellOrderTargeter)
+			{
+				var newLandingCell = self.World.Map.CellContaining(position);
+				var canceled = LandingCell == newLandingCell;
+
+				return new LandingCellOrder(
+					Subject: self,
+					LandingCell: canceled ? null : newLandingCell
+				);
+			}
+
+			return null;
+		}
+
+		void IOrderHandler.HandleOrder(World world, IUnitOrder unitOrder)
+		{
+			switch (unitOrder)
 			{
 				case LandingCellOrder landingCellOrder:
 					LandingCell = landingCellOrder.LandingCell;

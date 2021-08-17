@@ -63,25 +63,9 @@ namespace OpenNspw.Controls
 
 		protected WPos MouseWPos => _camera.ScreenToWorld(PointToClient(MouseLocation).ToXnaPoint().ToVector2());
 
-		protected static bool CanSelect(Unit? self, Unit target)
-		{
-			if (target.Owner != target.World.LocalPlayer)
-				return false;
-
-			if (self is null || self == target)
-				return true;
-
-			if (self.Components.OfType<Mobile>().SingleOrDefault() is Mobile leader && target.Components.OfType<Mobile>().SingleOrDefault() is Mobile mobile)
-				return mobile.CanFollow(leader);
-
-			return false;
-		}
-
-		private static bool CanMouseOver(Unit? self, Unit target) => CanSelect(self, target);
-
 		protected void Update(IEnumerable<Unit> units)
 		{
-			MouseOverUnit = units.FirstOrDefault(u => WRect.FromCenter(u.Center, new WVec(40, 40)).Contains(MouseWPos) && CanMouseOver(Subject, u));
+			MouseOverUnit = units.FirstOrDefault(u => WRect.FromCenter(u.Center, new WVec(40, 40)).Contains(MouseWPos) && u.CanBeViewedBy(u.World.LocalPlayer));
 		}
 
 		protected void DrawLine(PaintEventArgs e, DPen pen, WPos point1, WPos point2)
@@ -102,7 +86,7 @@ namespace OpenNspw.Controls
 
 		protected void Draw(PaintEventArgs e, IEnumerable<Unit> units)
 		{
-			if (MouseOverUnit is not null)
+			if (MouseOverUnit is not null && Subject.CanSelect(MouseOverUnit))
 			{
 				if (_world.FrameCount % 2 != 0)
 					DrawRectangle(e, new DPen(DColor.White), WRect.FromCenter(MouseOverUnit.Center, new WVec(50, 50)));
@@ -117,7 +101,7 @@ namespace OpenNspw.Controls
 
 		private void AddSelectedUnit(Unit target)
 		{
-			if (!CanSelect(Subject, target))
+			if (!Subject.CanSelect(target))
 				return;
 
 			SelectedUnits.Add(target);
@@ -127,7 +111,7 @@ namespace OpenNspw.Controls
 
 		private void RemoveSelectedUnit(Unit target)
 		{
-			if (!CanSelect(Subject, target))
+			if (!Subject.CanSelect(target))
 				return;
 
 			SelectedUnits.Remove(target);
@@ -176,7 +160,7 @@ namespace OpenNspw.Controls
 
 		private void RestoreSelection(Unit? target)
 		{
-			if (target is null || !CanSelect(Subject, target))
+			if (target is null || !Subject.CanSelect(target))
 				return;
 
 			Selection.Clear();
@@ -195,7 +179,7 @@ namespace OpenNspw.Controls
 
 			if (e.Button == MouseButtons.Left)
 			{
-				if (MouseOverUnit is not null && CanSelect(Subject, MouseOverUnit))
+				if (MouseOverUnit is not null && Subject.CanSelect(MouseOverUnit))
 				{
 					if (MouseOverUnit == Subject)
 						CancelSelection();
@@ -237,6 +221,23 @@ namespace OpenNspw.Controls
 
 			if (e.Button == MouseButtons.Left)
 				_selectionState = SelectionState.None;
+		}
+	}
+
+	internal static class ControllerExtensions
+	{
+		public static bool CanSelect(this Unit? self, Unit target)
+		{
+			if (target.Owner != target.World.LocalPlayer)
+				return false;
+
+			if (self is null || self == target)
+				return true;
+
+			if (self.Components.OfType<Mobile>().SingleOrDefault() is Mobile leader && target.Components.OfType<Mobile>().SingleOrDefault() is Mobile mobile)
+				return mobile.CanFollow(leader);
+
+			return false;
 		}
 	}
 }

@@ -154,6 +154,30 @@ namespace OpenNspw
 
 			Sound.Play(name);
 		}
+
+		public void PlaySoundForUnitOrder(IUnitOrder unitOrder)
+		{
+			switch (unitOrder)
+			{
+				case LandingCellOrder landingCellOrder:
+					if (landingCellOrder.LandingCell is null)
+						Sound.Play("SoundEffects/btn_6");
+					else
+						Sound.Play("SoundEffects/btn_3");
+					break;
+
+				case WaypointOrder:
+					Sound.Play("SoundEffects/btn_4");
+					break;
+
+				case TargetOrder targetOrder:
+					if (targetOrder.Target is null)
+						Sound.Play("SoundEffects/btn_6");
+					else
+						Sound.Play("SoundEffects/btn_3");
+					break;
+			}
+		}
 	}
 
 	internal static class WorldExtensions

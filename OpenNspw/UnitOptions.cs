@@ -546,6 +546,7 @@ namespace OpenNspw
 					new ArmamentOptions
 					{
 						MaxAmmo = 35,
+						RequiresCondition = new("!hangar"),
 					},
 					new HealthOptions
 					{
@@ -581,6 +582,7 @@ namespace OpenNspw
 					new ArmamentOptions
 					{
 						MaxAmmo = 40,
+						RequiresCondition = new("!hangar"),
 					},
 					new HealthOptions
 					{
@@ -616,6 +618,7 @@ namespace OpenNspw
 					new ArmamentOptions
 					{
 						MaxAmmo = 50,
+						RequiresCondition = new("!hangar"),
 					},
 					new HealthOptions
 					{
@@ -651,6 +654,7 @@ namespace OpenNspw
 					new ArmamentOptions
 					{
 						MaxAmmo = 60,
+						RequiresCondition = new("!hangar"),
 					},
 					new HealthOptions
 					{
@@ -686,6 +690,7 @@ namespace OpenNspw
 					new ArmamentOptions
 					{
 						MaxAmmo = 60,
+						RequiresCondition = new("!hangar"),
 					},
 					new HealthOptions
 					{
@@ -721,6 +726,7 @@ namespace OpenNspw
 					new ArmamentOptions
 					{
 						MaxAmmo = 1,
+						RequiresCondition = new("!hangar"),
 					},
 					new HealthOptions
 					{
@@ -756,6 +762,7 @@ namespace OpenNspw
 					new ArmamentOptions
 					{
 						MaxAmmo = 1,
+						RequiresCondition = new("!hangar"),
 					},
 					new HealthOptions
 					{
@@ -791,6 +798,7 @@ namespace OpenNspw
 					new ArmamentOptions
 					{
 						MaxAmmo = 9,
+						RequiresCondition = new("!hangar"),
 					},
 					new HealthOptions
 					{
@@ -826,6 +834,7 @@ namespace OpenNspw
 					new ArmamentOptions
 					{
 						MaxAmmo = 20,
+						RequiresCondition = new("!hangar"),
 					},
 					new HealthOptions
 					{
@@ -849,9 +858,6 @@ namespace OpenNspw
 						Acceleration = 0.01f,
 						MinSpeed = 0.0f,
 						MaxSpeed = 0.65f,
-					},
-					new ArmamentOptions
-					{
 					},
 					new HealthOptions
 					{
@@ -878,9 +884,6 @@ namespace OpenNspw
 						Acceleration = 0.01f,
 						MinSpeed = 0.0f,
 						MaxSpeed = 0.65f,
-					},
-					new ArmamentOptions
-					{
 					},
 					new HealthOptions
 					{

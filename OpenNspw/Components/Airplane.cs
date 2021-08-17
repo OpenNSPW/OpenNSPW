@@ -23,6 +23,29 @@ namespace OpenNspw.Components
 
 	internal sealed class Airplane : Mobile<AirplaneOptions>, IAddedToWorldEventListener, IRemovedFromWorldEventListener, IOrderHandler
 	{
+		private sealed class WaypointOrderTargeter : IOrderTargeter
+		{
+			private readonly Airplane _airplane;
+
+			public WaypointOrderTargeter(Airplane airplane)
+			{
+				_airplane = airplane;
+			}
+
+			public int Priority => 1;
+
+			public bool CanTarget(Unit self, Unit? target, WPos position)
+			{
+				if (target is not null)
+					return false;
+
+				if (_airplane.IsInHangar && !_airplane.CanTakeOff)
+					return false;
+
+				return true;
+			}
+		}
+
 		public Hangar? Hangar { get; set; }
 		public FlightMode FlightMode { get; set; }
 
@@ -52,6 +75,29 @@ namespace OpenNspw.Components
 
 				return WRect.FromCenter(Hangar.Self.Center, new WVec(40, 40)).Contains(Center);
 			}
+		}
+
+		public override IEnumerable<IOrderTargeter> OrderTargeters
+		{
+			get
+			{
+				yield return new WaypointOrderTargeter(this);
+			}
+		}
+
+		public override IUnitOrder? DispatchOrder(Unit self, IOrderTargeter orderTargeter, Unit? target, WPos position, bool isQueued)
+		{
+			if (orderTargeter is WaypointOrderTargeter)
+			{
+				return new WaypointOrder(
+					Subject: self,
+					Selection: self.World.Selection.Units.ToArray(),
+					Position: position,
+					IsQueued: isQueued
+				);
+			}
+
+			return null;
 		}
 
 		protected override float GetAcceleration(WAngle desiredAngle)
@@ -88,11 +134,11 @@ namespace OpenNspw.Components
 				HangarToken = self.GrantCondition(Options.HangarCondition);
 		}
 
-		public override void HandleOrder(World world, IUnitOrder order)
+		public override void HandleOrder(World world, IUnitOrder unitOrder)
 		{
-			base.HandleOrder(world, order);
+			base.HandleOrder(world, unitOrder);
 
-			switch (order)
+			switch (unitOrder)
 			{
 				case WaypointOrder:
 					CancelApproachClearance();

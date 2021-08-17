@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Aigamo.Saruhashi;
 using Aigamo.Saruhashi.MonoGame;
@@ -24,22 +23,6 @@ namespace OpenNspw.Controls
 		{
 			_world = world;
 			_camera = camera;
-		}
-
-		private static bool CanDispatchLandingCellOrder(Transport transport, WPos position) =>
-			transport.CanLand(position) && WRect.FromCenter(transport.Self.World.Map.CenterOfCell(position), new WVec(40, 40)).Contains(position);
-
-		private static bool CanDispatchWaypointOrder(Mobile mobile, WPos position)
-		{
-			if (!mobile.Self.World.Map.Contains(position))
-				return false;
-
-			return mobile switch
-			{
-				Airplane airplane => !(airplane.IsInHangar && !airplane.CanTakeOff),
-				Ship => true,
-				_ => throw new InvalidOperationException(),
-			};
 		}
 
 		private IEnumerable<Unit> Units => _world.Units;
@@ -87,6 +70,18 @@ namespace OpenNspw.Controls
 			DrawLine(e, new DPen(DColor.White), point, unit.Center + (angle - WAngle.FromDegrees(350)).ToVector(20));
 		}
 
+		private static IUnitOrder? GenerateUnitOrderCore(Unit self, Unit? target, WPos position, bool isQueued) =>
+			self.Components.OfType<IOrderDispatcher>()
+				.SelectMany(orderDispatcher => orderDispatcher.OrderTargeters.Select(orderTargeter => (OrderDispatcher: orderDispatcher, OrderTargeter: orderTargeter)))
+				.OrderByDescending(x => x.OrderTargeter.Priority)
+				.Where(x => x.OrderTargeter.CanTarget(self, target, position))
+				.Select(x => x.OrderDispatcher.DispatchOrder(self, x.OrderTargeter, target, position, isQueued))
+				.WhereNotNull()
+				.FirstOrDefault();
+
+		private static IUnitOrder? GenerateUnitOrder(Unit self, Unit? target, WPos position, bool isQueued) =>
+			GenerateUnitOrderCore(self, target, position, isQueued) ?? GenerateUnitOrderCore(self, target: null, position, isQueued);
+
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			base.OnPaint(e);
@@ -95,14 +90,25 @@ namespace OpenNspw.Controls
 
 			if (Subject is not null)
 			{
+				if (MouseOverUnit is null || !Subject.CanSelect(MouseOverUnit))
+				{
+					var unitOrder = GenerateUnitOrder(Subject, MouseOverUnit, MouseWPos, IsQueued);
+					switch (unitOrder)
+					{
+						case TargetOrder targetOrder when targetOrder.Target is not null:
+							if (_world.FrameCount % 2 != 0)
+								DrawRectangle(e, new DPen(DColor.White), WRect.FromCenter(targetOrder.Target.Center, new WVec(50, 50)));
+							break;
+
+						case LandingCellOrder landingCellOrder when landingCellOrder.LandingCell is not null:
+							if (_world.FrameCount % 2 != 0)
+								DrawRectangle(e, new DPen(DColor.White), WRect.FromCenter(_world.Map.CenterOfCell(landingCellOrder.LandingCell.Value), new WVec(50, 50)));
+							break;
+					}
+				}
+
 				if (Subject.TryGetComponent<Transport>(out var transport))
 				{
-					if (CanDispatchLandingCellOrder(transport, MouseWPos))
-					{
-						if (_world.FrameCount % 2 != 0)
-							DrawRectangle(e, new DPen(DColor.White), WRect.FromCenter(_world.Map.CenterOfCell(MouseWPos), new WVec(50, 50)));
-					}
-
 					if (transport.LandingCell is CPos landingCell)
 					{
 						var margin = 10 + _world.FrameCount % 8 * 2;
@@ -152,48 +158,6 @@ namespace OpenNspw.Controls
 			_previousMouseLocation = e.Location;
 		}
 
-		private static IUnitOrder? GenerateUnitOrder(Unit self, Unit? target, WPos position, bool isQueued)
-		{
-			if (target is null)
-			{
-				if (self.TryGetComponent<Transport>(out var transport) && CanDispatchLandingCellOrder(transport, position))
-				{
-					var newLandingCell = self.World.Map.CellContaining(position);
-					var canceled = transport.LandingCell == newLandingCell;
-
-					return new LandingCellOrder(
-						self,
-						canceled ? null : newLandingCell
-					);
-				}
-
-				if (self.Components.OfType<Mobile>().SingleOrDefault() is Mobile mobile && CanDispatchWaypointOrder(mobile, position))
-				{
-					return new WaypointOrder(
-						self,
-						self.World.Selection.Units.ToArray(),
-						position,
-						isQueued
-					);
-				}
-			}
-			else
-			{
-				if (self.TryGetComponent<Armament>(out var armament) && !CanSelect(self, target))
-				{
-					var canceled = armament?.Target == target;
-
-					return new TargetOrder(
-						self,
-						self.World.Selection.Units.ToArray(),
-						canceled ? null : target
-					);
-				}
-			}
-
-			return null;
-		}
-
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
 			base.OnMouseDown(e);
@@ -202,36 +166,22 @@ namespace OpenNspw.Controls
 			{
 				if (Subject is not null)
 				{
-					var unitOrder = GenerateUnitOrder(Subject, MouseOverUnit, MouseWPos, IsQueued);
-					if (unitOrder is not null)
+					if (MouseOverUnit is null || !Subject.CanSelect(MouseOverUnit))
 					{
-						switch (unitOrder)
+						var unitOrder = GenerateUnitOrder(Subject, MouseOverUnit, MouseWPos, IsQueued);
+						if (unitOrder is not null)
 						{
-							case LandingCellOrder landingCellOrder:
-								if (landingCellOrder.LandingCell is null)
-									_world.Sound.Play("SoundEffects/btn_6");
-								else
-									_world.Sound.Play("SoundEffects/btn_3");
-								break;
+							_world.PlaySoundForUnitOrder(unitOrder);
+							_world.DispatchOrder(unitOrder);
 
-							case WaypointOrder:
-								_world.Sound.Play("SoundEffects/btn_4");
-
+							if (unitOrder is WaypointOrder)
+							{
 								IsQueued = true;
 
 								if (unitOrder.Subject.GetComponent<Airplane>()?.IsInHangar == true)
 									Selection.Clear();
-								break;
-
-							case TargetOrder targetOrder:
-								if (targetOrder.Target is null)
-									_world.Sound.Play("SoundEffects/btn_6");
-								else
-									_world.Sound.Play("SoundEffects/btn_3");
-								break;
+							}
 						}
-
-						_world.DispatchOrder(unitOrder);
 					}
 				}
 			}
