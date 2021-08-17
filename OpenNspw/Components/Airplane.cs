@@ -23,6 +23,32 @@ namespace OpenNspw.Components
 
 	internal sealed class Airplane : Mobile<AirplaneOptions>, IAddedToWorldEventListener, IRemovedFromWorldEventListener, IOrderHandler
 	{
+		private sealed class TargetOrderTargeter : IOrderTargeter
+		{
+			private readonly Airplane _airplane;
+
+			public TargetOrderTargeter(Airplane airplane)
+			{
+				_airplane = airplane;
+			}
+
+			public int Priority => 2;
+
+			public bool CanTarget(Unit self, Unit? target, WPos position)
+			{
+				if (_airplane.IsInHangar)
+					return false;
+
+				if (target is null || target.Owner != self.Owner)
+					return false;
+
+				if (target.HasComponent<Hangar>())
+					return true;
+
+				return false;
+			}
+		}
+
 		private sealed class WaypointOrderTargeter : IOrderTargeter
 		{
 			private readonly Airplane _airplane;
@@ -81,24 +107,27 @@ namespace OpenNspw.Components
 		{
 			get
 			{
+				yield return new TargetOrderTargeter(this);
 				yield return new WaypointOrderTargeter(this);
 			}
 		}
 
-		public override IUnitOrder? DispatchOrder(Unit self, IOrderTargeter orderTargeter, Unit? target, WPos position, bool isQueued)
-		{
-			if (orderTargeter is WaypointOrderTargeter)
+		public override IUnitOrder? DispatchOrder(Unit self, IOrderTargeter orderTargeter, Unit? target, WPos position, bool isQueued) =>
+			orderTargeter switch
 			{
-				return new WaypointOrder(
+				TargetOrderTargeter => new TargetOrder(
+					Subject: self,
+					Selection: self.World.Selection.Units.ToArray(),
+					Target: target
+				),
+				WaypointOrderTargeter => new WaypointOrder(
 					Subject: self,
 					Selection: self.World.Selection.Units.ToArray(),
 					Position: position,
 					IsQueued: isQueued
-				);
-			}
-
-			return null;
-		}
+				),
+				_ => null,
+			};
 
 		protected override float GetAcceleration(WAngle desiredAngle)
 		{
@@ -134,6 +163,14 @@ namespace OpenNspw.Components
 				HangarToken = self.GrantCondition(Options.HangarCondition);
 		}
 
+		private void HandleOrder(World world, TargetOrder targetOrder)
+		{
+			if (targetOrder.Target is not Unit target || target.Owner != Self.Owner)
+				return;
+
+			Hangar = target.GetComponent<Hangar>();
+		}
+
 		public override void HandleOrder(World world, IUnitOrder unitOrder)
 		{
 			base.HandleOrder(world, unitOrder);
@@ -154,6 +191,10 @@ namespace OpenNspw.Components
 					CancelApproachClearance();
 
 					FlightMode = flightModeOrder.FlightMode;
+					break;
+
+				case TargetOrder targetOrder:
+					HandleOrder(world, targetOrder);
 					break;
 			}
 		}

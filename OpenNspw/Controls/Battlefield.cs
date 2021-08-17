@@ -107,6 +107,18 @@ namespace OpenNspw.Controls
 					}
 				}
 
+				if (Subject.TryGetComponent<Airplane>(out var airplane))
+				{
+					if (!airplane.IsInHangar && airplane.Hangar is Hangar hangar)
+					{
+						var rect = WRect.FromCenter(hangar.Self.Center, new WVec(80, 80));
+						var point1 = rect.BottomLeft + new WVec(19, -15).FlipY(_camera.FlipY);
+						var point2 = rect.BottomRight + new WVec(-19, -15).FlipY(_camera.FlipY);
+						DrawLine(e, new DPen(DColor.White), point1, point2);
+						DrawLine(e, new DPen(DColor.White), point1 + new WVec(0, 2).FlipY(_camera.FlipY), point2 + new WVec(0, 2).FlipY(_camera.FlipY));
+					}
+				}
+
 				if (Subject.TryGetComponent<Transport>(out var transport))
 				{
 					if (transport.LandingCell is CPos landingCell)
