@@ -8,6 +8,7 @@ namespace OpenNspw.Components
 	{
 		public int Capacity { get; init; }
 		public int Offset { get; init; }
+		public HashSet<string> Types { get; init; } = new();
 
 		public Hangar CreateComponent(Unit self) => new(self, this);
 	}

@@ -11,6 +11,7 @@ namespace OpenNspw.Components
 		public float LandingDistance { get; init; }
 		public string? ApproachCondition { get; init; } = "approach";
 		public string? HangarCondition { get; init; } = "hangar";
+		public string HangarType { get; init; } = "";
 
 		public override Airplane CreateComponent(Unit self) => new(self, this);
 	}
@@ -91,6 +92,9 @@ namespace OpenNspw.Components
 			get
 			{
 				if (Hangar is null)
+					return false;
+
+				if (!Hangar.Options.Types.Contains(Options.HangarType))
 					return false;
 
 				if (!Hangar.AllowLanding)

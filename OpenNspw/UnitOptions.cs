@@ -383,6 +383,7 @@ namespace OpenNspw
 					{
 						Capacity = 12,
 						Offset = 25,
+						Types = { "CarrierBasedAircraft" },
 					},
 					new HealthOptions
 					{
@@ -415,6 +416,7 @@ namespace OpenNspw
 					{
 						Capacity = 12,
 						Offset = 25,
+						Types = { "CarrierBasedAircraft" },
 					},
 					new HealthOptions
 					{
@@ -447,6 +449,7 @@ namespace OpenNspw
 					{
 						Capacity = 14,
 						Offset = 25,
+						Types = { "CarrierBasedAircraft" },
 					},
 					new HealthOptions
 					{
@@ -479,6 +482,7 @@ namespace OpenNspw
 					{
 						Capacity = 8,
 						Offset = 25,
+						Types = { "CarrierBasedAircraft" },
 					},
 					new HealthOptions
 					{
@@ -511,6 +515,7 @@ namespace OpenNspw
 					{
 						Capacity = 8,
 						Offset = 25,
+						Types = { "CarrierBasedAircraft" },
 					},
 					new HealthOptions
 					{
@@ -542,6 +547,7 @@ namespace OpenNspw
 						MinSpeed = 0.5f,
 						MaxSpeed = 2.35f,
 						LandingDistance = 280.0f,
+						HangarType = "CarrierBasedAircraft",
 					},
 					new ArmamentOptions
 					{
@@ -578,6 +584,7 @@ namespace OpenNspw
 						MinSpeed = 0.5f,
 						MaxSpeed = 2.5f,
 						LandingDistance = 280.0f,
+						HangarType = "CarrierBasedAircraft",
 					},
 					new ArmamentOptions
 					{
@@ -614,6 +621,7 @@ namespace OpenNspw
 						MinSpeed = 0.5f,
 						MaxSpeed = 2.35f,
 						LandingDistance = 280.0f,
+						HangarType = "LandBasedAircraft",
 					},
 					new ArmamentOptions
 					{
@@ -650,6 +658,7 @@ namespace OpenNspw
 						MinSpeed = 0.5f,
 						MaxSpeed = 2.7f,
 						LandingDistance = 280.0f,
+						HangarType = "LandBasedAircraft",
 					},
 					new ArmamentOptions
 					{
@@ -686,6 +695,7 @@ namespace OpenNspw
 						MinSpeed = 0.5f,
 						MaxSpeed = 3.0f,
 						LandingDistance = 280.0f,
+						HangarType = "LandBasedAircraft",
 					},
 					new ArmamentOptions
 					{
@@ -722,6 +732,7 @@ namespace OpenNspw
 						MinSpeed = 0.5f,
 						MaxSpeed = 2.2f,
 						LandingDistance = 280.0f,
+						HangarType = "CarrierBasedAircraft",
 					},
 					new ArmamentOptions
 					{
@@ -758,6 +769,7 @@ namespace OpenNspw
 						MinSpeed = 0.5f,
 						MaxSpeed = 2.2f,
 						LandingDistance = 280.0f,
+						HangarType = "CarrierBasedAircraft",
 					},
 					new ArmamentOptions
 					{
@@ -794,6 +806,7 @@ namespace OpenNspw
 						MinSpeed = 0.5f,
 						MaxSpeed = 1.8f,
 						LandingDistance = 560.0f,
+						HangarType = "LandBasedAircraft",
 					},
 					new ArmamentOptions
 					{
@@ -830,6 +843,7 @@ namespace OpenNspw
 						MinSpeed = 0.5f,
 						MaxSpeed = 1.9f,
 						LandingDistance = 560.0f,
+						HangarType = "LandBasedAircraft",
 					},
 					new ArmamentOptions
 					{
@@ -909,6 +923,7 @@ namespace OpenNspw
 					{
 						Capacity = 16,
 						Offset = 35,
+						Types = { "CarrierBasedAircraft", "LandBasedAircraft" },
 					},
 					new HealthOptions
 					{
@@ -931,6 +946,7 @@ namespace OpenNspw
 					{
 						Capacity = 16,
 						Offset = 35,
+						Types = { "CarrierBasedAircraft", "LandBasedAircraft" },
 					},
 					new HealthOptions
 					{
