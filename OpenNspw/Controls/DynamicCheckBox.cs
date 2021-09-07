@@ -16,5 +16,11 @@ namespace OpenNspw.Controls
 			get => base.IsChecked;
 			set => base.IsChecked = value;
 		}
+
+		public new Func<bool> IsEnabled
+		{
+			get => base.IsEnabled;
+			set => base.IsEnabled = value;
+		}
 	}
 }

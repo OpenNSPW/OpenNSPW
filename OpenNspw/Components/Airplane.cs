@@ -6,12 +6,27 @@ using OpenNspw.Orders;
 
 namespace OpenNspw.Components
 {
+	internal enum AirplaneWeapon
+	{
+		Nothing,
+		Bomb = 1 << 0,
+		Torpedo = 1 << 1,
+	}
+
+	internal enum AirplaneWeapons
+	{
+		Nothing = AirplaneWeapon.Nothing,
+		Bomb = AirplaneWeapon.Bomb,
+		Torpedo = AirplaneWeapon.Torpedo,
+	}
+
 	internal sealed record AirplaneOptions : MobileOptions<Airplane>
 	{
 		public float LandingDistance { get; init; }
 		public string? ApproachCondition { get; init; } = "approach";
 		public string? HangarCondition { get; init; } = "hangar";
 		public string HangarType { get; init; } = "";
+		public AirplaneWeapons Weapons { get; init; }
 
 		public override Airplane CreateComponent(Unit self) => new(self, this);
 	}
@@ -81,6 +96,8 @@ namespace OpenNspw.Components
 
 		public ConditionToken ApproachToken { get; private set; }
 		public ConditionToken HangarToken { get; private set; }
+
+		public AirplaneWeapon Weapon { get; private set; }
 
 		public Airplane(Unit self, AirplaneOptions options) : base(self, options) { }
 
@@ -199,6 +216,11 @@ namespace OpenNspw.Components
 
 				case TargetOrder targetOrder:
 					HandleOrder(world, targetOrder);
+					break;
+
+				case AirplaneWeaponOrder airplaneWeaponOrder:
+					if (Options.Weapons.HasFlag((AirplaneWeapons)airplaneWeaponOrder.Weapon))
+						Weapon = airplaneWeaponOrder.Weapon;
 					break;
 			}
 		}

@@ -733,6 +733,7 @@ namespace OpenNspw
 						MaxSpeed = 2.2f,
 						LandingDistance = 280.0f,
 						HangarType = "CarrierBasedAircraft",
+						Weapons = AirplaneWeapons.Bomb | AirplaneWeapons.Torpedo,
 					},
 					new ArmamentOptions
 					{
@@ -770,6 +771,7 @@ namespace OpenNspw
 						MaxSpeed = 2.2f,
 						LandingDistance = 280.0f,
 						HangarType = "CarrierBasedAircraft",
+						Weapons = AirplaneWeapons.Bomb | AirplaneWeapons.Torpedo,
 					},
 					new ArmamentOptions
 					{
@@ -807,6 +809,7 @@ namespace OpenNspw
 						MaxSpeed = 1.8f,
 						LandingDistance = 560.0f,
 						HangarType = "LandBasedAircraft",
+						Weapons = AirplaneWeapons.Bomb | AirplaneWeapons.Torpedo,
 					},
 					new ArmamentOptions
 					{
@@ -844,6 +847,7 @@ namespace OpenNspw
 						MaxSpeed = 1.9f,
 						LandingDistance = 560.0f,
 						HangarType = "LandBasedAircraft",
+						Weapons = AirplaneWeapons.Bomb,
 					},
 					new ArmamentOptions
 					{

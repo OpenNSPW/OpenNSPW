@@ -31,6 +31,9 @@ namespace OpenNspw.Controls
 		private readonly DynamicCheckBox _hangarCheckBox;
 		private readonly DynamicCheckBox _cruiseCheckBox;
 		private readonly DynamicCheckBox _returnToBaseCheckBox;
+		private readonly DynamicCheckBox _torpedoCheckBox;
+		private readonly DynamicCheckBox _bombCheckBox;
+		private readonly DynamicCheckBox _nothingCheckBox;
 		private readonly Control _flag;
 		private readonly Control _radarContainer;
 		private readonly Radar _radar;
@@ -180,17 +183,17 @@ namespace OpenNspw.Controls
 				Text = "Cruise",
 				Appearance = Appearance.Button,
 				AutoCheck = false,
-				IsVisible = () => GetSelectedAirplane(world)?.IsInHangar == false,
-				IsChecked = () => GetSelectedAirplane(world)?.FlightMode == FlightMode.Cruise,
+				IsVisible = () => GetSelectedAirplane(world) is { IsInHangar: false },
+				IsChecked = () => GetSelectedAirplane(world) is { FlightMode: FlightMode.Cruise },
 			};
 			_cruiseCheckBox.Click += (sender, e) =>
 			{
-				if (GetSelectedAirplane(world) is Airplane airplane && airplane.FlightMode != FlightMode.Cruise)
+				if (GetSelectedAirplane(world) is { FlightMode: not FlightMode.Cruise })
 				{
 					world.Sound.Play("SoundEffects/btn_5");
 
 					world.DispatchOrder(new FlightModeOrder(
-						Subject: airplane.Self,
+						Subject: world.Selection.Units.First(),
 						Selection: world.Selection.Units.ToArray(),
 						FlightMode.Cruise
 					));
@@ -204,23 +207,97 @@ namespace OpenNspw.Controls
 				Text = "Return to Base",
 				Appearance = Appearance.Button,
 				AutoCheck = false,
-				IsVisible = () => GetSelectedAirplane(world)?.IsInHangar == false,
-				IsChecked = () => GetSelectedAirplane(world)?.FlightMode == FlightMode.ReturnToBase,
+				IsVisible = () => GetSelectedAirplane(world) is { IsInHangar: false },
+				IsChecked = () => GetSelectedAirplane(world) is { FlightMode: FlightMode.ReturnToBase },
 			};
 			_returnToBaseCheckBox.Click += (sender, e) =>
 			{
-				if (GetSelectedAirplane(world) is Airplane airplane && airplane.FlightMode != FlightMode.ReturnToBase)
+				if (GetSelectedAirplane(world) is { FlightMode: not FlightMode.ReturnToBase })
 				{
 					world.Sound.Play("SoundEffects/btn_5");
 
 					world.DispatchOrder(new FlightModeOrder(
-						Subject: airplane.Self,
+						Subject: world.Selection.Units.First(),
 						Selection: world.Selection.Units.ToArray(),
 						FlightMode.ReturnToBase
 					));
 				}
 			};
 			_sidebar.Controls.Add(_returnToBaseCheckBox);
+
+			_torpedoCheckBox = new DynamicCheckBox
+			{
+				Bounds = new DRect(0, 456, 140, 20),
+				Text = "Torpedo",
+				Appearance = Appearance.Button,
+				AutoCheck = false,
+				IsVisible = () => GetSelectedAirplane(world) is { Options.Weapons: not AirplaneWeapons.Nothing, IsInHangar: true },
+				IsChecked = () => GetSelectedAirplane(world) is { Weapon: AirplaneWeapon.Torpedo },
+				IsEnabled = () => GetSelectedAirplane(world)?.Options.Weapons.HasFlag(AirplaneWeapons.Torpedo) == true,
+			};
+			_torpedoCheckBox.Click += (sender, e) =>
+			{
+				if (GetSelectedAirplane(world) is { Weapon: not AirplaneWeapon.Torpedo })
+				{
+					world.Sound.Play("SoundEffects/btn_5");
+
+					world.DispatchOrder(new AirplaneWeaponOrder(
+						Subject: world.Selection.Units.First(),
+						Selection: world.Selection.Units.ToArray(),
+						AirplaneWeapon.Torpedo
+					));
+				}
+			};
+			_sidebar.Controls.Add(_torpedoCheckBox);
+
+			_bombCheckBox = new DynamicCheckBox
+			{
+				Bounds = new DRect(0, 476, 140, 20),
+				Text = "Bomb",
+				Appearance = Appearance.Button,
+				AutoCheck = false,
+				IsVisible = () => GetSelectedAirplane(world) is { Options.Weapons: not AirplaneWeapons.Nothing, IsInHangar: true },
+				IsChecked = () => GetSelectedAirplane(world) is { Weapon: AirplaneWeapon.Bomb },
+				IsEnabled = () => GetSelectedAirplane(world)?.Options.Weapons.HasFlag(AirplaneWeapons.Bomb) == true,
+			};
+			_bombCheckBox.Click += (sender, e) =>
+			{
+				if (GetSelectedAirplane(world) is { Weapon: not AirplaneWeapon.Bomb })
+				{
+					world.Sound.Play("SoundEffects/btn_5");
+
+					world.DispatchOrder(new AirplaneWeaponOrder(
+						Subject: world.Selection.Units.First(),
+						Selection: world.Selection.Units.ToArray(),
+						AirplaneWeapon.Bomb
+					));
+				}
+			};
+			_sidebar.Controls.Add(_bombCheckBox);
+
+			_nothingCheckBox = new DynamicCheckBox
+			{
+				Bounds = new DRect(0, 496, 140, 20),
+				Text = "Nothing",
+				Appearance = Appearance.Button,
+				AutoCheck = false,
+				IsVisible = () => GetSelectedAirplane(world) is { Options.Weapons: not AirplaneWeapons.Nothing, IsInHangar: true },
+				IsChecked = () => GetSelectedAirplane(world) is { Weapon: AirplaneWeapon.Nothing },
+			};
+			_nothingCheckBox.Click += (sender, e) =>
+			{
+				if (GetSelectedAirplane(world) is { Weapon: not AirplaneWeapon.Nothing })
+				{
+					world.Sound.Play("SoundEffects/btn_5");
+
+					world.DispatchOrder(new AirplaneWeaponOrder(
+						Subject: world.Selection.Units.First(),
+						Selection: world.Selection.Units.ToArray(),
+						AirplaneWeapon.Nothing
+					));
+				}
+			};
+			_sidebar.Controls.Add(_nothingCheckBox);
 
 			_flag = new Control
 			{
