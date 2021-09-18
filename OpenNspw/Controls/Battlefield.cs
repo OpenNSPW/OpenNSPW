@@ -95,9 +95,9 @@ namespace OpenNspw.Controls
 					var unitOrder = GenerateUnitOrder(Subject, MouseOverUnit, MouseWPos, IsQueued);
 					switch (unitOrder)
 					{
-						case TargetOrder targetOrder when targetOrder.Target is not null:
+						case TargetOrder when MouseOverUnit is not null:
 							if (_world.FrameCount % 2 != 0)
-								DrawRectangle(e, new DPen(DColor.White), WRect.FromCenter(targetOrder.Target.Center, new WVec(50, 50)));
+								DrawRectangle(e, new DPen(DColor.White), WRect.FromCenter(MouseOverUnit.Center, new WVec(50, 50)));
 							break;
 
 						case LandingCellOrder landingCellOrder when landingCellOrder.LandingCell is not null:
