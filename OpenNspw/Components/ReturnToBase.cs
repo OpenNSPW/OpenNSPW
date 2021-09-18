@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using OpenNspw.Activities;
 
 namespace OpenNspw.Components
@@ -37,7 +38,7 @@ namespace OpenNspw.Components
 				Airplane.Waypoints.Add(Airplane.Center + new WVec(Self.World.Random.Next(-200, 200), Self.World.Random.Next(-200, 200)));
 			}
 			else
-				Airplane.SetWaypoints(Airplane.GetLandingWaypoints(hangar, count));
+				Airplane.SetWaypoints(Airplane.GetLandingWaypoints(hangar, count).ToArray());
 		}
 
 		void IArrivalEventListener.OnArrival(Unit self)

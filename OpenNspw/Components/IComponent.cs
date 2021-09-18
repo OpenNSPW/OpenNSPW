@@ -36,6 +36,7 @@ namespace OpenNspw.Components
 		Unit Self { get; }
 		WPos Center { get; set; }
 		WAngle Angle { get; set; }
+		float Speed { get; }
 		bool IsMoving => false;
 		IEnumerable<WPos> Waypoints => Enumerable.Repeat(Center, 1);
 	}

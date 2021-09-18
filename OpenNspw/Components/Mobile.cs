@@ -157,7 +157,7 @@ namespace OpenNspw.Components
 			return GetAcceleration(desiredAngle);
 		}
 
-		public void SetWaypoints(IEnumerable<WPos> waypoints)
+		public void SetWaypoints(params WPos[] waypoints)
 		{
 			Waypoints.Clear();
 			Waypoints.AddRange(waypoints);
@@ -199,7 +199,7 @@ namespace OpenNspw.Components
 			OnLeaderChanged(Self, oldLeader, leader);
 		}
 
-		protected virtual void ClearLeader()
+		public virtual void ClearLeader()
 		{
 			SetLeader(null);
 			PositionNumber = 0;

@@ -39,6 +39,9 @@ namespace OpenNspw.Components
 
 	internal sealed class Airplane : Mobile<AirplaneOptions>, IAddedToWorldEventListener, IRemovedFromWorldEventListener, IOrderHandler
 	{
+		public const float TorpedoSpeed = 1.8f;
+		public const int TorpedoRange = 220;
+
 		private sealed class TargetOrderTargeter : IOrderTargeter
 		{
 			private readonly Airplane _airplane;

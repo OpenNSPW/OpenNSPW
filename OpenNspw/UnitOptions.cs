@@ -716,6 +716,7 @@ namespace OpenNspw
 					{
 						Name = "Attack Bomber",
 					},
+					new BomberOptions(),
 					new ReturnToBaseOptions(),
 					new LeaderOptions
 					{
@@ -754,6 +755,7 @@ namespace OpenNspw
 					{
 						Name = "Attack Bomber",
 					},
+					new BomberOptions(),
 					new ReturnToBaseOptions(),
 					new LeaderOptions
 					{
@@ -792,6 +794,7 @@ namespace OpenNspw
 					{
 						Name = "Strategic Bomber",
 					},
+					new BomberOptions(),
 					new ReturnToBaseOptions(),
 					new LeaderOptions
 					{
@@ -830,6 +833,7 @@ namespace OpenNspw
 					{
 						Name = "Strategic Bomber",
 					},
+					new BomberOptions(),
 					new ReturnToBaseOptions(),
 					new LeaderOptions
 					{

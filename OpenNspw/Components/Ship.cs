@@ -58,7 +58,7 @@ namespace OpenNspw.Components
 			return (Speed > Options.MinSpeed) ? -acceleration : acceleration;
 		}
 
-		protected override void ClearLeader()
+		public override void ClearLeader()
 		{
 			base.ClearLeader();
 

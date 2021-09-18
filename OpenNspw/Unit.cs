@@ -102,6 +102,8 @@ namespace OpenNspw
 			set => _unit.Angle = value;
 		}
 
+		public float Speed => _unit.Speed;
+
 		public IEnumerable<WPos> Waypoints => _unit.Waypoints;
 
 		public DamageState DamageState => _health?.DamageState ?? DamageState.Undamaged;

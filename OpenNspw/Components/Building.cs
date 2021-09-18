@@ -11,6 +11,7 @@
 		public BuildingOptions Options { get; }
 		public WPos Center { get; set; }
 		public WAngle Angle { get; set; }
+		public float Speed => 0;
 
 		public Building(Unit self, BuildingOptions options)
 		{
