@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using OpenNspw.Activities;
+using OpenNspw.Projectiles;
 
 namespace OpenNspw.Components
 {
@@ -98,11 +99,45 @@ namespace OpenNspw.Components
 			switch (Options.BombingMethod)
 			{
 				case BombingMethod.Horizontal:
-					// TODO
+					self.World.Add(new GravityBomb(
+						target: null,
+						center: self.Center + new WVec(self.World.Random.Next(-3, 3), self.World.Random.Next(-3, 3)) + angle.ToVector(13),
+						angle: angle,
+						speed: 0.3f,
+						acceleration: 0.2f,
+						ticks: 10,
+						duration: 68 + self.World.Random.Next(5)
+					));
+					self.World.Add(new GravityBomb(
+						target: target,
+						center: self.Center + new WVec(self.World.Random.Next(-20, 20), self.World.Random.Next(-20, 20)) + angle.ToVector(13),
+						angle: angle,
+						speed: 0.3f,
+						acceleration: 0.2f,
+						ticks: 10,
+						duration: 75 + self.World.Random.Next(-5, 5)
+					));
 					break;
 
 				case BombingMethod.Dive:
-					// TODO
+					self.World.Add(new GravityBomb(
+						target: null,
+						center: self.Center + new WVec(self.World.Random.Next(-3, 3), self.World.Random.Next(-3, 3)) + angle.ToVector(130),
+						angle: angle,
+						speed: 0.3f,
+						acceleration: 0.2f,
+						ticks: 0,
+						duration: 70
+					));
+					self.World.Add(new GravityBomb(
+						target: target,
+						center: self.Center + new WVec(self.World.Random.Next(-20, 20), self.World.Random.Next(-20, 20)) + angle.ToVector(130),
+						angle: angle,
+						speed: 0.3f,
+						acceleration: 0.2f,
+						ticks: 0,
+						duration: 70 + self.World.Random.Next(-5, 5)
+					));
 					break;
 			}
 		}

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Aigamo.Saruhashi;
 using OpenNspw.Components;
+using OpenNspw.Effects;
 using OpenNspw.Orders;
+using OpenNspw.Projectiles;
 using OpenNspw.Scenarios;
 
 namespace OpenNspw
@@ -23,6 +25,9 @@ namespace OpenNspw
 		public UnitCollection Units { get; } = new();
 
 		public Selection Selection { get; } = new();
+
+		private readonly List<IProjectile> _projectiles = new();
+		private readonly List<IEffect> _effects = new();
 
 		public Map Map { get; }
 
@@ -96,6 +101,9 @@ namespace OpenNspw
 				listener.OnAddedToWorld(unit);
 		}
 
+		public void Add(IProjectile projectile) => _projectiles.Add(projectile);
+		public void Add(IEffect effect) => _effects.Add(effect);
+
 		public void Remove(Unit unit, bool fromAll)
 		{
 			unit.IsInWorld = false;
@@ -108,6 +116,9 @@ namespace OpenNspw
 			foreach (var listener in unit.Components.OfType<IRemovedFromWorldEventListener>())
 				listener.OnRemovedFromWorld(unit);
 		}
+
+		public void Remove(IProjectile projectile) => _projectiles.Remove(projectile);
+		public void Remove(IEffect effect) => _effects.Remove(effect);
 
 		public void DispatchOrder(IOrder order) => OrderManager.DispatchOrder(order);
 
@@ -138,6 +149,9 @@ namespace OpenNspw
 
 			foreach (var unit in AllUnits)
 				unit.Update();
+
+			foreach (var projectile in _projectiles)
+				projectile.Update(this);
 		}
 
 		public void Draw(Graphics graphics, Camera camera)
