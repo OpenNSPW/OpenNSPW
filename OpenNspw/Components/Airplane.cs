@@ -309,10 +309,10 @@ namespace OpenNspw.Components
 				case Ship:
 					{
 						var angle = WAngle.FromDegrees(Self.World.Random.Next(360));
-						var distance = Self.World.Random.Next(650);
+						var length = Self.World.Random.Next(650);
 						// TODO
 						Waypoints.Clear();
-						Waypoints.Add(leader.Center + angle.ToVector(distance));
+						Waypoints.Add(leader.Center + angle.ToVector(length));
 						break;
 					}
 

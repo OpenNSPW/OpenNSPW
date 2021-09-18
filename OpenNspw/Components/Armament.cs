@@ -85,5 +85,13 @@ namespace OpenNspw.Components
 					break;
 			}
 		}
+
+		public void ClearTarget(bool clearAmmo)
+		{
+			Target = null;
+
+			if (clearAmmo)
+				Ammo = 0;
+		}
 	}
 }

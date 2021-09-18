@@ -26,21 +26,23 @@ namespace OpenNspw.Components
 			_armament = new(() => self.GetRequiredComponent<Armament>());
 		}
 
-		public Airplane Airplane => _airplane.Value;
-		public Armament Armament => _armament.Value;
+		private Airplane Airplane => _airplane.Value;
+		private Armament Armament => _armament.Value;
 
 		void ICreatedEventListener.OnCreated(Unit self)
 		{
+			_airplane.ForceInitialize();
 			_armament.ForceInitialize();
 		}
 
 		void IUpdatable.Update(Unit self)
 		{
-			if (Armament.Target is not Unit target || !Airplane.IsLeader) return;
+			if (Armament.Target is not Unit target || !Airplane.IsLeader)
+				return;
 
-			var (distance, angle) = (target.Center - self.Center).ToLengthAndAngle();
+			var (length, angle) = (target.Center - self.Center).ToLengthAndAngle();
 
-			switch (distance)
+			switch (length)
 			{
 				case >= 500 and <= 510 when angle.IsWithinTolerance(self.Angle, WAngle.FromDegrees(22.5f)):
 					foreach (var follower in Airplane.Followers.Where(f => f.Self.HasComponent<Bomber>()/* TODO */).ToArray())

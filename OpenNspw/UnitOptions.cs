@@ -741,6 +741,10 @@ namespace OpenNspw
 						MaxAmmo = 1,
 						RequiresCondition = new("!hangar"),
 					},
+					new BombingOptions
+					{
+						BombingMethod = BombingMethod.Horizontal,
+					},
 					new HealthOptions
 					{
 						MaxHP = 16,
@@ -779,6 +783,10 @@ namespace OpenNspw
 					{
 						MaxAmmo = 1,
 						RequiresCondition = new("!hangar"),
+					},
+					new BombingOptions
+					{
+						BombingMethod = BombingMethod.Dive,
 					},
 					new HealthOptions
 					{
