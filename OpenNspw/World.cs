@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Aigamo.Saruhashi;
@@ -49,6 +49,9 @@ namespace OpenNspw
 		public Scenario Scenario { get; }
 
 		public Random Random { get; } = new();
+		public Random LocalRandom { get; } = new();
+
+		private readonly Queue<Action<World>> _frameEndActions = new();
 
 		private World(
 			IAssetManager assets,
@@ -83,6 +86,8 @@ namespace OpenNspw
 			scenario.Initialize(world, camera);
 			return world;
 		}
+
+		public IEnumerable<IEffect> Effects => _effects;
 
 		private int _nextUnitId = 1;
 
@@ -120,6 +125,8 @@ namespace OpenNspw
 		public void Remove(IProjectile projectile) => _projectiles.Remove(projectile);
 		public void Remove(IEffect effect) => _effects.Remove(effect);
 
+		public void AddFrameEndAction(Action<World> action) => _frameEndActions.Enqueue(action);
+
 		public void DispatchOrder(IOrder order) => OrderManager.DispatchOrder(order);
 
 		internal void HandleOrder(IOrder order)
@@ -147,11 +154,17 @@ namespace OpenNspw
 
 			WorldTick++;
 
+			foreach (var effect in _effects)
+				effect.Update(this);
+
 			foreach (var unit in AllUnits)
 				unit.Update();
 
 			foreach (var projectile in _projectiles)
 				projectile.Update(this);
+
+			while (_frameEndActions.Any())
+				_frameEndActions.Dequeue()(this);
 		}
 
 		public void Draw(Graphics graphics, Camera camera)

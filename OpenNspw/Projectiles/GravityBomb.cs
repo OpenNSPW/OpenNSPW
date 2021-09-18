@@ -1,4 +1,6 @@
-﻿namespace OpenNspw.Projectiles
+using OpenNspw.Effects;
+
+namespace OpenNspw.Projectiles
 {
 	internal sealed class GravityBomb : IProjectile
 	{
@@ -31,14 +33,54 @@
 
 			Center += Angle.ToVector(Speed);
 			Speed += Acceleration;
-			// TODO
+
+			world.Add(new SpriteEffect(
+				layer: EffectLayer.Upper,
+				name: "Textures/Effects/effect_84",
+				duration: 1,
+				mode: SpriteEffectMode.Zero,
+				center: Center,
+				frame: Angle.Quantize()
+			));
 		}
 
 		private void Explode(World world)
 		{
 			Center += Angle.ToVector(Speed);
 
-			// TODO
+			world.AddFrameEndAction(w => w.Remove(this));
+
+			if (false/* TODO */)
+			{
+				// TODO
+			}
+			else
+			{
+				if (world.Map.Contains(Center) && world.Map.Tiles[world.Map.CellContaining(Center)] is >= 1 and <= 9)
+				{
+					world.Add(new SpriteEffect(
+						layer: EffectLayer.Lower,
+						name: "Textures/Effects/effect_10",
+						duration: 40,
+						mode: SpriteEffectMode.Four,
+						center: Center,
+						frame: 0
+					));
+					world.PlaySound("SoundEffects/bom_hit1", Center);
+				}
+				else
+				{
+					world.Add(new SpriteEffect(
+						layer: EffectLayer.Lower,
+						name: "Textures/Effects/effect_8",
+						duration: 40,
+						mode: SpriteEffectMode.Four,
+						center: Center,
+						frame: 0
+					));
+					world.PlaySound("SoundEffects/spl1", Center);
+				}
+			}
 		}
 
 		public void Update(World world)
