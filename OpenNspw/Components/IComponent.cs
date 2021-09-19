@@ -112,4 +112,9 @@ namespace OpenNspw.Components
 	{
 		void OnArrival(Unit self);
 	}
+
+	internal interface IHitBoxes
+	{
+		IEnumerable<WRect> HitBoxes { get; }
+	}
 }

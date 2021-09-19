@@ -21,7 +21,7 @@ namespace OpenNspw.Components
 		public override Ship CreateComponent(Unit self) => new(self, this);
 	}
 
-	internal sealed class Ship : Mobile<ShipOptions>, IDrawable
+	internal sealed class Ship : Mobile<ShipOptions>, IHitBoxes
 	{
 		public WAngle AngleToLeader { get; set; }
 		public float DistanceToLeader { get; set; }
@@ -96,65 +96,51 @@ namespace OpenNspw.Components
 				DetermineAngleAndDistanceToLeader(newLeader);
 		}
 
-		private IEnumerable<WRect> GetHitBoxes()
+		IEnumerable<WRect> IHitBoxes.HitBoxes
 		{
-			var (size, halfSize) = (Options.HitBoxSize, Options.HitBoxSize / 2);
-
-			switch (Angle.Quantize())
+			get
 			{
-				case 3:
-				case 7:
-					for (var i = 0; i < 5; i++)
-					{
-						var offset = i * halfSize;
-						yield return WRect.FromCenter(Center + new WVec(size - offset, -size + offset), new WVec(size, size));
-					}
-					break;
+				var (size, halfSize) = (Options.HitBoxSize, Options.HitBoxSize / 2);
 
-				case 1:
-				case 5:
-					for (var i = 0; i < 5; i++)
-					{
-						var offset = i * halfSize;
-						yield return WRect.FromCenter(Center + new WVec(-size + offset, -size + offset), new WVec(size, size));
-					}
-					break;
+				switch (Angle.Quantize())
+				{
+					case 3:
+					case 7:
+						for (var i = 0; i < 5; i++)
+						{
+							var offset = i * halfSize;
+							yield return WRect.FromCenter(Center + new WVec(size - offset, -size + offset), new WVec(size, size));
+						}
+						break;
 
-				case 2:
-				case 6:
-					for (var i = 0; i < 3; i++)
-					{
-						var offset = i * size;
-						yield return WRect.FromCenter(Center + new WVec(0, -size + offset), new WVec(size, size));
-					}
-					break;
+					case 1:
+					case 5:
+						for (var i = 0; i < 5; i++)
+						{
+							var offset = i * halfSize;
+							yield return WRect.FromCenter(Center + new WVec(-size + offset, -size + offset), new WVec(size, size));
+						}
+						break;
 
-				case 0:
-				case 4:
-					for (var i = 0; i < 3; i++)
-					{
-						var offset = i * size;
-						yield return WRect.FromCenter(Center + new WVec(-size + offset, 0), new WVec(size, size));
-					}
-					break;
+					case 2:
+					case 6:
+						for (var i = 0; i < 3; i++)
+						{
+							var offset = i * size;
+							yield return WRect.FromCenter(Center + new WVec(0, -size + offset), new WVec(size, size));
+						}
+						break;
+
+					case 0:
+					case 4:
+						for (var i = 0; i < 3; i++)
+						{
+							var offset = i * size;
+							yield return WRect.FromCenter(Center + new WVec(-size + offset, 0), new WVec(size, size));
+						}
+						break;
+				}
 			}
-		}
-
-		public bool Contains(WPos value) => GetHitBoxes().Any(hitBox => hitBox.Contains(value));
-
-		private void DrawHitBoxes(Graphics graphics, Camera camera)
-		{
-			foreach (var hitBox in GetHitBoxes())
-			{
-				graphics.DrawRectangle(new DPen(DColor.Yellow), camera.WorldToScreen(hitBox).ToRectangle().ToDrawingRectangle());
-			}
-		}
-
-		void IDrawable.Draw(Unit self, Graphics graphics, Camera camera)
-		{
-#if DEBUG
-			DrawHitBoxes(graphics, camera);
-#endif
 		}
 	}
 }
