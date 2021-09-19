@@ -177,6 +177,8 @@ namespace OpenNspw.Components
 				ApproachToken = Self.RevokeCondition(ApproachToken);
 		}
 
+		private static void ClearTarget(Unit self) => self.GetComponent<Armament>()?.ClearTarget(clearAmmo: true);
+
 		void IRemovedFromWorldEventListener.OnRemovedFromWorld(Unit self)
 		{
 			CancelApproachClearance();
@@ -185,6 +187,8 @@ namespace OpenNspw.Components
 
 			if (!HangarToken.IsValid)
 				HangarToken = self.GrantCondition(Options.HangarCondition);
+
+			ClearTarget(self);
 		}
 
 		private void HandleOrder(World world, TargetOrder targetOrder)
@@ -213,6 +217,9 @@ namespace OpenNspw.Components
 
 				case FlightModeOrder flightModeOrder:
 					CancelApproachClearance();
+
+					if (flightModeOrder.FlightMode == FlightMode.ReturnToBase)
+						ClearTarget(Self);
 
 					FlightMode = flightModeOrder.FlightMode;
 					break;
