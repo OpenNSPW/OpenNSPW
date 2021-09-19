@@ -162,19 +162,7 @@ namespace OpenNspw
 			QueueActivity(activity);
 		}
 
-		public IEnumerable<WRect> HitBoxes
-		{
-			get
-			{
-				if (_submarine is not null)
-					return (_submarine as IHitBoxes).HitBoxes;
-
-				if (_unit is Ship ship)
-					return (ship as IHitBoxes).HitBoxes;
-
-				return Enumerable.Repeat(WRect.FromCenter(Center, new WVec(60, 60)), 1);
-			}
-		}
+		public IEnumerable<WRect> HitBoxes => _submarine?.HitBoxes ?? _unit.HitBoxes;
 
 		public bool Contains(WPos value) => HitBoxes.Any(hitBox => hitBox.Contains(value));
 	}

@@ -1,4 +1,7 @@
-﻿namespace OpenNspw.Components
+using System.Collections.Generic;
+using System.Linq;
+
+namespace OpenNspw.Components
 {
 	internal sealed record BuildingOptions : IComponentOptions<Building>
 	{
@@ -18,5 +21,7 @@
 			Self = self;
 			Options = options;
 		}
+
+		public IEnumerable<WRect> HitBoxes => Enumerable.Repeat(WRect.FromCenter(Center, new WVec(60, 60)), 1);
 	}
 }

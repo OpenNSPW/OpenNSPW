@@ -9,7 +9,7 @@ namespace OpenNspw.Components
 		public Submarine CreateComponent(Unit self) => new(self, this);
 	}
 
-	internal sealed class Submarine : IComponent<SubmarineOptions>, ICreatedEventListener, IHitBoxes
+	internal sealed class Submarine : IComponent<SubmarineOptions>, ICreatedEventListener
 	{
 		public Unit Self { get; }
 		public SubmarineOptions Options { get; }
@@ -28,9 +28,9 @@ namespace OpenNspw.Components
 
 		private Ship Ship => _ship.Value;
 
-		IEnumerable<WRect> IHitBoxes.HitBoxes => Submerged
+		public IEnumerable<WRect> HitBoxes => Submerged
 			? Enumerable.Repeat(WRect.FromCenter(Self.Center, new WVec(100, 100)), 1)
-			: (Ship as IHitBoxes).HitBoxes;
+			: Ship.HitBoxes;
 
 		void ICreatedEventListener.OnCreated(Unit self)
 		{

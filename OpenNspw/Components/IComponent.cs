@@ -40,6 +40,7 @@ namespace OpenNspw.Components
 		float Speed { get; }
 		bool IsMoving => false;
 		IEnumerable<WPos> Waypoints => Enumerable.Repeat(Center, 1);
+		IEnumerable<WRect> HitBoxes { get; }
 	}
 
 	internal interface ICreatedEventListener
@@ -111,10 +112,5 @@ namespace OpenNspw.Components
 	internal interface IArrivalEventListener
 	{
 		void OnArrival(Unit self);
-	}
-
-	internal interface IHitBoxes
-	{
-		IEnumerable<WRect> HitBoxes { get; }
 	}
 }

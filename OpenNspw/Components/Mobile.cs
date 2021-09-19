@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -76,6 +76,7 @@ namespace OpenNspw.Components
 		}
 
 		IEnumerable<WPos> IUnit.Waypoints => Waypoints;
+		public virtual IEnumerable<WRect> HitBoxes => Array.Empty<WRect>();
 
 		public float Speed => (Self.CurrentActivity as IMove)?.Speed ?? 0;
 		public float Acceleration => (Self.CurrentActivity as IMove)?.Acceleration ?? 0;
