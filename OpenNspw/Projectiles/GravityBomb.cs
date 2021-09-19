@@ -1,3 +1,4 @@
+using System.Linq;
 using OpenNspw.Effects;
 
 namespace OpenNspw.Projectiles
@@ -50,9 +51,21 @@ namespace OpenNspw.Projectiles
 
 			world.AddFrameEndAction(w => w.Remove(this));
 
-			if (false/* TODO */)
+			var victim = world.Units.FirstOrDefault(u => !u.IsDead && !u.Submerged && u.Contains(Center));
+
+			if (victim is not null)
 			{
 				// TODO
+
+				world.Add(new SpriteEffect(
+					layer: EffectLayer.Upper,
+					name: "Textures/Effects/effect_1",
+					duration: 40,
+					mode: SpriteEffectMode.Four,
+					center: Center,
+					frame: 0
+				));
+				world.PlaySound((world.Random.Next(2) == 0) ? "SoundEffects/bom_hit1" : "SoundEffects/bom_hit2", Center);
 			}
 			else
 			{

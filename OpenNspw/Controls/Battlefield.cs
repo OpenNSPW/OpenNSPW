@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Aigamo.Saruhashi;
 using Aigamo.Saruhashi.MonoGame;
@@ -40,12 +40,12 @@ namespace OpenNspw.Controls
 			_world.Draw(e.Graphics, _camera);
 
 			foreach (var effect in _world.Effects.Where(e => e.Layer == EffectLayer.Lower))
-				effect.Draw(_world, e.Graphics);
+				effect.Draw(_world, e.Graphics, _camera);
 
 			DrawBackground(e, Units);
 
 			foreach (var effect in _world.Effects.Where(e => e.Layer == EffectLayer.Upper))
-				effect.Draw(_world, e.Graphics);
+				effect.Draw(_world, e.Graphics, _camera);
 		}
 
 		private void DrawUnitPath(PaintEventArgs e, Unit unit)

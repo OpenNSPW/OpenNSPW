@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Aigamo.Saruhashi;
@@ -10,6 +10,7 @@ using MonoGame.Extended.TextureAtlases;
 using OpenNspw.Activities;
 using OpenNspw.Components;
 using OpenNspw.Orders;
+using IDrawable = OpenNspw.Components.IDrawable;
 
 namespace OpenNspw
 {
@@ -34,8 +35,10 @@ namespace OpenNspw
 
 		private readonly IUnit _unit;
 		private readonly Health? _health;
+		private readonly Submarine? _submarine;
 		private readonly IOrderHandler[] _orderHandlers;
 		private readonly IUpdatable[] _updatables;
+		private readonly IDrawable[] _drawables;
 
 		public T GetRequiredComponent<T>() where T : notnull => Components.GetRequiredComponent<T>();
 		public T? GetComponent<T>() => Components.GetComponent<T>();
@@ -66,8 +69,10 @@ namespace OpenNspw
 
 			_unit = Components.OfType<IUnit>().Single();
 			_health = GetComponent<Health>();
+			_submarine = GetComponent<Submarine>();
 			_orderHandlers = Components.OfType<IOrderHandler>().ToArray();
 			_updatables = Components.OfType<IUpdatable>().ToArray();
+			_drawables = Components.OfType<IDrawable>().ToArray();
 		}
 
 		// Code from: https://github.com/OpenRA/OpenRA/blob/6810469634d43a7a3e8ab2664942e162c3f4436a/OpenRA.Game/Actor.cs#L205
@@ -109,6 +114,8 @@ namespace OpenNspw
 		public DamageState DamageState => _health?.DamageState ?? DamageState.Undamaged;
 		public bool IsDead => _health?.IsDead ?? false;
 
+		public bool Submerged => _submarine?.Submerged ?? false;
+
 		public bool CanBeViewedBy(Player player) => true/* TODO */;
 
 		public void HandleOrder(IUnitOrder unitOrder)
@@ -129,6 +136,9 @@ namespace OpenNspw
 		{
 			var sprite = new Sprite(new TextureRegion2D(Texture, new Rectangle(80 * (Angle.Quantize() % (Texture.Width / 80)), 0, 80, 80)));
 			graphics.DrawImage(MonoGameImage.Create(sprite), camera.WorldToScreen(Center).ToPoint().ToDrawingPoint());
+
+			foreach (var drawable in _drawables)
+				drawable.Draw(this, graphics, camera);
 		}
 
 		public void CancelActivity()
@@ -150,6 +160,17 @@ namespace OpenNspw
 				CancelActivity();
 
 			QueueActivity(activity);
+		}
+
+		public bool Contains(WPos value)
+		{
+			if (_submarine is not null)
+				return _submarine.Contains(value);
+
+			if (_unit is Ship ship)
+				return ship.Contains(value);
+
+			return WRect.FromCenter(Center, new WVec(60, 60)).Contains(value);
 		}
 	}
 }

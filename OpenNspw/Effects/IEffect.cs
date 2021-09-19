@@ -13,6 +13,6 @@ namespace OpenNspw.Effects
 		EffectLayer Layer { get; }
 
 		void Update(World world);
-		void Draw(World world, Graphics graphics);
+		void Draw(World world, Graphics graphics, Camera camera);
 	}
 }

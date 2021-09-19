@@ -43,7 +43,7 @@ namespace OpenNspw.Effects
 				world.AddFrameEndAction(w => w.Remove(this));
 		}
 
-		public void Draw(World world, Graphics graphics)
+		public void Draw(World world, Graphics graphics, Camera camera)
 		{
 			// TODO: check visibility
 
@@ -67,7 +67,7 @@ namespace OpenNspw.Effects
 				SpriteEffectMode.Four => Center,
 				_ => throw new InvalidOperationException(),
 			};
-			graphics.DrawImage(MonoGameImage.Create(sprite), world.Camera.WorldToScreen(center).ToPoint().ToDrawingPoint());
+			graphics.DrawImage(MonoGameImage.Create(sprite), camera.WorldToScreen(center).ToPoint().ToDrawingPoint());
 		}
 	}
 }

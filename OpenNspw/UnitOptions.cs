@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using OpenNspw.Components;
 
 namespace OpenNspw
@@ -23,6 +23,7 @@ namespace OpenNspw
 						Acceleration = 0.01f,
 						MinSpeed = 0.0f,
 						MaxSpeed = 0.7f,
+						HitBoxSize = 16,
 					},
 					new ArmamentOptions
 					{
@@ -50,6 +51,7 @@ namespace OpenNspw
 						Acceleration = 0.01f,
 						MinSpeed = 0.0f,
 						MaxSpeed = 0.7f,
+						HitBoxSize = 16,
 					},
 					new ArmamentOptions
 					{
@@ -77,6 +79,7 @@ namespace OpenNspw
 						Acceleration = 0.009f,
 						MinSpeed = 0.0f,
 						MaxSpeed = 0.63f,
+						HitBoxSize = 16,
 					},
 					new ArmamentOptions
 					{
@@ -104,6 +107,7 @@ namespace OpenNspw
 						Acceleration = 0.01f,
 						MinSpeed = 0.0f,
 						MaxSpeed = 0.8f,
+						HitBoxSize = 12,
 					},
 					new ArmamentOptions
 					{
@@ -131,6 +135,7 @@ namespace OpenNspw
 						Acceleration = 0.01f,
 						MinSpeed = 0.0f,
 						MaxSpeed = 0.8f,
+						HitBoxSize = 12,
 					},
 					new ArmamentOptions
 					{
@@ -158,6 +163,7 @@ namespace OpenNspw
 						Acceleration = 0.01f,
 						MinSpeed = 0.0f,
 						MaxSpeed = 0.8f,
+						HitBoxSize = 12,
 					},
 					new ArmamentOptions
 					{
@@ -185,6 +191,7 @@ namespace OpenNspw
 						Acceleration = 0.01f,
 						MinSpeed = 0.0f,
 						MaxSpeed = 0.8f,
+						HitBoxSize = 12,
 					},
 					new ArmamentOptions
 					{
@@ -212,6 +219,7 @@ namespace OpenNspw
 						Acceleration = 0.05f,
 						MinSpeed = 0.0f,
 						MaxSpeed = 1.00f,
+						HitBoxSize = 10,
 					},
 					new ArmamentOptions
 					{
@@ -239,6 +247,7 @@ namespace OpenNspw
 						Acceleration = 0.05f,
 						MinSpeed = 0.0f,
 						MaxSpeed = 1.00f,
+						HitBoxSize = 10,
 					},
 					new ArmamentOptions
 					{
@@ -266,6 +275,7 @@ namespace OpenNspw
 						Acceleration = 0.05f,
 						MinSpeed = 0.0f,
 						MaxSpeed = 1.00f,
+						HitBoxSize = 10,
 					},
 					new ArmamentOptions
 					{
@@ -293,6 +303,7 @@ namespace OpenNspw
 						Acceleration = 0.05f,
 						MinSpeed = 0.0f,
 						MaxSpeed = 1.00f,
+						HitBoxSize = 10,
 					},
 					new ArmamentOptions
 					{
@@ -320,11 +331,13 @@ namespace OpenNspw
 						Acceleration = 0.02f,
 						MinSpeed = 0.0f,
 						MaxSpeed = 0.5f,
+						HitBoxSize = 8,
 					},
 					new ArmamentOptions
 					{
 						MaxAmmo = 25,
 					},
+					new SubmarineOptions(),
 					new HealthOptions
 					{
 						MaxHP = 7,
@@ -347,11 +360,13 @@ namespace OpenNspw
 						Acceleration = 0.02f,
 						MinSpeed = 0.0f,
 						MaxSpeed = 0.5f,
+						HitBoxSize = 8,
 					},
 					new ArmamentOptions
 					{
 						MaxAmmo = 25,
 					},
+					new SubmarineOptions(),
 					new HealthOptions
 					{
 						MaxHP = 7,
@@ -374,6 +389,7 @@ namespace OpenNspw
 						Acceleration = 0.01f,
 						MinSpeed = 0.0f,
 						MaxSpeed = 0.7f,
+						HitBoxSize = 14,
 					},
 					new ArmamentOptions
 					{
@@ -407,6 +423,7 @@ namespace OpenNspw
 						Acceleration = 0.01f,
 						MinSpeed = 0.0f,
 						MaxSpeed = 0.7f,
+						HitBoxSize = 14,
 					},
 					new ArmamentOptions
 					{
@@ -440,6 +457,7 @@ namespace OpenNspw
 						Acceleration = 0.009f,
 						MinSpeed = 0.0f,
 						MaxSpeed = 0.63f,
+						HitBoxSize = 14,
 					},
 					new ArmamentOptions
 					{
@@ -473,6 +491,7 @@ namespace OpenNspw
 						Acceleration = 0.01f,
 						MinSpeed = 0.0f,
 						MaxSpeed = 0.9f,
+						HitBoxSize = 12,
 					},
 					new ArmamentOptions
 					{
@@ -506,6 +525,7 @@ namespace OpenNspw
 						Acceleration = 0.01f,
 						MinSpeed = 0.0f,
 						MaxSpeed = 0.9f,
+						HitBoxSize = 12,
 					},
 					new ArmamentOptions
 					{
@@ -888,6 +908,7 @@ namespace OpenNspw
 						Acceleration = 0.01f,
 						MinSpeed = 0.0f,
 						MaxSpeed = 0.65f,
+						HitBoxSize = 12,
 					},
 					new HealthOptions
 					{
@@ -914,6 +935,7 @@ namespace OpenNspw
 						Acceleration = 0.01f,
 						MinSpeed = 0.0f,
 						MaxSpeed = 0.65f,
+						HitBoxSize = 12,
 					},
 					new HealthOptions
 					{

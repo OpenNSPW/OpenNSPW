@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Aigamo.Saruhashi;
 using OpenNspw.Orders;
 
 namespace OpenNspw.Components
@@ -78,6 +79,11 @@ namespace OpenNspw.Components
 	internal interface IUpdatable
 	{
 		void Update(Unit self);
+	}
+
+	internal interface IDrawable
+	{
+		void Draw(Unit self, Graphics graphics, Camera camera);
 	}
 
 	// Code from: https://github.com/OpenRA/OpenRA/blob/6810469634d43a7a3e8ab2664942e162c3f4436a/OpenRA.Game/Traits/TraitsInterfaces.cs#L592
