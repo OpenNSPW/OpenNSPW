@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using OpenNspw.Activities;
@@ -41,6 +41,7 @@ namespace OpenNspw.Components
 	{
 		public const float TorpedoSpeed = 1.8f;
 		public const int TorpedoRange = 220;
+		public const float TorpedoTime = TorpedoRange / TorpedoSpeed;
 
 		private sealed class TargetOrderTargeter : IOrderTargeter
 		{
@@ -100,7 +101,7 @@ namespace OpenNspw.Components
 		public ConditionToken ApproachToken { get; private set; }
 		public ConditionToken HangarToken { get; private set; }
 
-		public AirplaneWeapon Weapon { get; private set; }
+		public AirplaneWeapon Weapon { get; set; }
 
 		public Airplane(Unit self, AirplaneOptions options) : base(self, options) { }
 
@@ -365,6 +366,18 @@ namespace OpenNspw.Components
 			if (count >= 3) yield return hangar.Self.Center + angle.ToVector(130);
 			if (count >= 2) yield return hangar.Self.Center + angle.ToVector(10);
 			if (count >= 1) yield return hangar.Self.Center + WAngle.FromFacing(hangar.Self.Angle.Facing).ToVector(100);
+		}
+
+		public void ReturnToBase()
+		{
+			FlightMode = FlightMode.ReturnToBase;
+
+			foreach (var follower in Followers.OfType<Airplane>().Where(f => !f.IsInHangar).ToArray())
+			{
+				follower.ClearLeader();
+				follower.FlightMode = FlightMode.ReturnToBase;
+				follower.SetWaypoints(Self.Center);
+			}
 		}
 	}
 }

@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using OpenNspw.Components;
 
 namespace OpenNspw.Activities
@@ -71,6 +71,7 @@ namespace OpenNspw.Activities
 					_hangar.Park(_airplane);
 					_airplane.Stop = true;
 
+					_airplane.Weapon = AirplaneWeapon.Nothing;
 					// TODO
 
 					return true;

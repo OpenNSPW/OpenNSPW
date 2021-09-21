@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+using System;
 using OpenNspw.Activities;
 using OpenNspw.Projectiles;
 
@@ -11,26 +10,25 @@ namespace OpenNspw.Components
 		Dive,
 	}
 
-	internal sealed record BombingOptions : IComponentOptions<Bombing>
+	internal sealed record BombingOptions : PausableConditionalComponentOptions<Bombing>
 	{
 		public BombingMethod BombingMethod { get; init; }
 
-		public Bombing CreateComponent(Unit self) => new(self, this);
+		public BombingOptions()
+		{
+			PauseOnCondition = new("hangar");
+		}
+
+		public override Bombing CreateComponent(Unit self) => new(self, this);
 	}
 
-	internal sealed class Bombing : IComponent<BombingOptions>, ICreatedEventListener, IUpdatable
+	internal sealed class Bombing : PausableConditionalComponent<BombingOptions>, ICreatedEventListener, IUpdatable
 	{
-		public Unit Self { get; }
-		public BombingOptions Options { get; }
-
 		private readonly Lazy<Airplane> _airplane;
 		private readonly Lazy<Armament> _armament;
 
-		public Bombing(Unit self, BombingOptions options)
+		public Bombing(Unit self, BombingOptions options) : base(self, options)
 		{
-			Self = self;
-			Options = options;
-
 			_airplane = new(() => self.GetRequiredComponent<Airplane>());
 			_armament = new(() => self.GetRequiredComponent<Armament>());
 		}
@@ -53,6 +51,12 @@ namespace OpenNspw.Components
 
 		void IUpdatable.Update(Unit self)
 		{
+			if (IsDisabled || IsPaused)
+				return;
+
+			if (Airplane.Weapon != AirplaneWeapon.Bomb)
+				return;
+
 			if (Armament.Target is not Unit target || !target.CanBeViewedBy(self.Owner))
 				return;
 
@@ -87,14 +91,8 @@ namespace OpenNspw.Components
 			}
 
 			Armament.ClearTarget(clearAmmo: true);
-			Airplane.FlightMode = FlightMode.ReturnToBase;
 
-			foreach (var follower in Airplane.Followers.OfType<Airplane>().Where(f => !f.IsInHangar).ToArray())
-			{
-				follower.ClearLeader();
-				follower.FlightMode = FlightMode.ReturnToBase;
-				follower.SetWaypoints(self.Center);
-			}
+			Airplane.ReturnToBase();
 
 			switch (Options.BombingMethod)
 			{

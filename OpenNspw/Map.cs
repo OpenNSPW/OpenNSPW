@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using Aigamo.Saruhashi;
 using Aigamo.Saruhashi.MonoGame;
 using Microsoft.Xna.Framework;
@@ -40,6 +40,9 @@ namespace OpenNspw
 
 		public bool Contains(WPos value) => Bounds.Contains(value);
 		public bool Contains(CPos value) => Contains(CenterOfCell(value));
+
+		public bool IsGroundTile(CPos value) => Contains(value) && Tiles[value] is >= 1 and <= 9;
+		public bool IsGroundTile(WPos value) => IsGroundTile(CellContaining(value));
 
 		public void Draw(World world, Graphics graphics, Camera camera)
 		{

@@ -69,7 +69,7 @@ namespace OpenNspw.Projectiles
 			}
 			else
 			{
-				if (world.Map.Contains(Center) && world.Map.Tiles[world.Map.CellContaining(Center)] is >= 1 and <= 9)
+				if (world.Map.IsGroundTile(Center))
 				{
 					world.Add(new SpriteEffect(
 						layer: EffectLayer.Lower,
