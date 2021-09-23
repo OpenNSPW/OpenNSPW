@@ -944,6 +944,10 @@ namespace OpenNspw
 						Interval = 20,
 						Sound = "aa_blt4",
 					},
+					new CarpetBombingOptions
+					{
+						Interval = 5,
+					},
 					new TorpedoBombingOptions(),
 					new HealthOptions
 					{
@@ -988,6 +992,10 @@ namespace OpenNspw
 					{
 						Interval = 20,
 						Sound = "aa_blt4",
+					},
+					new CarpetBombingOptions
+					{
+						Interval = 5,
 					},
 					new HealthOptions
 					{

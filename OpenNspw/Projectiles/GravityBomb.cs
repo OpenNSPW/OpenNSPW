@@ -100,7 +100,7 @@ namespace OpenNspw.Projectiles
 		{
 			Ticks++;
 
-			if (Target is null && Ticks == 12)
+			if (Target is not null && Ticks == 12)
 				world.PlaySound("SoundEffects/bomb_off", Center);
 
 			if (Ticks <= Duration)
