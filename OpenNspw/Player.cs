@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 
 namespace OpenNspw
 {
@@ -12,5 +12,8 @@ namespace OpenNspw
 			Faction = faction;
 			Color = color;
 		}
+
+		// TODO: implement
+		public bool IsAlliedWith(Player other) => this == other;
 	}
 }

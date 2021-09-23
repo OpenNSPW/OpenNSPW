@@ -29,6 +29,11 @@ namespace OpenNspw
 					{
 						MaxAmmo = 1000,
 					},
+					new GunshipOptions
+					{
+						Interval = 5,
+						Sound = "aa_blt3",
+					},
 					new HealthOptions
 					{
 						MaxHP = 40,
@@ -56,6 +61,11 @@ namespace OpenNspw
 					new ArmamentOptions
 					{
 						MaxAmmo = 1000,
+					},
+					new GunshipOptions
+					{
+						Interval = 5,
+						Sound = "aa_blt3",
 					},
 					new HealthOptions
 					{
@@ -85,6 +95,11 @@ namespace OpenNspw
 					{
 						MaxAmmo = 1350,
 					},
+					new GunshipOptions
+					{
+						Interval = 4,
+						Sound = "aa_blt3",
+					},
 					new HealthOptions
 					{
 						MaxHP = 56,
@@ -112,6 +127,11 @@ namespace OpenNspw
 					new ArmamentOptions
 					{
 						MaxAmmo = 600,
+					},
+					new GunshipOptions
+					{
+						Interval = 10,
+						Sound = "aa_blt3",
 					},
 					new HealthOptions
 					{
@@ -141,6 +161,11 @@ namespace OpenNspw
 					{
 						MaxAmmo = 600,
 					},
+					new GunshipOptions
+					{
+						Interval = 10,
+						Sound = "aa_blt3",
+					},
 					new HealthOptions
 					{
 						MaxHP = 32,
@@ -168,6 +193,11 @@ namespace OpenNspw
 					new ArmamentOptions
 					{
 						MaxAmmo = 450,
+					},
+					new GunshipOptions
+					{
+						Interval = 10,
+						Sound = "aa_blt3",
 					},
 					new HealthOptions
 					{
@@ -197,6 +227,11 @@ namespace OpenNspw
 					{
 						MaxAmmo = 450,
 					},
+					new GunshipOptions
+					{
+						Interval = 10,
+						Sound = "aa_blt3",
+					},
 					new HealthOptions
 					{
 						MaxHP = 28,
@@ -224,6 +259,11 @@ namespace OpenNspw
 					new ArmamentOptions
 					{
 						MaxAmmo = 120,
+					},
+					new GunshipOptions
+					{
+						Interval = 15,
+						Sound = "aa_blt3",
 					},
 					new HealthOptions
 					{
@@ -253,6 +293,11 @@ namespace OpenNspw
 					{
 						MaxAmmo = 120,
 					},
+					new GunshipOptions
+					{
+						Interval = 15,
+						Sound = "aa_blt3",
+					},
 					new HealthOptions
 					{
 						MaxHP = 18,
@@ -281,6 +326,11 @@ namespace OpenNspw
 					{
 						MaxAmmo = 120,
 					},
+					new GunshipOptions
+					{
+						Interval = 20,
+						Sound = "aa_blt3",
+					},
 					new HealthOptions
 					{
 						MaxHP = 12,
@@ -308,6 +358,11 @@ namespace OpenNspw
 					new ArmamentOptions
 					{
 						MaxAmmo = 120,
+					},
+					new GunshipOptions
+					{
+						Interval = 20,
+						Sound = "aa_blt3",
 					},
 					new HealthOptions
 					{
@@ -395,6 +450,11 @@ namespace OpenNspw
 					{
 						MaxAmmo = 100,
 					},
+					new GunshipOptions
+					{
+						Interval = 15,
+						Sound = "aa_blt3",
+					},
 					new HangarOptions
 					{
 						Capacity = 12,
@@ -428,6 +488,11 @@ namespace OpenNspw
 					new ArmamentOptions
 					{
 						MaxAmmo = 100,
+					},
+					new GunshipOptions
+					{
+						Interval = 15,
+						Sound = "aa_blt3",
 					},
 					new HangarOptions
 					{
@@ -463,6 +528,11 @@ namespace OpenNspw
 					{
 						MaxAmmo = 110,
 					},
+					new GunshipOptions
+					{
+						Interval = 15,
+						Sound = "aa_blt3",
+					},
 					new HangarOptions
 					{
 						Capacity = 14,
@@ -497,6 +567,11 @@ namespace OpenNspw
 					{
 						MaxAmmo = 80,
 					},
+					new GunshipOptions
+					{
+						Interval = 20,
+						Sound = "aa_blt3",
+					},
 					new HangarOptions
 					{
 						Capacity = 8,
@@ -530,6 +605,11 @@ namespace OpenNspw
 					new ArmamentOptions
 					{
 						MaxAmmo = 80,
+					},
+					new GunshipOptions
+					{
+						Interval = 20,
+						Sound = "aa_blt3",
 					},
 					new HangarOptions
 					{
@@ -761,6 +841,11 @@ namespace OpenNspw
 						MaxAmmo = 1,
 						RequiresCondition = new("!hangar"),
 					},
+					new TailGunnerOptions
+					{
+						Interval = 35,
+						Sound = "aa_blt3",
+					},
 					new BombingOptions
 					{
 						BombingMethod = BombingMethod.Horizontal,
@@ -804,6 +889,11 @@ namespace OpenNspw
 					{
 						MaxAmmo = 1,
 						RequiresCondition = new("!hangar"),
+					},
+					new TailGunnerOptions
+					{
+						Interval = 35,
+						Sound = "aa_blt3",
 					},
 					new BombingOptions
 					{
@@ -849,6 +939,11 @@ namespace OpenNspw
 						MaxAmmo = 9,
 						RequiresCondition = new("!hangar"),
 					},
+					new GunshipOptions
+					{
+						Interval = 20,
+						Sound = "aa_blt4",
+					},
 					new TorpedoBombingOptions(),
 					new HealthOptions
 					{
@@ -888,6 +983,11 @@ namespace OpenNspw
 					{
 						MaxAmmo = 20,
 						RequiresCondition = new("!hangar"),
+					},
+					new GunshipOptions
+					{
+						Interval = 20,
+						Sound = "aa_blt4",
 					},
 					new HealthOptions
 					{
