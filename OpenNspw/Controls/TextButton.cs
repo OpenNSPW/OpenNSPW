@@ -1,4 +1,3 @@
-﻿using System;
 using Aigamo.Saruhashi;
 using DColor = System.Drawing.Color;
 

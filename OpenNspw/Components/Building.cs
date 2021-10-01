@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-
 namespace OpenNspw.Components
 {
 	internal sealed record BuildingOptions : IComponentOptions<Building>

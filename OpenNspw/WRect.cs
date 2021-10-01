@@ -1,5 +1,3 @@
-﻿using System;
-
 namespace OpenNspw
 {
 	internal readonly struct WRect : IEquatable<WRect>

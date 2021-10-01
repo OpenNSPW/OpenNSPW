@@ -1,5 +1,3 @@
-﻿using System;
-
 namespace OpenNspw.Interop
 {
 	public sealed class NEW_PP

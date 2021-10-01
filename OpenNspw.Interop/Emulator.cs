@@ -1,5 +1,3 @@
-using System;
-using System.IO;
 using Aigamo.Enzan;
 using OpenNspw.Interop.Subroutines;
 

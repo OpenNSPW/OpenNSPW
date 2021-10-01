@@ -1,5 +1,3 @@
-﻿using System;
-
 namespace OpenNspw.Orders
 {
 	internal interface IConnection

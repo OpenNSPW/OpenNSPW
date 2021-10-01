@@ -1,4 +1,3 @@
-﻿using System;
 using OpenNspw.Components;
 
 namespace OpenNspw.Activities

@@ -1,4 +1,3 @@
-using System;
 using OpenNspw.Activities;
 using OpenNspw.Projectiles;
 

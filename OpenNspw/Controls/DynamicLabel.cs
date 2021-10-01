@@ -1,4 +1,3 @@
-﻿using System;
 using Aigamo.Saruhashi;
 
 namespace OpenNspw.Controls

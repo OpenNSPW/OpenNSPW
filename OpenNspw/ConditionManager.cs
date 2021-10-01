@@ -1,4 +1,4 @@
-﻿// Code from: https://github.com/OpenRA/OpenRA/blob/6810469634d43a7a3e8ab2664942e162c3f4436a/OpenRA.Game/Actor.cs
+// Code from: https://github.com/OpenRA/OpenRA/blob/6810469634d43a7a3e8ab2664942e162c3f4436a/OpenRA.Game/Actor.cs
 
 #region Copyright & License Information
 /*
@@ -11,8 +11,6 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using OpenNspw.Components;
 

@@ -1,5 +1,3 @@
-﻿using System;
-using System.Linq;
 using OpenNspw.Activities;
 
 namespace OpenNspw.Components

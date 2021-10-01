@@ -1,4 +1,4 @@
-﻿// Code from: https://github.com/OpenRA/OpenRA/blob/6810469634d43a7a3e8ab2664942e162c3f4436a/OpenRA.Mods.Common/Traits/Conditions/PausableConditionalTrait.cs
+// Code from: https://github.com/OpenRA/OpenRA/blob/6810469634d43a7a3e8ab2664942e162c3f4436a/OpenRA.Mods.Common/Traits/Conditions/PausableConditionalTrait.cs
 
 #region Copyright & License Information
 /*
@@ -10,8 +10,6 @@
  * information, see COPYING.
  */
 #endregion
-
-using System.Collections.Generic;
 
 namespace OpenNspw.Components
 {

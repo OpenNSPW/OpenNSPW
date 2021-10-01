@@ -1,4 +1,3 @@
-using System.Linq;
 using OpenNspw.Components;
 using OpenNspw.Effects;
 

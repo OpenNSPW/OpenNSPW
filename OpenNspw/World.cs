@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Aigamo.Saruhashi;
 using OpenNspw.Components;
 using OpenNspw.Effects;

@@ -1,5 +1,3 @@
-﻿using System;
-
 namespace OpenNspw.Orders
 {
 	internal readonly struct ClientId : IEquatable<ClientId>, IFormattable

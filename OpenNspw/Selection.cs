@@ -1,5 +1,3 @@
-﻿using System.Collections.Generic;
-
 namespace OpenNspw
 {
 	internal sealed class Selection

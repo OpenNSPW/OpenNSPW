@@ -1,4 +1,3 @@
-﻿using System.Linq;
 using Aigamo.Saruhashi;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;

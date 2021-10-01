@@ -1,5 +1,3 @@
-﻿using System;
-
 namespace OpenNspw.Orders
 {
 	internal readonly struct FrameId : IEquatable<FrameId>, IComparable<FrameId>, IFormattable

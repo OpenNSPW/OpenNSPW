@@ -1,5 +1,3 @@
-﻿using System;
-
 namespace OpenNspw.Interop
 {
 	public sealed class SPRT

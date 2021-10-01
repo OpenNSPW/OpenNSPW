@@ -1,4 +1,3 @@
-using System.Linq;
 using OpenNspw.Components;
 
 namespace OpenNspw.Activities

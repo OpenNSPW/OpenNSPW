@@ -1,6 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Aigamo.Saruhashi;
 using Aigamo.Saruhashi.MonoGame;
 using MonoGame.Extended.Sprites;

@@ -1,4 +1,3 @@
-﻿using System;
 using Microsoft.Xna.Framework;
 using OpenNspw.Activities;
 using OpenNspw.Components;

@@ -1,5 +1,3 @@
-﻿using System;
-
 namespace OpenNspw
 {
 	public static class Program

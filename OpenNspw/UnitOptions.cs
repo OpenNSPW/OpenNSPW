@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using OpenNspw.Components;
 
 namespace OpenNspw

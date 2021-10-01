@@ -1,5 +1,3 @@
-﻿using System.Collections.Generic;
-using System.Linq;
 using OpenNspw.Messages;
 
 namespace OpenNspw.Orders

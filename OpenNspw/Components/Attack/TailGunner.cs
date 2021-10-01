@@ -1,4 +1,3 @@
-using System.Linq;
 using OpenNspw.Projectiles;
 
 namespace OpenNspw.Components

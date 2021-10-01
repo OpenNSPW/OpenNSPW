@@ -4,8 +4,9 @@
     <TargetFramework>net6.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <RootNamespace>OpenNspw.Tests</RootNamespace>
-	<Nullable>enable</Nullable>
-	<LangVersion>preview</LangVersion>
+    <Nullable>enable</Nullable>
+    <LangVersion>preview</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>

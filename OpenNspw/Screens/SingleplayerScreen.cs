@@ -1,4 +1,3 @@
-﻿using System;
 using Aigamo.Saruhashi;
 using Microsoft.Xna.Framework;
 using OpenNspw.Controls;

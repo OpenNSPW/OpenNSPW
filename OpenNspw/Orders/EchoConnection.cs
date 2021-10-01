@@ -1,6 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-
 namespace OpenNspw.Orders
 {
 	// Code from: https://github.com/OpenRA/OpenRA/blob/bacec2689d603800c403adccbbade68ec36b29d2/OpenRA.Game/Network/Connection.cs

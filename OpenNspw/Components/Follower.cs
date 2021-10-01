@@ -1,6 +1,3 @@
-﻿using System;
-using System.Linq;
-
 namespace OpenNspw.Components
 {
 	internal sealed record FollowerOptions : PausableConditionalComponentOptions<Follower>
