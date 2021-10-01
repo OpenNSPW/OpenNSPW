@@ -11,77 +11,76 @@
  */
 #endregion
 
-namespace OpenNspw.Components
+namespace OpenNspw.Components;
+
+internal abstract record PausableConditionalComponentOptions : ConditionalComponentOptions
 {
-	internal abstract record PausableConditionalComponentOptions : ConditionalComponentOptions
-	{
-		public BooleanExpression? PauseOnCondition { get; init; }
-		public bool PausedByDefault { get; init; }
+	public BooleanExpression? PauseOnCondition { get; init; }
+	public bool PausedByDefault { get; init; }
 
-		public abstract override PausableConditionalComponent CreateComponent(Unit self);
+	public abstract override PausableConditionalComponent CreateComponent(Unit self);
+}
+
+internal abstract record PausableConditionalComponentOptions<TComponent> : PausableConditionalComponentOptions
+	where TComponent : PausableConditionalComponent
+{
+	public abstract override TComponent CreateComponent(Unit self);
+}
+
+internal abstract class PausableConditionalComponent : ConditionalComponent<PausableConditionalComponentOptions>
+{
+	public bool IsPaused { get; private set; }
+
+	protected PausableConditionalComponent(Unit self, PausableConditionalComponentOptions options) : base(self, options)
+	{
+		IsPaused = options.PausedByDefault;
 	}
 
-	internal abstract record PausableConditionalComponentOptions<TComponent> : PausableConditionalComponentOptions
-		where TComponent : PausableConditionalComponent
+	protected override void OnCreated(Unit self)
 	{
-		public abstract override TComponent CreateComponent(Unit self);
+		base.OnCreated(self);
+
+		if (Options.PauseOnCondition is null)
+			OnResumed(self);
 	}
 
-	internal abstract class PausableConditionalComponent : ConditionalComponent<PausableConditionalComponentOptions>
+	protected virtual void OnResumed(Unit self) { }
+	protected virtual void OnPaused(Unit self) { }
+
+	private void PauseConditionsChanged(Unit self, IReadOnlyDictionary<string, int> conditions)
 	{
-		public bool IsPaused { get; private set; }
+		if (Options.PauseOnCondition is null)
+			return;
 
-		protected PausableConditionalComponent(Unit self, PausableConditionalComponentOptions options) : base(self, options)
+		var wasPaused = IsPaused;
+		IsPaused = Options.PauseOnCondition.Evaluate(conditions);
+
+		if (IsPaused != wasPaused)
 		{
-			IsPaused = options.PausedByDefault;
-		}
-
-		protected override void OnCreated(Unit self)
-		{
-			base.OnCreated(self);
-
-			if (Options.PauseOnCondition is null)
+			if (wasPaused)
 				OnResumed(self);
-		}
-
-		protected virtual void OnResumed(Unit self) { }
-		protected virtual void OnPaused(Unit self) { }
-
-		private void PauseConditionsChanged(Unit self, IReadOnlyDictionary<string, int> conditions)
-		{
-			if (Options.PauseOnCondition is null)
-				return;
-
-			var wasPaused = IsPaused;
-			IsPaused = Options.PauseOnCondition.Evaluate(conditions);
-
-			if (IsPaused != wasPaused)
-			{
-				if (wasPaused)
-					OnResumed(self);
-				else
-					OnPaused(self);
-			}
-		}
-
-		public override IEnumerable<VariableObserver> GetVariableObservers()
-		{
-			foreach (var observer in base.GetVariableObservers())
-				yield return observer;
-
-			if (Options.PauseOnCondition is not null)
-				yield return new VariableObserver(PauseConditionsChanged, Options.PauseOnCondition.Variables);
+			else
+				OnPaused(self);
 		}
 	}
 
-	internal abstract class PausableConditionalComponent<TOptions> : PausableConditionalComponent
-		where TOptions : PausableConditionalComponentOptions
+	public override IEnumerable<VariableObserver> GetVariableObservers()
 	{
-		public new TOptions Options { get; }
+		foreach (var observer in base.GetVariableObservers())
+			yield return observer;
 
-		protected PausableConditionalComponent(Unit self, TOptions options) : base(self, options)
-		{
-			Options = options;
-		}
+		if (Options.PauseOnCondition is not null)
+			yield return new VariableObserver(PauseConditionsChanged, Options.PauseOnCondition.Variables);
+	}
+}
+
+internal abstract class PausableConditionalComponent<TOptions> : PausableConditionalComponent
+	where TOptions : PausableConditionalComponentOptions
+{
+	public new TOptions Options { get; }
+
+	protected PausableConditionalComponent(Unit self, TOptions options) : base(self, options)
+	{
+		Options = options;
 	}
 }

@@ -1,7 +1,6 @@
-﻿namespace OpenNspw.Orders
+namespace OpenNspw.Orders;
+
+internal interface IMessage
 {
-	internal interface IMessage
-	{
-		ClientId ClientId { get; }
-	}
+	ClientId ClientId { get; }
 }

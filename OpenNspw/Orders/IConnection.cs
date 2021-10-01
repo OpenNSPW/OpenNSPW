@@ -1,11 +1,10 @@
-namespace OpenNspw.Orders
+namespace OpenNspw.Orders;
+
+internal interface IConnection
 {
-	internal interface IConnection
-	{
-		ClientId LocalClientId { get; }
+	ClientId LocalClientId { get; }
 
-		void Send(IMessage message);
+	void Send(IMessage message);
 
-		void Receive(Action<IMessage> callback);
-	}
+	void Receive(Action<IMessage> callback);
 }

@@ -1,6 +1,5 @@
-﻿namespace OpenNspw.Scenarios.Multiplayer
+namespace OpenNspw.Scenarios.Multiplayer;
+
+internal abstract class MultiplayerScenario : Scenario
 {
-	internal abstract class MultiplayerScenario : Scenario
-	{
-	}
 }

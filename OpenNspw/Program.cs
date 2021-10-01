@@ -1,12 +1,11 @@
-namespace OpenNspw
+namespace OpenNspw;
+
+public static class Program
 {
-	public static class Program
+	[STAThread]
+	static void Main()
 	{
-		[STAThread]
-		static void Main()
-		{
-			using var game = new MainGame();
-			game.Run();
-		}
+		using var game = new MainGame();
+		game.Run();
 	}
 }

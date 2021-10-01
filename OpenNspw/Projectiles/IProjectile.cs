@@ -1,7 +1,6 @@
-﻿namespace OpenNspw.Projectiles
+namespace OpenNspw.Projectiles;
+
+internal interface IProjectile
 {
-	internal interface IProjectile
-	{
-		void Update(World world);
-	}
+	void Update(World world);
 }

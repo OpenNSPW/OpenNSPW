@@ -2,33 +2,32 @@
 
 using Aigamo.Enzan;
 
-namespace OpenNspw.Interop.Subroutines
+namespace OpenNspw.Interop.Subroutines;
+
+// cls_all_slct_unit_p2
+internal static class Sub417930
 {
-	// cls_all_slct_unit_p2
-	internal static class Sub417930
+	public static void Call(Emulator emulator)
 	{
-		public static void Call(Emulator emulator)
-		{
-			emulator.Cpu.Eax = emulator.Cpu.Mov(emulator.Memory32[emulator.Cpu.Esp + new Register32(0x00000004/*4*/)]);
-			emulator.Cpu.Push(emulator.Cpu.Edi);
-			emulator.Cpu.Cmp(emulator.Cpu.Eax, new Register8(0x01/*1*/));
-			emulator.Cpu.Ecx = emulator.Cpu.Mov(new Register32(0x00000080/*128*/));
-			if (emulator.Cpu.Jne) goto loc_41794A;
-			emulator.Cpu.Eax = emulator.Cpu.Xor(emulator.Cpu.Eax, emulator.Cpu.Eax);
-			emulator.Cpu.Edi = emulator.Cpu.Mov(new Register32(0x00489CE0/*4758752*/));
-			// TODO: f3
-			// TODO: ab
-			emulator.Cpu.Edi = emulator.Cpu.Pop32();
-			return;
+		emulator.Cpu.Eax = emulator.Cpu.Mov(emulator.Memory32[emulator.Cpu.Esp + new Register32(0x00000004/*4*/)]);
+		emulator.Cpu.Push(emulator.Cpu.Edi);
+		emulator.Cpu.Cmp(emulator.Cpu.Eax, new Register8(0x01/*1*/));
+		emulator.Cpu.Ecx = emulator.Cpu.Mov(new Register32(0x00000080/*128*/));
+		if (emulator.Cpu.Jne) goto loc_41794A;
+		emulator.Cpu.Eax = emulator.Cpu.Xor(emulator.Cpu.Eax, emulator.Cpu.Eax);
+		emulator.Cpu.Edi = emulator.Cpu.Mov(new Register32(0x00489CE0/*4758752*/));
+		// TODO: f3
+		// TODO: ab
+		emulator.Cpu.Edi = emulator.Cpu.Pop32();
+		return;
 
-			loc_41794A:
-			emulator.Cpu.Eax = emulator.Cpu.Xor(emulator.Cpu.Eax, emulator.Cpu.Eax);
-			emulator.Cpu.Edi = emulator.Cpu.Mov(new Register32(0x00489AE0/*4758240*/));
-			// TODO: f3
-			// TODO: ab
-			emulator.Cpu.Edi = emulator.Cpu.Pop32();
-			return;
+	loc_41794A:
+		emulator.Cpu.Eax = emulator.Cpu.Xor(emulator.Cpu.Eax, emulator.Cpu.Eax);
+		emulator.Cpu.Edi = emulator.Cpu.Mov(new Register32(0x00489AE0/*4758240*/));
+		// TODO: f3
+		// TODO: ab
+		emulator.Cpu.Edi = emulator.Cpu.Pop32();
+		return;
 
-		}
 	}
 }

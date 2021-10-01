@@ -1,13 +1,12 @@
 using Aigamo.Saruhashi;
 
-namespace OpenNspw.Controls
+namespace OpenNspw.Controls;
+
+internal sealed class DynamicLabel : Label
 {
-	internal sealed class DynamicLabel : Label
+	public new Func<string> GetText
 	{
-		public new Func<string> GetText
-		{
-			get => base.GetText;
-			set => base.GetText = value;
-		}
+		get => base.GetText;
+		set => base.GetText = value;
 	}
 }

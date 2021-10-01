@@ -1,18 +1,17 @@
 using Aigamo.Saruhashi;
 
-namespace OpenNspw.Effects
+namespace OpenNspw.Effects;
+
+internal enum EffectLayer
 {
-	internal enum EffectLayer
-	{
-		Lower,
-		Upper,
-	}
+	Lower,
+	Upper,
+}
 
-	internal interface IEffect
-	{
-		EffectLayer Layer { get; }
+internal interface IEffect
+{
+	EffectLayer Layer { get; }
 
-		void Update(World world);
-		void Draw(World world, Graphics graphics, Camera camera);
-	}
+	void Update(World world);
+	void Draw(World world, Graphics graphics, Camera camera);
 }

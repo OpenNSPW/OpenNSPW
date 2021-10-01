@@ -5,252 +5,251 @@ using OpenNspw.Orders;
 using OpenNspw.Projectiles;
 using OpenNspw.Scenarios;
 
-namespace OpenNspw
+namespace OpenNspw;
+
+internal sealed class World
 {
-	internal sealed class World
+	public IAssetManager Assets { get; }
+	public Sound Sound { get; }
+
+	public int WorldTick { get; private set; }
+
+	public int FrameCount { get; set; }
+
+	public Camera Camera { get; }
+
+	public UnitCollection AllUnits { get; } = new();
+	public UnitCollection Units { get; } = new();
+
+	public Selection Selection { get; } = new();
+
+	private readonly List<IProjectile> _projectiles = new();
+	private readonly List<IEffect> _effects = new();
+
+	public Map Map { get; }
+
+	public OrderManager OrderManager { get; }
+
+	public IReadOnlyList<Player> Players { get; }
+
+	private int _localPlayerIndex;
+	public Player LocalPlayer => Players[_localPlayerIndex];
+
+	public void SetLocalPlayerIndex(int value)
 	{
-		public IAssetManager Assets { get; }
-		public Sound Sound { get; }
+		if (value == _localPlayerIndex)
+			return;
 
-		public int WorldTick { get; private set; }
+		_localPlayerIndex = value;
+	}
 
-		public int FrameCount { get; set; }
+	public Scenario Scenario { get; }
 
-		public Camera Camera { get; }
+	public Random Random { get; } = new();
+	public Random LocalRandom { get; } = new();
 
-		public UnitCollection AllUnits { get; } = new();
-		public UnitCollection Units { get; } = new();
+	private readonly Queue<Action<World>> _frameEndActions = new();
 
-		public Selection Selection { get; } = new();
+	private World(
+		IAssetManager assets,
+		Sound sound,
+		Scenario scenario,
+		OrderManager orderManager,
+		Map map,
+		IEnumerable<Player> players,
+		Camera camera
+	)
+	{
+		Assets = assets;
+		Sound = sound;
+		Scenario = scenario;
+		OrderManager = orderManager;
+		Map = map;
+		Players = players.ToArray();
+		Camera = camera;
+	}
 
-		private readonly List<IProjectile> _projectiles = new();
-		private readonly List<IEffect> _effects = new();
+	public static World Create(
+		IAssetManager assets,
+		Sound sound,
+		Scenario scenario,
+		OrderManager orderManager,
+		Map map,
+		IEnumerable<Player> players,
+		Camera camera
+	)
+	{
+		var world = new World(assets, sound, scenario, orderManager, map, players, camera);
+		scenario.Initialize(world, camera);
+		return world;
+	}
 
-		public Map Map { get; }
+	public IEnumerable<IEffect> Effects => _effects;
 
-		public OrderManager OrderManager { get; }
+	private int _nextUnitId = 1;
 
-		public IReadOnlyList<Player> Players { get; }
+	public Unit CreateUnit(string name, Player owner, WPos center, WAngle angle) => Unit.Create(_nextUnitId++, this, name, owner, center, angle);
 
-		private int _localPlayerIndex;
-		public Player LocalPlayer => Players[_localPlayerIndex];
+	public void Add(Unit unit, bool toAll)
+	{
+		unit.IsInWorld = true;
 
-		public void SetLocalPlayerIndex(int value)
+		if (toAll)
+			AllUnits.Add(unit);
+
+		Units.Add(unit);
+
+		foreach (var listener in unit.Components.OfType<IAddedToWorldEventListener>())
+			listener.OnAddedToWorld(unit);
+	}
+
+	public void Add(IProjectile projectile) => _projectiles.Add(projectile);
+	public void Add(IEffect effect) => _effects.Add(effect);
+
+	public void Remove(Unit unit, bool fromAll)
+	{
+		unit.IsInWorld = false;
+
+		if (fromAll)
+			AllUnits.Remove(unit);
+
+		Units.Remove(unit);
+
+		foreach (var listener in unit.Components.OfType<IRemovedFromWorldEventListener>())
+			listener.OnRemovedFromWorld(unit);
+	}
+
+	public void Remove(IProjectile projectile) => _projectiles.Remove(projectile);
+	public void Remove(IEffect effect) => _effects.Remove(effect);
+
+	public void AddFrameEndAction(Action<World> action) => _frameEndActions.Enqueue(action);
+
+	public void DispatchOrder(IOrder order) => OrderManager.DispatchOrder(order);
+
+	internal void HandleOrder(IOrder order)
+	{
+		switch (order)
 		{
-			if (value == _localPlayerIndex)
-				return;
+			case ISelectionOrder selectionOrder:
+				foreach (var unit in selectionOrder.Selection)
+					unit.HandleOrder(selectionOrder);
+				break;
 
-			_localPlayerIndex = value;
-		}
-
-		public Scenario Scenario { get; }
-
-		public Random Random { get; } = new();
-		public Random LocalRandom { get; } = new();
-
-		private readonly Queue<Action<World>> _frameEndActions = new();
-
-		private World(
-			IAssetManager assets,
-			Sound sound,
-			Scenario scenario,
-			OrderManager orderManager,
-			Map map,
-			IEnumerable<Player> players,
-			Camera camera
-		)
-		{
-			Assets = assets;
-			Sound = sound;
-			Scenario = scenario;
-			OrderManager = orderManager;
-			Map = map;
-			Players = players.ToArray();
-			Camera = camera;
-		}
-
-		public static World Create(
-			IAssetManager assets,
-			Sound sound,
-			Scenario scenario,
-			OrderManager orderManager,
-			Map map,
-			IEnumerable<Player> players,
-			Camera camera
-		)
-		{
-			var world = new World(assets, sound, scenario, orderManager, map, players, camera);
-			scenario.Initialize(world, camera);
-			return world;
-		}
-
-		public IEnumerable<IEffect> Effects => _effects;
-
-		private int _nextUnitId = 1;
-
-		public Unit CreateUnit(string name, Player owner, WPos center, WAngle angle) => Unit.Create(_nextUnitId++, this, name, owner, center, angle);
-
-		public void Add(Unit unit, bool toAll)
-		{
-			unit.IsInWorld = true;
-
-			if (toAll)
-				AllUnits.Add(unit);
-
-			Units.Add(unit);
-
-			foreach (var listener in unit.Components.OfType<IAddedToWorldEventListener>())
-				listener.OnAddedToWorld(unit);
-		}
-
-		public void Add(IProjectile projectile) => _projectiles.Add(projectile);
-		public void Add(IEffect effect) => _effects.Add(effect);
-
-		public void Remove(Unit unit, bool fromAll)
-		{
-			unit.IsInWorld = false;
-
-			if (fromAll)
-				AllUnits.Remove(unit);
-
-			Units.Remove(unit);
-
-			foreach (var listener in unit.Components.OfType<IRemovedFromWorldEventListener>())
-				listener.OnRemovedFromWorld(unit);
-		}
-
-		public void Remove(IProjectile projectile) => _projectiles.Remove(projectile);
-		public void Remove(IEffect effect) => _effects.Remove(effect);
-
-		public void AddFrameEndAction(Action<World> action) => _frameEndActions.Enqueue(action);
-
-		public void DispatchOrder(IOrder order) => OrderManager.DispatchOrder(order);
-
-		internal void HandleOrder(IOrder order)
-		{
-			switch (order)
-			{
-				case ISelectionOrder selectionOrder:
-					foreach (var unit in selectionOrder.Selection)
-						unit.HandleOrder(selectionOrder);
-					break;
-
-				case IUnitOrder unitOrder:
-					unitOrder.Subject.HandleOrder(unitOrder);
-					break;
-			}
-		}
-
-		public void Update()
-		{
-			if (!OrderManager.IsReadyForNextFrame)
-				return;
-
-			foreach (var order in OrderManager.FrameData.OrdersForFrame(OrderManager.FrameId))
-				HandleOrder(order);
-
-			WorldTick++;
-
-			foreach (var effect in _effects)
-				effect.Update(this);
-
-			foreach (var unit in AllUnits)
-				unit.Update();
-
-			foreach (var projectile in _projectiles)
-				projectile.Update(this);
-
-			while (_frameEndActions.Any())
-				_frameEndActions.Dequeue()(this);
-		}
-
-		public void Draw(Graphics graphics, Camera camera)
-		{
-			Map.Draw(this, graphics, camera);
-		}
-
-		public void PlaySound(string name, WPos position)
-		{
-			// TODO: check visibility
-
-			if (!WRect.FromCenter(Camera.Center, new WVec(768, 768)).Inflate(new WVec(500, 500)).Contains(position))
-				return;
-
-			Sound.Play(name);
-		}
-
-		public void PlaySoundForUnitOrder(IUnitOrder unitOrder)
-		{
-			switch (unitOrder)
-			{
-				case LandingCellOrder landingCellOrder:
-					if (landingCellOrder.LandingCell is null)
-						Sound.Play("SoundEffects/btn_6");
-					else
-						Sound.Play("SoundEffects/btn_3");
-					break;
-
-				case WaypointOrder:
-					Sound.Play("SoundEffects/btn_4");
-					break;
-
-				case TargetOrder targetOrder:
-					if (targetOrder.Target is null)
-						Sound.Play("SoundEffects/btn_6");
-					else
-						Sound.Play("SoundEffects/btn_3");
-					break;
-			}
+			case IUnitOrder unitOrder:
+				unitOrder.Subject.HandleOrder(unitOrder);
+				break;
 		}
 	}
 
-	internal static class WorldExtensions
+	public void Update()
 	{
-		public sealed class UnitBuilder
+		if (!OrderManager.IsReadyForNextFrame)
+			return;
+
+		foreach (var order in OrderManager.FrameData.OrdersForFrame(OrderManager.FrameId))
+			HandleOrder(order);
+
+		WorldTick++;
+
+		foreach (var effect in _effects)
+			effect.Update(this);
+
+		foreach (var unit in AllUnits)
+			unit.Update();
+
+		foreach (var projectile in _projectiles)
+			projectile.Update(this);
+
+		while (_frameEndActions.Any())
+			_frameEndActions.Dequeue()(this);
+	}
+
+	public void Draw(Graphics graphics, Camera camera)
+	{
+		Map.Draw(this, graphics, camera);
+	}
+
+	public void PlaySound(string name, WPos position)
+	{
+		// TODO: check visibility
+
+		if (!WRect.FromCenter(Camera.Center, new WVec(768, 768)).Inflate(new WVec(500, 500)).Contains(position))
+			return;
+
+		Sound.Play(name);
+	}
+
+	public void PlaySoundForUnitOrder(IUnitOrder unitOrder)
+	{
+		switch (unitOrder)
 		{
-			public Unit Unit { get; }
+			case LandingCellOrder landingCellOrder:
+				if (landingCellOrder.LandingCell is null)
+					Sound.Play("SoundEffects/btn_6");
+				else
+					Sound.Play("SoundEffects/btn_3");
+				break;
 
-			public UnitBuilder(Unit unit)
-			{
-				Unit = unit;
-			}
+			case WaypointOrder:
+				Sound.Play("SoundEffects/btn_4");
+				break;
 
-			public UnitBuilder AddAirplane(string name)
-			{
-				var unit = Unit.World.CreateUnit(name, Unit.Owner, Unit.Center, Unit.Angle);
-				unit.World.Add(unit, toAll: true);
+			case TargetOrder targetOrder:
+				if (targetOrder.Target is null)
+					Sound.Play("SoundEffects/btn_6");
+				else
+					Sound.Play("SoundEffects/btn_3");
+				break;
+		}
+	}
+}
 
-				var airplane = unit.GetRequiredComponent<Airplane>();
-				var hangar = Unit.GetRequiredComponent<Hangar>();
-				hangar.Add(airplane);
-				hangar.Park(airplane);
-				return this;
-			}
+internal static class WorldExtensions
+{
+	public sealed class UnitBuilder
+	{
+		public Unit Unit { get; }
+
+		public UnitBuilder(Unit unit)
+		{
+			Unit = unit;
 		}
 
-		public sealed class WorldBuilder
+		public UnitBuilder AddAirplane(string name)
 		{
-			public World World { get; }
-			public Player Owner { get; }
+			var unit = Unit.World.CreateUnit(name, Unit.Owner, Unit.Center, Unit.Angle);
+			unit.World.Add(unit, toAll: true);
 
-			public WorldBuilder(World world, Player owner)
-			{
-				World = world;
-				Owner = owner;
-			}
+			var airplane = unit.GetRequiredComponent<Airplane>();
+			var hangar = Unit.GetRequiredComponent<Hangar>();
+			hangar.Add(airplane);
+			hangar.Park(airplane);
+			return this;
+		}
+	}
 
-			public WorldBuilder AddUnit(string name, WPos center, WAngle angle, Action<UnitBuilder>? callback = null)
-			{
-				var unit = World.CreateUnit(name, Owner, center, angle);
-				World.Add(unit, toAll: true);
-				callback?.Invoke(new UnitBuilder(unit));
-				return this;
-			}
+	public sealed class WorldBuilder
+	{
+		public World World { get; }
+		public Player Owner { get; }
+
+		public WorldBuilder(World world, Player owner)
+		{
+			World = world;
+			Owner = owner;
 		}
 
-		public static void AddUnits(this World world, Player owner, Action<WorldBuilder> callback)
+		public WorldBuilder AddUnit(string name, WPos center, WAngle angle, Action<UnitBuilder>? callback = null)
 		{
-			callback(new WorldBuilder(world, owner));
+			var unit = World.CreateUnit(name, Owner, center, angle);
+			World.Add(unit, toAll: true);
+			callback?.Invoke(new UnitBuilder(unit));
+			return this;
 		}
+	}
+
+	public static void AddUnits(this World world, Player owner, Action<WorldBuilder> callback)
+	{
+		callback(new WorldBuilder(world, owner));
 	}
 }

@@ -1,59 +1,58 @@
 using OpenNspw.Activities;
 
-namespace OpenNspw.Components
-{
-	internal sealed record ReturnToBaseOptions : ConditionalComponentOptions<ReturnToBase>
-	{
-		public ReturnToBaseOptions()
-		{
-			RequiresCondition = new("leader && approach");
-		}
+namespace OpenNspw.Components;
 
-		public override ReturnToBase CreateComponent(Unit self) => new(self, this);
+internal sealed record ReturnToBaseOptions : ConditionalComponentOptions<ReturnToBase>
+{
+	public ReturnToBaseOptions()
+	{
+		RequiresCondition = new("leader && approach");
 	}
 
-	internal sealed class ReturnToBase : ConditionalComponent<ReturnToBaseOptions>, ICreatedEventListener, IArrivalEventListener, IUpdatable
+	public override ReturnToBase CreateComponent(Unit self) => new(self, this);
+}
+
+internal sealed class ReturnToBase : ConditionalComponent<ReturnToBaseOptions>, ICreatedEventListener, IArrivalEventListener, IUpdatable
+{
+	private readonly Lazy<Airplane> _airplane;
+
+	public ReturnToBase(Unit self, ReturnToBaseOptions options) : base(self, options)
 	{
-		private readonly Lazy<Airplane> _airplane;
+		_airplane = new(() => self.GetRequiredComponent<Airplane>());
+	}
 
-		public ReturnToBase(Unit self, ReturnToBaseOptions options) : base(self, options)
+	private Airplane Airplane => _airplane.Value;
+
+	void ICreatedEventListener.OnCreated(Unit self)
+	{
+		_airplane.ForceInitialize();
+	}
+
+	private void SetLandingWaypoints(int count)
+	{
+		if (Airplane.Hangar is not Hangar hangar || hangar.Self.IsDead)
 		{
-			_airplane = new(() => self.GetRequiredComponent<Airplane>());
+			Airplane.Waypoints.Clear();
+			Airplane.Waypoints.Add(Airplane.Center + new WVec(Self.World.Random.Next(-200, 200), Self.World.Random.Next(-200, 200)));
 		}
+		else
+			Airplane.SetWaypoints(Airplane.GetLandingWaypoints(hangar, count).ToArray());
+	}
 
-		private Airplane Airplane => _airplane.Value;
+	void IArrivalEventListener.OnArrival(Unit self)
+	{
+		if (Airplane.FlightMode == FlightMode.ReturnToBase)
+			SetLandingWaypoints(count: 4);
+	}
 
-		void ICreatedEventListener.OnCreated(Unit self)
-		{
-			_airplane.ForceInitialize();
-		}
+	void IUpdatable.Update(Unit self)
+	{
+		if (IsDisabled)
+			return;
 
-		private void SetLandingWaypoints(int count)
-		{
-			if (Airplane.Hangar is not Hangar hangar || hangar.Self.IsDead)
-			{
-				Airplane.Waypoints.Clear();
-				Airplane.Waypoints.Add(Airplane.Center + new WVec(Self.World.Random.Next(-200, 200), Self.World.Random.Next(-200, 200)));
-			}
-			else
-				Airplane.SetWaypoints(Airplane.GetLandingWaypoints(hangar, count).ToArray());
-		}
+		SetLandingWaypoints(count: Airplane.Waypoints.Count);
 
-		void IArrivalEventListener.OnArrival(Unit self)
-		{
-			if (Airplane.FlightMode == FlightMode.ReturnToBase)
-				SetLandingWaypoints(count: 4);
-		}
-
-		void IUpdatable.Update(Unit self)
-		{
-			if (IsDisabled)
-				return;
-
-			SetLandingWaypoints(count: Airplane.Waypoints.Count);
-
-			if (Airplane.CanLand)
-				self.QueueActivity(isQueued: false, new Land(Airplane, Airplane.Hangar));
-		}
+		if (Airplane.CanLand)
+			self.QueueActivity(isQueued: false, new Land(Airplane, Airplane.Hangar));
 	}
 }

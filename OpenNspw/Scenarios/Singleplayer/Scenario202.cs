@@ -1,19 +1,18 @@
-﻿using Aigamo.Enzan;
+using Aigamo.Enzan;
 
-namespace OpenNspw.Scenarios.Singleplayer
+namespace OpenNspw.Scenarios.Singleplayer;
+
+internal sealed class Scenario202 : SingleplayerScenario
 {
-	internal sealed class Scenario202 : SingleplayerScenario
+	public Scenario202()
 	{
-		public Scenario202()
-		{
-			MapName = "Content/Maps/japan.dat";
-		}
+		MapName = "Content/Maps/japan.dat";
+	}
 
-		public override void Initialize(World world, Camera camera)
-		{
-			Emulator.Call(new Register32(0x422D10));
+	public override void Initialize(World world, Camera camera)
+	{
+		Emulator.Call(new Register32(0x422D10));
 
-			base.Initialize(world, camera);
-		}
+		base.Initialize(world, camera);
 	}
 }

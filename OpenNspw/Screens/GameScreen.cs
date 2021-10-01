@@ -5,64 +5,63 @@ using OpenNspw.Controls;
 using OpenNspw.Orders;
 using OpenNspw.Scenarios;
 
-namespace OpenNspw.Screens
+namespace OpenNspw.Screens;
+
+internal sealed class GameScreen : Screen
 {
-	internal sealed class GameScreen : Screen
+	private readonly Scenario _scenario;
+	private readonly OrderManager _orderManager;
+
+	private MainForm _mainForm = default!;
+
+	private SoundEffectInstance _soundEffectInstance = default!;
+
+	public GameScreen(MainGame game, Scenario scenario) : base(game)
 	{
-		private readonly Scenario _scenario;
-		private readonly OrderManager _orderManager;
+		_scenario = scenario;
+		_orderManager = new OrderManager(new EchoConnection());
+	}
 
-		private MainForm _mainForm = default!;
+	public override void LoadContent()
+	{
+		base.LoadContent();
 
-		private SoundEffectInstance _soundEffectInstance = default!;
-
-		public GameScreen(MainGame game, Scenario scenario) : base(game)
+		var map = new Map(_scenario.MapName);
+		var players = _scenario.Players.Select(p => new Player(p.Faction, p.Color));
+		var camera = new Camera(map.Bounds, flipY: true)
 		{
-			_scenario = scenario;
-			_orderManager = new OrderManager(new EchoConnection());
-		}
+			Viewport = WRect.FromCenter(WPos.Zero, new WVec(768, 768)),
+		};
+		var world = World.Create(Game.Assets, Game.Sound, _scenario, _orderManager, map, players, camera);
 
-		public override void LoadContent()
-		{
-			base.LoadContent();
+		_mainForm = new MainForm(world, camera, GraphicsDevice);
+		WindowManager.Root.Controls.Add(_mainForm);
+		_mainForm.Show();
+		_mainForm.Focus();
 
-			var map = new Map(_scenario.MapName);
-			var players = _scenario.Players.Select(p => new Player(p.Faction, p.Color));
-			var camera = new Camera(map.Bounds, flipY: true)
-			{
-				Viewport = WRect.FromCenter(WPos.Zero, new WVec(768, 768)),
-			};
-			var world = World.Create(Game.Assets, Game.Sound, _scenario, _orderManager, map, players, camera);
+		_soundEffectInstance = Game.Assets.SoundEffects["SoundEffects/sea1"].CreateInstance();
+		_soundEffectInstance.IsLooped = true;
+		_soundEffectInstance.Play();
 
-			_mainForm = new MainForm(world, camera, GraphicsDevice);
-			WindowManager.Root.Controls.Add(_mainForm);
-			_mainForm.Show();
-			_mainForm.Focus();
+		_orderManager.StartGame();
+	}
 
-			_soundEffectInstance = Game.Assets.SoundEffects["SoundEffects/sea1"].CreateInstance();
-			_soundEffectInstance.IsLooped = true;
-			_soundEffectInstance.Play();
+	public override void UnloadContent()
+	{
+		base.UnloadContent();
 
-			_orderManager.StartGame();
-		}
+		_soundEffectInstance.Stop();
+		_soundEffectInstance.Dispose();
+	}
 
-		public override void UnloadContent()
-		{
-			base.UnloadContent();
+	public override void Update(GameTime gameTime)
+	{
+		base.Update(gameTime);
 
-			_soundEffectInstance.Stop();
-			_soundEffectInstance.Dispose();
-		}
+		_mainForm.Update(gameTime);
+	}
 
-		public override void Update(GameTime gameTime)
-		{
-			base.Update(gameTime);
-
-			_mainForm.Update(gameTime);
-		}
-
-		public override void Draw(GameTime gameTime)
-		{
-		}
+	public override void Draw(GameTime gameTime)
+	{
 	}
 }

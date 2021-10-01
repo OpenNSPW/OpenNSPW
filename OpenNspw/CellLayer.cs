@@ -1,25 +1,24 @@
-﻿using MonoGame.Extended;
+using MonoGame.Extended;
 
-namespace OpenNspw
+namespace OpenNspw;
+
+internal sealed class CellLayer<T>
 {
-	internal sealed class CellLayer<T>
+	public Size Size { get; }
+
+	private readonly T[] _entries;
+
+	public CellLayer()
 	{
-		public Size Size { get; }
+		Size = new Size(256, 256);
+		_entries = new T[Size.Width * Size.Height];
+	}
 
-		private readonly T[] _entries;
+	private int IndexOf(CPos cell) => cell.Y * Size.Width + cell.X;
 
-		public CellLayer()
-		{
-			Size = new Size(256, 256);
-			_entries = new T[Size.Width * Size.Height];
-		}
-
-		private int IndexOf(CPos cell) => cell.Y * Size.Width + cell.X;
-
-		public T this[CPos cell]
-		{
-			get => _entries[IndexOf(cell)];
-			set => _entries[IndexOf(cell)] = value;
-		}
+	public T this[CPos cell]
+	{
+		get => _entries[IndexOf(cell)];
+		set => _entries[IndexOf(cell)] = value;
 	}
 }

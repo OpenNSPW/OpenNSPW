@@ -1,41 +1,40 @@
-namespace OpenNspw.Interop
+namespace OpenNspw.Interop;
+
+public sealed class NEW_PP
 {
-	public sealed class NEW_PP
+	public const int Length = 0x20;
+
+	private readonly Memory<byte> _data;
+
+	public NEW_PP(Memory<byte> data)
 	{
-		public const int Length = 0x20;
+		if (data.Length != Length)
+			throw new ArgumentException(message: null, paramName: nameof(data));
 
-		private readonly Memory<byte> _data;
+		_data = data;
+	}
 
-		public NEW_PP(Memory<byte> data)
-		{
-			if (data.Length != Length)
-				throw new ArgumentException(message: null, paramName: nameof(data));
+	public short used
+	{
+		get => BitConverter.ToInt16(_data[0x0..].Span);
+		set => BitConverter.GetBytes(value).CopyTo(_data[0x0..]);
+	}
 
-			_data = data;
-		}
+	public double x
+	{
+		get => BitConverter.ToDouble(_data[0x8..].Span);
+		set => BitConverter.GetBytes(value).CopyTo(_data[0x8..]);
+	}
 
-		public short used
-		{
-			get => BitConverter.ToInt16(_data[0x0..].Span);
-			set => BitConverter.GetBytes(value).CopyTo(_data[0x0..]);
-		}
+	public double y
+	{
+		get => BitConverter.ToDouble(_data[0x10..].Span);
+		set => BitConverter.GetBytes(value).CopyTo(_data[0x10..]);
+	}
 
-		public double x
-		{
-			get => BitConverter.ToDouble(_data[0x8..].Span);
-			set => BitConverter.GetBytes(value).CopyTo(_data[0x8..]);
-		}
-
-		public double y
-		{
-			get => BitConverter.ToDouble(_data[0x10..].Span);
-			set => BitConverter.GetBytes(value).CopyTo(_data[0x10..]);
-		}
-
-		public bool cls
-		{
-			get => BitConverter.ToBoolean(_data[0x18..].Span);
-			set => BitConverter.GetBytes(value).CopyTo(_data[0x18..]);
-		}
+	public bool cls
+	{
+		get => BitConverter.ToBoolean(_data[0x18..].Span);
+		set => BitConverter.GetBytes(value).CopyTo(_data[0x18..]);
 	}
 }

@@ -1,9 +1,8 @@
-﻿namespace OpenNspw.Controls
+namespace OpenNspw.Controls;
+
+internal enum SelectionState
 {
-	internal enum SelectionState
-	{
-		None = 0,
-		Selecting,
-		Unselecting,
-	}
+	None = 0,
+	Selecting,
+	Unselecting,
 }

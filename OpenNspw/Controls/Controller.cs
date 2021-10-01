@@ -7,234 +7,233 @@ using DColor = System.Drawing.Color;
 using DPen = System.Drawing.Pen;
 using DPoint = System.Drawing.Point;
 
-namespace OpenNspw.Controls
+namespace OpenNspw.Controls;
+
+internal class Controller : Control
 {
-	internal class Controller : Control
+	private readonly World _world;
+	private readonly Camera _camera;
+
+	public Selection Selection { get; }
+	public Unit? MouseOverUnit { get; private set; }
+	private SelectionState _selectionState;
+
+	public Controller(World world, Camera camera) : base()
 	{
-		private readonly World _world;
-		private readonly Camera _camera;
+		_world = world;
+		_camera = camera;
 
-		public Selection Selection { get; }
-		public Unit? MouseOverUnit { get; private set; }
-		private SelectionState _selectionState;
+		Selection = world.Selection;
+	}
 
-		public Controller(World world, Camera camera) : base()
+	public event EventHandler? SelectionAdded;
+	protected virtual void OnSelectionAdded(EventArgs e) => SelectionAdded?.Invoke(this, e);
+
+	public event EventHandler? SelectionRemoved;
+	protected virtual void OnSelectionRemoved(EventArgs e) => SelectionRemoved?.Invoke(this, e);
+
+	public event EventHandler? SelectionCanceled;
+	protected virtual void OnSelectionCanceled(EventArgs e) => SelectionCanceled?.Invoke(this, e);
+
+	public event EventHandler? SelectionRestored;
+	protected virtual void OnSelectionRestored(EventArgs e) => SelectionRestored?.Invoke(this, e);
+
+	private List<Unit> SelectedUnits => Selection.Units;
+
+	public Unit? Subject => SelectedUnits.FirstOrDefault();
+
+	public Unit? MouseFocusUnit
+	{
+		get => Selection.MouseFocusUnit;
+		set => Selection.MouseFocusUnit = value;
+	}
+
+	protected DPoint MouseLocation
+	{
+		get
 		{
-			_world = world;
-			_camera = camera;
-
-			Selection = world.Selection;
-		}
-
-		public event EventHandler? SelectionAdded;
-		protected virtual void OnSelectionAdded(EventArgs e) => SelectionAdded?.Invoke(this, e);
-
-		public event EventHandler? SelectionRemoved;
-		protected virtual void OnSelectionRemoved(EventArgs e) => SelectionRemoved?.Invoke(this, e);
-
-		public event EventHandler? SelectionCanceled;
-		protected virtual void OnSelectionCanceled(EventArgs e) => SelectionCanceled?.Invoke(this, e);
-
-		public event EventHandler? SelectionRestored;
-		protected virtual void OnSelectionRestored(EventArgs e) => SelectionRestored?.Invoke(this, e);
-
-		private List<Unit> SelectedUnits => Selection.Units;
-
-		public Unit? Subject => SelectedUnits.FirstOrDefault();
-
-		public Unit? MouseFocusUnit
-		{
-			get => Selection.MouseFocusUnit;
-			set => Selection.MouseFocusUnit = value;
-		}
-
-		protected DPoint MouseLocation
-		{
-			get
-			{
-				var viewportAdapter = ((MonoGameGraphicsFactory)WindowManager.GraphicsFactory).ViewportAdapter;
-				var mousePosition = Mouse.GetState().Position;
-				return (viewportAdapter?.PointToScreen(mousePosition) ?? mousePosition).ToDrawingPoint();
-			}
-		}
-
-		protected WPos MouseWPos => _camera.ScreenToWorld(PointToClient(MouseLocation).ToXnaPoint().ToVector2());
-
-		protected void Update(IEnumerable<Unit> units)
-		{
-			MouseOverUnit = units.FirstOrDefault(u => WRect.FromCenter(u.Center, new WVec(40, 40)).Contains(MouseWPos) && u.CanBeViewedBy(u.World.LocalPlayer));
-		}
-
-		protected void DrawLine(PaintEventArgs e, DPen pen, WPos point1, WPos point2)
-		{
-			e.Graphics.DrawLine(pen, _camera.WorldToScreen(point1).ToPoint().ToDrawingPoint(), _camera.WorldToScreen(point2).ToPoint().ToDrawingPoint());
-		}
-
-		protected void DrawRectangle(PaintEventArgs e, DPen pen, WRect rectangle)
-		{
-			e.Graphics.DrawRectangle(pen, ((Rectangle)_camera.WorldToScreen(rectangle)).ToDrawingRectangle());
-		}
-
-		protected void DrawBackground(PaintEventArgs e, IEnumerable<Unit> units)
-		{
-			foreach (var unit in units.Where(u => _camera.Viewport.Intersects(WRect.FromCenter(u.Center, new WVec(80, 80)))))
-				unit.Draw(e.Graphics, _camera);
-		}
-
-		protected void Draw(PaintEventArgs e, IEnumerable<Unit> units)
-		{
-			if (MouseOverUnit is not null && Subject.CanSelect(MouseOverUnit))
-			{
-				if (_world.FrameCount % 2 != 0)
-					DrawRectangle(e, new DPen(DColor.White), WRect.FromCenter(MouseOverUnit.Center, new WVec(50, 50)));
-			}
-
-			foreach (var unit in units.Intersect(SelectedUnits))
-			{
-				var size = (unit == Subject) ? new WVec(60, 60) : new WVec(40, 40);
-				DrawRectangle(e, new DPen(DColor.White), WRect.FromCenter(unit.Center, size));
-			}
-		}
-
-		private void AddSelectedUnit(Unit target)
-		{
-			if (!Subject.CanSelect(target))
-				return;
-
-			SelectedUnits.Add(target);
-
-			OnSelectionAdded(EventArgs.Empty);
-		}
-
-		private void RemoveSelectedUnit(Unit target)
-		{
-			if (!Subject.CanSelect(target))
-				return;
-
-			SelectedUnits.Remove(target);
-
-			OnSelectionRemoved(EventArgs.Empty);
-		}
-
-		public void UpdateSelection()
-		{
-			if (MouseOverUnit is null)
-				return;
-
-			switch (_selectionState)
-			{
-				case SelectionState.Selecting:
-					if (!SelectedUnits.Contains(MouseOverUnit))
-						AddSelectedUnit(MouseOverUnit);
-					break;
-
-				case SelectionState.Unselecting:
-					if (SelectedUnits.Contains(MouseOverUnit) && MouseOverUnit != Subject)
-						RemoveSelectedUnit(MouseOverUnit);
-					break;
-			}
-		}
-
-		protected override void OnMouseMove(MouseEventArgs e)
-		{
-			base.OnMouseMove(e);
-
-			if (e.Button == MouseButtons.Left)
-				UpdateSelection();
-		}
-
-		private void CancelSelection()
-		{
-			if (Subject is null)
-				return;
-
-			RemoveSelectedUnit(Subject);
-
-			Selection.Clear();
-
-			OnSelectionCanceled(EventArgs.Empty);
-		}
-
-		private void RestoreSelection(Unit? target)
-		{
-			if (target is null || !Subject.CanSelect(target))
-				return;
-
-			Selection.Clear();
-
-			AddSelectedUnit(target);
-
-			if (target.Components.OfType<Mobile>().SingleOrDefault() is Mobile mobile)
-				Selection.Units.AddRange(mobile.Followers.Select(f => f.Self));
-
-			OnSelectionRestored(EventArgs.Empty);
-		}
-
-		protected override void OnMouseDown(MouseEventArgs e)
-		{
-			base.OnMouseDown(e);
-
-			if (e.Button == MouseButtons.Left)
-			{
-				if (MouseOverUnit is not null && Subject.CanSelect(MouseOverUnit))
-				{
-					if (MouseOverUnit == Subject)
-						CancelSelection();
-					else if (SelectedUnits.Contains(MouseOverUnit))
-					{
-						_selectionState = SelectionState.Unselecting;
-
-						RemoveSelectedUnit(MouseOverUnit);
-					}
-					else
-					{
-						_selectionState = SelectionState.Selecting;
-
-						if (SelectedUnits.Any())
-							AddSelectedUnit(MouseOverUnit);
-						else
-						{
-							if (MouseOverUnit?.GetComponent<Airplane>() is not Airplane airplane || !airplane.IsInHangar)
-								MouseFocusUnit = MouseOverUnit;
-
-							RestoreSelection(MouseOverUnit);
-						}
-					}
-				}
-			}
-
-			if (e.Button == MouseButtons.Right)
-			{
-				if (SelectedUnits.Any())
-					CancelSelection();
-				else
-					RestoreSelection(MouseFocusUnit);
-			}
-		}
-
-		protected override void OnMouseUp(MouseEventArgs e)
-		{
-			base.OnMouseUp(e);
-
-			if (e.Button == MouseButtons.Left)
-				_selectionState = SelectionState.None;
+			var viewportAdapter = ((MonoGameGraphicsFactory)WindowManager.GraphicsFactory).ViewportAdapter;
+			var mousePosition = Mouse.GetState().Position;
+			return (viewportAdapter?.PointToScreen(mousePosition) ?? mousePosition).ToDrawingPoint();
 		}
 	}
 
-	internal static class ControllerExtensions
+	protected WPos MouseWPos => _camera.ScreenToWorld(PointToClient(MouseLocation).ToXnaPoint().ToVector2());
+
+	protected void Update(IEnumerable<Unit> units)
 	{
-		public static bool CanSelect(this Unit? self, Unit target)
+		MouseOverUnit = units.FirstOrDefault(u => WRect.FromCenter(u.Center, new WVec(40, 40)).Contains(MouseWPos) && u.CanBeViewedBy(u.World.LocalPlayer));
+	}
+
+	protected void DrawLine(PaintEventArgs e, DPen pen, WPos point1, WPos point2)
+	{
+		e.Graphics.DrawLine(pen, _camera.WorldToScreen(point1).ToPoint().ToDrawingPoint(), _camera.WorldToScreen(point2).ToPoint().ToDrawingPoint());
+	}
+
+	protected void DrawRectangle(PaintEventArgs e, DPen pen, WRect rectangle)
+	{
+		e.Graphics.DrawRectangle(pen, ((Rectangle)_camera.WorldToScreen(rectangle)).ToDrawingRectangle());
+	}
+
+	protected void DrawBackground(PaintEventArgs e, IEnumerable<Unit> units)
+	{
+		foreach (var unit in units.Where(u => _camera.Viewport.Intersects(WRect.FromCenter(u.Center, new WVec(80, 80)))))
+			unit.Draw(e.Graphics, _camera);
+	}
+
+	protected void Draw(PaintEventArgs e, IEnumerable<Unit> units)
+	{
+		if (MouseOverUnit is not null && Subject.CanSelect(MouseOverUnit))
 		{
-			if (target.Owner != target.World.LocalPlayer)
-				return false;
-
-			if (self is null || self == target)
-				return true;
-
-			if (self.Components.OfType<Mobile>().SingleOrDefault() is Mobile leader && target.Components.OfType<Mobile>().SingleOrDefault() is Mobile mobile)
-				return mobile.CanFollow(leader);
-
-			return false;
+			if (_world.FrameCount % 2 != 0)
+				DrawRectangle(e, new DPen(DColor.White), WRect.FromCenter(MouseOverUnit.Center, new WVec(50, 50)));
 		}
+
+		foreach (var unit in units.Intersect(SelectedUnits))
+		{
+			var size = (unit == Subject) ? new WVec(60, 60) : new WVec(40, 40);
+			DrawRectangle(e, new DPen(DColor.White), WRect.FromCenter(unit.Center, size));
+		}
+	}
+
+	private void AddSelectedUnit(Unit target)
+	{
+		if (!Subject.CanSelect(target))
+			return;
+
+		SelectedUnits.Add(target);
+
+		OnSelectionAdded(EventArgs.Empty);
+	}
+
+	private void RemoveSelectedUnit(Unit target)
+	{
+		if (!Subject.CanSelect(target))
+			return;
+
+		SelectedUnits.Remove(target);
+
+		OnSelectionRemoved(EventArgs.Empty);
+	}
+
+	public void UpdateSelection()
+	{
+		if (MouseOverUnit is null)
+			return;
+
+		switch (_selectionState)
+		{
+			case SelectionState.Selecting:
+				if (!SelectedUnits.Contains(MouseOverUnit))
+					AddSelectedUnit(MouseOverUnit);
+				break;
+
+			case SelectionState.Unselecting:
+				if (SelectedUnits.Contains(MouseOverUnit) && MouseOverUnit != Subject)
+					RemoveSelectedUnit(MouseOverUnit);
+				break;
+		}
+	}
+
+	protected override void OnMouseMove(MouseEventArgs e)
+	{
+		base.OnMouseMove(e);
+
+		if (e.Button == MouseButtons.Left)
+			UpdateSelection();
+	}
+
+	private void CancelSelection()
+	{
+		if (Subject is null)
+			return;
+
+		RemoveSelectedUnit(Subject);
+
+		Selection.Clear();
+
+		OnSelectionCanceled(EventArgs.Empty);
+	}
+
+	private void RestoreSelection(Unit? target)
+	{
+		if (target is null || !Subject.CanSelect(target))
+			return;
+
+		Selection.Clear();
+
+		AddSelectedUnit(target);
+
+		if (target.Components.OfType<Mobile>().SingleOrDefault() is Mobile mobile)
+			Selection.Units.AddRange(mobile.Followers.Select(f => f.Self));
+
+		OnSelectionRestored(EventArgs.Empty);
+	}
+
+	protected override void OnMouseDown(MouseEventArgs e)
+	{
+		base.OnMouseDown(e);
+
+		if (e.Button == MouseButtons.Left)
+		{
+			if (MouseOverUnit is not null && Subject.CanSelect(MouseOverUnit))
+			{
+				if (MouseOverUnit == Subject)
+					CancelSelection();
+				else if (SelectedUnits.Contains(MouseOverUnit))
+				{
+					_selectionState = SelectionState.Unselecting;
+
+					RemoveSelectedUnit(MouseOverUnit);
+				}
+				else
+				{
+					_selectionState = SelectionState.Selecting;
+
+					if (SelectedUnits.Any())
+						AddSelectedUnit(MouseOverUnit);
+					else
+					{
+						if (MouseOverUnit?.GetComponent<Airplane>() is not Airplane airplane || !airplane.IsInHangar)
+							MouseFocusUnit = MouseOverUnit;
+
+						RestoreSelection(MouseOverUnit);
+					}
+				}
+			}
+		}
+
+		if (e.Button == MouseButtons.Right)
+		{
+			if (SelectedUnits.Any())
+				CancelSelection();
+			else
+				RestoreSelection(MouseFocusUnit);
+		}
+	}
+
+	protected override void OnMouseUp(MouseEventArgs e)
+	{
+		base.OnMouseUp(e);
+
+		if (e.Button == MouseButtons.Left)
+			_selectionState = SelectionState.None;
+	}
+}
+
+internal static class ControllerExtensions
+{
+	public static bool CanSelect(this Unit? self, Unit target)
+	{
+		if (target.Owner != target.World.LocalPlayer)
+			return false;
+
+		if (self is null || self == target)
+			return true;
+
+		if (self.Components.OfType<Mobile>().SingleOrDefault() is Mobile leader && target.Components.OfType<Mobile>().SingleOrDefault() is Mobile mobile)
+			return mobile.CanFollow(leader);
+
+		return false;
 	}
 }

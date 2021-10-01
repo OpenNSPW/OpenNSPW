@@ -1,19 +1,18 @@
 using Microsoft.Xna.Framework;
 
-namespace OpenNspw
+namespace OpenNspw;
+
+internal sealed class Player
 {
-	internal sealed class Player
+	public string Faction { get; }
+	public Color Color { get; }
+
+	public Player(string faction, Color color)
 	{
-		public string Faction { get; }
-		public Color Color { get; }
-
-		public Player(string faction, Color color)
-		{
-			Faction = faction;
-			Color = color;
-		}
-
-		// TODO: implement
-		public bool IsAlliedWith(Player other) => this == other;
+		Faction = faction;
+		Color = color;
 	}
+
+	// TODO: implement
+	public bool IsAlliedWith(Player other) => this == other;
 }

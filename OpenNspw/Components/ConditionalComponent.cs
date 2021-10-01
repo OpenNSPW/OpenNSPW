@@ -11,78 +11,77 @@
  */
 #endregion
 
-namespace OpenNspw.Components
+namespace OpenNspw.Components;
+
+internal abstract record ConditionalComponentOptions : IComponentOptions<ConditionalComponent>
 {
-	internal abstract record ConditionalComponentOptions : IComponentOptions<ConditionalComponent>
-	{
-		public BooleanExpression? RequiresCondition { get; init; }
+	public BooleanExpression? RequiresCondition { get; init; }
 
-		public abstract ConditionalComponent CreateComponent(Unit self);
+	public abstract ConditionalComponent CreateComponent(Unit self);
+}
+
+internal abstract record ConditionalComponentOptions<TComponent> : ConditionalComponentOptions
+	where TComponent : ConditionalComponent
+{
+	public abstract override TComponent CreateComponent(Unit self);
+}
+
+internal abstract class ConditionalComponent : IComponent<ConditionalComponentOptions>, IObservesVariables, ICreatedEventListener
+{
+	public Unit Self { get; }
+	public ConditionalComponentOptions Options { get; }
+	public bool IsDisabled { get; private set; }
+
+	protected ConditionalComponent(Unit self, ConditionalComponentOptions options)
+	{
+		Self = self;
+		Options = options;
+
+		IsDisabled = options.RequiresCondition is not null;
 	}
 
-	internal abstract record ConditionalComponentOptions<TComponent> : ConditionalComponentOptions
-		where TComponent : ConditionalComponent
+	private void RequiredConditionsChanged(Unit self, IReadOnlyDictionary<string, int> conditions)
 	{
-		public abstract override TComponent CreateComponent(Unit self);
-	}
+		if (Options.RequiresCondition is null)
+			return;
 
-	internal abstract class ConditionalComponent : IComponent<ConditionalComponentOptions>, IObservesVariables, ICreatedEventListener
-	{
-		public Unit Self { get; }
-		public ConditionalComponentOptions Options { get; }
-		public bool IsDisabled { get; private set; }
+		var wasDisabled = IsDisabled;
+		IsDisabled = !Options.RequiresCondition.Evaluate(conditions);
 
-		protected ConditionalComponent(Unit self, ConditionalComponentOptions options)
+		if (IsDisabled != wasDisabled)
 		{
-			Self = self;
-			Options = options;
-
-			IsDisabled = options.RequiresCondition is not null;
-		}
-
-		private void RequiredConditionsChanged(Unit self, IReadOnlyDictionary<string, int> conditions)
-		{
-			if (Options.RequiresCondition is null)
-				return;
-
-			var wasDisabled = IsDisabled;
-			IsDisabled = !Options.RequiresCondition.Evaluate(conditions);
-
-			if (IsDisabled != wasDisabled)
-			{
-				if (wasDisabled)
-					OnEnabled(self);
-				else
-					OnDisabled(self);
-			}
-		}
-
-		public virtual IEnumerable<VariableObserver> GetVariableObservers()
-		{
-			if (Options.RequiresCondition is not null)
-				yield return new VariableObserver(RequiredConditionsChanged, Options.RequiresCondition.Variables);
-		}
-
-		protected virtual void OnEnabled(Unit self) { }
-		protected virtual void OnDisabled(Unit self) { }
-
-		protected virtual void OnCreated(Unit self)
-		{
-			if (Options.RequiresCondition is null)
+			if (wasDisabled)
 				OnEnabled(self);
+			else
+				OnDisabled(self);
 		}
-
-		void ICreatedEventListener.OnCreated(Unit self) => OnCreated(self);
 	}
 
-	internal abstract class ConditionalComponent<TOptions> : ConditionalComponent
-		where TOptions : ConditionalComponentOptions
+	public virtual IEnumerable<VariableObserver> GetVariableObservers()
 	{
-		public new TOptions Options { get; }
+		if (Options.RequiresCondition is not null)
+			yield return new VariableObserver(RequiredConditionsChanged, Options.RequiresCondition.Variables);
+	}
 
-		protected ConditionalComponent(Unit self, TOptions options) : base(self, options)
-		{
-			Options = options;
-		}
+	protected virtual void OnEnabled(Unit self) { }
+	protected virtual void OnDisabled(Unit self) { }
+
+	protected virtual void OnCreated(Unit self)
+	{
+		if (Options.RequiresCondition is null)
+			OnEnabled(self);
+	}
+
+	void ICreatedEventListener.OnCreated(Unit self) => OnCreated(self);
+}
+
+internal abstract class ConditionalComponent<TOptions> : ConditionalComponent
+	where TOptions : ConditionalComponentOptions
+{
+	public new TOptions Options { get; }
+
+	protected ConditionalComponent(Unit self, TOptions options) : base(self, options)
+	{
+		Options = options;
 	}
 }

@@ -1,87 +1,86 @@
 using OpenNspw.Components;
 
-namespace OpenNspw.Activities
+namespace OpenNspw.Activities;
+
+internal abstract class MoveBase : Activity, IMove
 {
-	internal abstract class MoveBase : Activity, IMove
+	private readonly Mobile _mobile;
+	private readonly bool _keepFormation;
+
+	public float Speed { get; private set; }
+	public float Acceleration { get; private set; }
+
+	public MoveBase(Mobile mobile, bool keepFormation, float speed, float acceleration)
 	{
-		private readonly Mobile _mobile;
-		private readonly bool _keepFormation;
+		_mobile = mobile;
+		_keepFormation = keepFormation;
 
-		public float Speed { get; private set; }
-		public float Acceleration { get; private set; }
+		Speed = speed;
+		Acceleration = acceleration;
+	}
 
-		public MoveBase(Mobile mobile, bool keepFormation, float speed, float acceleration)
+	public abstract WPos Destination { get; }
+
+	public abstract bool IsMoving { get; }
+
+	protected virtual void OnMoving(bool canMove) { }
+
+	protected override bool UpdateCore(Unit self)
+	{
+		if (IsCanceling)
+			return true;
+
+		if (IsMoving)
 		{
-			_mobile = mobile;
-			_keepFormation = keepFormation;
+			var desiredAngle = WAngle.FromVector(Destination - _mobile.Center);
+			var canMove = _mobile.CanMove(_mobile.Center + desiredAngle.ToVector(80));
 
-			Speed = speed;
-			Acceleration = acceleration;
-		}
+			_mobile.TurnSpeed = _mobile.GetTurnSpeed(desiredAngle - _mobile.Angle);
+			_mobile.Angle += _mobile.TurnSpeed;
 
-		public abstract WPos Destination { get; }
+			Acceleration = canMove
+				? _mobile.GetAcceleration(_keepFormation, desiredAngle)
+				: -_mobile.Options.Acceleration;
 
-		public abstract bool IsMoving { get; }
-
-		protected virtual void OnMoving(bool canMove) { }
-
-		protected override bool UpdateCore(Unit self)
-		{
-			if (IsCanceling)
-				return true;
-
-			if (IsMoving)
+			if (canMove && _mobile.Angle.IsWithinTolerance(desiredAngle, angleTolerance: WAngle.FromDegrees(22.5f)))
 			{
-				var desiredAngle = WAngle.FromVector(Destination - _mobile.Center);
-				var canMove = _mobile.CanMove(_mobile.Center + desiredAngle.ToVector(80));
-
-				_mobile.TurnSpeed = _mobile.GetTurnSpeed(desiredAngle - _mobile.Angle);
-				_mobile.Angle += _mobile.TurnSpeed;
-
-				Acceleration = canMove
-					? _mobile.GetAcceleration(_keepFormation, desiredAngle)
-					: -_mobile.Options.Acceleration;
-
-				if (canMove && _mobile.Angle.IsWithinTolerance(desiredAngle, angleTolerance: WAngle.FromDegrees(22.5f)))
+				if (_keepFormation)
 				{
-					if (_keepFormation)
+					switch (_mobile.FormationState)
 					{
-						switch (_mobile.FormationState)
-						{
-							case FormationState.One:
-								_mobile.FormationSpeed = 0;
-								break;
+						case FormationState.One:
+							_mobile.FormationSpeed = 0;
+							break;
 
-							case FormationState.Two when _mobile.Options.MaxSpeed >= _mobile.Leader?.Options.MaxSpeed:
-								Speed = _mobile.Leader.Speed;
-								break;
-						}
+						case FormationState.Two when _mobile.Options.MaxSpeed >= _mobile.Leader?.Options.MaxSpeed:
+							Speed = _mobile.Leader.Speed;
+							break;
 					}
-
-					_mobile.FormationState = FormationState.Zero;
 				}
 
-				OnMoving(canMove);
-			}
-			else
-				Acceleration = -_mobile.Options.Acceleration * 2;
-
-			Speed = Math.Max(_mobile.GetSpeed(Acceleration), IsMoving ? _mobile.Options.MinSpeed : 0);
-			_mobile.Center += _mobile.Angle.ToVector(Speed);
-
-			if (!IsMoving && !_mobile.Stop)
-			{
-				Queue(new Move(_mobile, Speed, Acceleration));
-				return true;
+				_mobile.FormationState = FormationState.Zero;
 			}
 
-			if (IsMoving)
-				return false;
+			OnMoving(canMove);
+		}
+		else
+			Acceleration = -_mobile.Options.Acceleration * 2;
 
-			if (Speed > 0)
-				return false;
+		Speed = Math.Max(_mobile.GetSpeed(Acceleration), IsMoving ? _mobile.Options.MinSpeed : 0);
+		_mobile.Center += _mobile.Angle.ToVector(Speed);
 
+		if (!IsMoving && !_mobile.Stop)
+		{
+			Queue(new Move(_mobile, Speed, Acceleration));
 			return true;
 		}
+
+		if (IsMoving)
+			return false;
+
+		if (Speed > 0)
+			return false;
+
+		return true;
 	}
 }

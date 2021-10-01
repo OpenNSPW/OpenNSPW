@@ -1,8 +1,7 @@
-﻿namespace OpenNspw.Activities
+namespace OpenNspw.Activities;
+
+internal interface IMove
 {
-	internal interface IMove
-	{
-		float Speed { get; }
-		float Acceleration { get; }
-	}
+	float Speed { get; }
+	float Acceleration { get; }
 }

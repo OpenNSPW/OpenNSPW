@@ -2,120 +2,119 @@
 
 using Aigamo.Enzan;
 
-namespace OpenNspw.Interop.Subroutines
+namespace OpenNspw.Interop.Subroutines;
+
+// set_pos_of_parking
+internal static class Sub416F40
 {
-	// set_pos_of_parking
-	internal static class Sub416F40
+	public static void Call(Emulator emulator)
 	{
-		public static void Call(Emulator emulator)
-		{
-			emulator.Cpu.Push(emulator.Cpu.Ecx);
-			emulator.Cpu.Eax = emulator.Cpu.Mov(emulator.Memory32[emulator.Cpu.Esp + new Register32(0x00000008/*8*/)]);
-			emulator.Cpu.Push(emulator.Cpu.Esi);
-			emulator.Cpu.Ecx = emulator.Cpu.Lea(emulator.Cpu.Eax + emulator.Cpu.Eax * new Register32(4));
-			emulator.Cpu.Ecx = emulator.Cpu.Lea(emulator.Cpu.Ecx + emulator.Cpu.Ecx * new Register32(8));
-			emulator.Cpu.Ecx = emulator.Cpu.Shl(emulator.Cpu.Ecx, new Register8(0x02/*2*/));
-			emulator.Cpu.Ecx = emulator.Cpu.Sub(emulator.Cpu.Ecx, emulator.Cpu.Eax);
-			emulator.Cpu.Ecx = emulator.Cpu.Shl(emulator.Cpu.Ecx, new Register8(0x03/*3*/));
-			emulator.Cpu.Eax = emulator.Cpu.Mov(emulator.Memory32[emulator.Cpu.Ecx + new Register32(0x004916C8/*4789960*/)]);
-			emulator.Cpu.Esi = emulator.Cpu.Mov(emulator.Memory32[emulator.Cpu.Ecx + new Register32(0x004916CC/*4789964*/)]);
-			emulator.Cpu.Edx = emulator.Cpu.Lea(emulator.Cpu.Eax + emulator.Cpu.Eax * new Register32(4));
-			emulator.Cpu.Edx = emulator.Cpu.Lea(emulator.Cpu.Edx + emulator.Cpu.Edx * new Register32(8));
-			emulator.Cpu.Edx = emulator.Cpu.Shl(emulator.Cpu.Edx, new Register8(0x02/*2*/));
-			emulator.Cpu.Edx = emulator.Cpu.Sub(emulator.Cpu.Edx, emulator.Cpu.Eax);
-			emulator.Cpu.Eax = emulator.Cpu.Mov(emulator.Memory32[emulator.Cpu.Edx * new Register32(8) + new Register32(0x004916BC/*4789948*/)]);
-			emulator.Cpu.Cmp(emulator.Cpu.Eax, new Register8(0x0B/*11*/));
-			emulator.Cpu.Eax = emulator.Cpu.Mov(emulator.Cpu.Esi);
-			emulator.Cpu.Cdq();
-			if (emulator.Cpu.Jne) goto loc_416FF1;
-			emulator.Cpu.Eax = emulator.Cpu.Sub(emulator.Cpu.Eax, emulator.Cpu.Edx);
-			emulator.Cpu.Edx = emulator.Cpu.Mov(emulator.Memory32[new Register32(0x0048A290/*4760208*/)]);
-			emulator.Cpu.Eax = emulator.Cpu.Sar(emulator.Cpu.Eax, new Register8(1));
-			emulator.Cpu.Eax = emulator.Cpu.Lea(emulator.Cpu.Eax + emulator.Cpu.Eax * new Register32(4));
-			emulator.Cpu.Eax = emulator.Cpu.Shl(emulator.Cpu.Eax, new Register8(0x03/*3*/));
-			emulator.Cpu.Edx = emulator.Cpu.Sub(emulator.Cpu.Edx, emulator.Cpu.Eax);
-			emulator.Cpu.Eax = emulator.Cpu.Mov(emulator.Memory32[new Register32(0x0048A280/*4760192*/)]);
-			emulator.Cpu.Esi = emulator.Cpu.And(emulator.Cpu.Esi, new Register32(0x80000001/*2147483649*/));
-			emulator.Cpu.Edx = emulator.Cpu.Lea(emulator.Cpu.Edx + emulator.Cpu.Eax * new Register32(1) + new Register32(0x0000009C/*156*/));
-			emulator.Memory32[emulator.Cpu.Esp + new Register32(0x0000000C/*12*/)] = emulator.Cpu.Mov(emulator.Cpu.Edx);
-			if (emulator.Cpu.Jns) goto loc_416FA6;
-			emulator.Cpu.Esi = emulator.Cpu.Dec(emulator.Cpu.Esi);
-			emulator.Cpu.Esi = emulator.Cpu.Or(emulator.Cpu.Esi, new Register8(0xFE/*-2*/));
-			emulator.Cpu.Esi = emulator.Cpu.Inc(emulator.Cpu.Esi);
+		emulator.Cpu.Push(emulator.Cpu.Ecx);
+		emulator.Cpu.Eax = emulator.Cpu.Mov(emulator.Memory32[emulator.Cpu.Esp + new Register32(0x00000008/*8*/)]);
+		emulator.Cpu.Push(emulator.Cpu.Esi);
+		emulator.Cpu.Ecx = emulator.Cpu.Lea(emulator.Cpu.Eax + emulator.Cpu.Eax * new Register32(4));
+		emulator.Cpu.Ecx = emulator.Cpu.Lea(emulator.Cpu.Ecx + emulator.Cpu.Ecx * new Register32(8));
+		emulator.Cpu.Ecx = emulator.Cpu.Shl(emulator.Cpu.Ecx, new Register8(0x02/*2*/));
+		emulator.Cpu.Ecx = emulator.Cpu.Sub(emulator.Cpu.Ecx, emulator.Cpu.Eax);
+		emulator.Cpu.Ecx = emulator.Cpu.Shl(emulator.Cpu.Ecx, new Register8(0x03/*3*/));
+		emulator.Cpu.Eax = emulator.Cpu.Mov(emulator.Memory32[emulator.Cpu.Ecx + new Register32(0x004916C8/*4789960*/)]);
+		emulator.Cpu.Esi = emulator.Cpu.Mov(emulator.Memory32[emulator.Cpu.Ecx + new Register32(0x004916CC/*4789964*/)]);
+		emulator.Cpu.Edx = emulator.Cpu.Lea(emulator.Cpu.Eax + emulator.Cpu.Eax * new Register32(4));
+		emulator.Cpu.Edx = emulator.Cpu.Lea(emulator.Cpu.Edx + emulator.Cpu.Edx * new Register32(8));
+		emulator.Cpu.Edx = emulator.Cpu.Shl(emulator.Cpu.Edx, new Register8(0x02/*2*/));
+		emulator.Cpu.Edx = emulator.Cpu.Sub(emulator.Cpu.Edx, emulator.Cpu.Eax);
+		emulator.Cpu.Eax = emulator.Cpu.Mov(emulator.Memory32[emulator.Cpu.Edx * new Register32(8) + new Register32(0x004916BC/*4789948*/)]);
+		emulator.Cpu.Cmp(emulator.Cpu.Eax, new Register8(0x0B/*11*/));
+		emulator.Cpu.Eax = emulator.Cpu.Mov(emulator.Cpu.Esi);
+		emulator.Cpu.Cdq();
+		if (emulator.Cpu.Jne) goto loc_416FF1;
+		emulator.Cpu.Eax = emulator.Cpu.Sub(emulator.Cpu.Eax, emulator.Cpu.Edx);
+		emulator.Cpu.Edx = emulator.Cpu.Mov(emulator.Memory32[new Register32(0x0048A290/*4760208*/)]);
+		emulator.Cpu.Eax = emulator.Cpu.Sar(emulator.Cpu.Eax, new Register8(1));
+		emulator.Cpu.Eax = emulator.Cpu.Lea(emulator.Cpu.Eax + emulator.Cpu.Eax * new Register32(4));
+		emulator.Cpu.Eax = emulator.Cpu.Shl(emulator.Cpu.Eax, new Register8(0x03/*3*/));
+		emulator.Cpu.Edx = emulator.Cpu.Sub(emulator.Cpu.Edx, emulator.Cpu.Eax);
+		emulator.Cpu.Eax = emulator.Cpu.Mov(emulator.Memory32[new Register32(0x0048A280/*4760192*/)]);
+		emulator.Cpu.Esi = emulator.Cpu.And(emulator.Cpu.Esi, new Register32(0x80000001/*2147483649*/));
+		emulator.Cpu.Edx = emulator.Cpu.Lea(emulator.Cpu.Edx + emulator.Cpu.Eax * new Register32(1) + new Register32(0x0000009C/*156*/));
+		emulator.Memory32[emulator.Cpu.Esp + new Register32(0x0000000C/*12*/)] = emulator.Cpu.Mov(emulator.Cpu.Edx);
+		if (emulator.Cpu.Jns) goto loc_416FA6;
+		emulator.Cpu.Esi = emulator.Cpu.Dec(emulator.Cpu.Esi);
+		emulator.Cpu.Esi = emulator.Cpu.Or(emulator.Cpu.Esi, new Register8(0xFE/*-2*/));
+		emulator.Cpu.Esi = emulator.Cpu.Inc(emulator.Cpu.Esi);
 
-			loc_416FA6:
-			emulator.Cpu.Eax = emulator.Cpu.Mov(emulator.Memory32[new Register32(0x0048A28C/*4760204*/)]);
-			emulator.Cpu.Cdq();
-			if (emulator.Cpu.Je) goto loc_416FE1;
-			emulator.Cpu.Eax = emulator.Cpu.Sub(emulator.Cpu.Eax, emulator.Cpu.Edx);
-			emulator.Cpu.Edx = emulator.Cpu.Mov(emulator.Memory32[new Register32(0x0048A27C/*4760188*/)]);
-			emulator.Cpu.Eax = emulator.Cpu.Sar(emulator.Cpu.Eax, new Register8(1));
-			emulator.Cpu.Eax = emulator.Cpu.Lea(emulator.Cpu.Eax + emulator.Cpu.Edx * new Register32(1) + new Register32(0x000000DD/*221*/));
+	loc_416FA6:
+		emulator.Cpu.Eax = emulator.Cpu.Mov(emulator.Memory32[new Register32(0x0048A28C/*4760204*/)]);
+		emulator.Cpu.Cdq();
+		if (emulator.Cpu.Je) goto loc_416FE1;
+		emulator.Cpu.Eax = emulator.Cpu.Sub(emulator.Cpu.Eax, emulator.Cpu.Edx);
+		emulator.Cpu.Edx = emulator.Cpu.Mov(emulator.Memory32[new Register32(0x0048A27C/*4760188*/)]);
+		emulator.Cpu.Eax = emulator.Cpu.Sar(emulator.Cpu.Eax, new Register8(1));
+		emulator.Cpu.Eax = emulator.Cpu.Lea(emulator.Cpu.Eax + emulator.Cpu.Edx * new Register32(1) + new Register32(0x000000DD/*221*/));
 
-			loc_416FBC:
-			emulator.Memory32[emulator.Cpu.Esp + new Register32(0x00000004/*4*/)] = emulator.Cpu.Mov(emulator.Cpu.Eax);
-			emulator.Cpu.Eax = emulator.Cpu.Mov(emulator.Memory32[emulator.Cpu.Esp + new Register32(0x0000000C/*12*/)]);
-			emulator.Cpu.Eax = emulator.Cpu.Sub(emulator.Cpu.Eax, new Register8(0x12/*18*/));
-			emulator.Memory32[emulator.Cpu.Ecx + new Register32(0x00491710/*4790032*/)] = emulator.Cpu.Mov(new Register32(0x00000000/*0*/));
-			emulator.Memory32[emulator.Cpu.Ecx + new Register32(0x00491714/*4790036*/)] = emulator.Cpu.Mov(new Register32(0x4073B000/*1081323520*/));
-			emulator.Memory32[emulator.Cpu.Esp + new Register32(0x0000000C/*12*/)] = emulator.Cpu.Mov(emulator.Cpu.Eax);
-			goto loc_41705B;
+	loc_416FBC:
+		emulator.Memory32[emulator.Cpu.Esp + new Register32(0x00000004/*4*/)] = emulator.Cpu.Mov(emulator.Cpu.Eax);
+		emulator.Cpu.Eax = emulator.Cpu.Mov(emulator.Memory32[emulator.Cpu.Esp + new Register32(0x0000000C/*12*/)]);
+		emulator.Cpu.Eax = emulator.Cpu.Sub(emulator.Cpu.Eax, new Register8(0x12/*18*/));
+		emulator.Memory32[emulator.Cpu.Ecx + new Register32(0x00491710/*4790032*/)] = emulator.Cpu.Mov(new Register32(0x00000000/*0*/));
+		emulator.Memory32[emulator.Cpu.Ecx + new Register32(0x00491714/*4790036*/)] = emulator.Cpu.Mov(new Register32(0x4073B000/*1081323520*/));
+		emulator.Memory32[emulator.Cpu.Esp + new Register32(0x0000000C/*12*/)] = emulator.Cpu.Mov(emulator.Cpu.Eax);
+		goto loc_41705B;
 
-			loc_416FE1:
-			emulator.Cpu.Eax = emulator.Cpu.Sub(emulator.Cpu.Eax, emulator.Cpu.Edx);
-			emulator.Cpu.Edx = emulator.Cpu.Mov(emulator.Memory32[new Register32(0x0048A27C/*4760188*/)]);
-			emulator.Cpu.Eax = emulator.Cpu.Sar(emulator.Cpu.Eax, new Register8(1));
-			emulator.Cpu.Eax = emulator.Cpu.Lea(emulator.Cpu.Eax + emulator.Cpu.Edx * new Register32(1) + new Register32(0x00000023/*35*/));
-			goto loc_417043;
+	loc_416FE1:
+		emulator.Cpu.Eax = emulator.Cpu.Sub(emulator.Cpu.Eax, emulator.Cpu.Edx);
+		emulator.Cpu.Edx = emulator.Cpu.Mov(emulator.Memory32[new Register32(0x0048A27C/*4760188*/)]);
+		emulator.Cpu.Eax = emulator.Cpu.Sar(emulator.Cpu.Eax, new Register8(1));
+		emulator.Cpu.Eax = emulator.Cpu.Lea(emulator.Cpu.Eax + emulator.Cpu.Edx * new Register32(1) + new Register32(0x00000023/*35*/));
+		goto loc_417043;
 
-			loc_416FF1:
-			emulator.Cpu.Eax = emulator.Cpu.Sub(emulator.Cpu.Eax, emulator.Cpu.Edx);
-			emulator.Cpu.Eax = emulator.Cpu.Sar(emulator.Cpu.Eax, new Register8(1));
-			emulator.Cpu.Edx = emulator.Cpu.Lea(emulator.Cpu.Eax + emulator.Cpu.Eax * new Register32(4));
-			emulator.Cpu.Eax = emulator.Cpu.Mov(emulator.Memory32[new Register32(0x0048A290/*4760208*/)]);
-			emulator.Cpu.Edx = emulator.Cpu.Shl(emulator.Cpu.Edx, new Register8(0x03/*3*/));
-			emulator.Cpu.Eax = emulator.Cpu.Sub(emulator.Cpu.Eax, emulator.Cpu.Edx);
-			emulator.Cpu.Edx = emulator.Cpu.Mov(emulator.Memory32[new Register32(0x0048A280/*4760192*/)]);
-			emulator.Cpu.Esi = emulator.Cpu.And(emulator.Cpu.Esi, new Register32(0x80000001/*2147483649*/));
-			emulator.Cpu.Eax = emulator.Cpu.Lea(emulator.Cpu.Eax + emulator.Cpu.Edx * new Register32(1) + new Register32(0x0000009C/*156*/));
-			emulator.Memory32[emulator.Cpu.Esp + new Register32(0x0000000C/*12*/)] = emulator.Cpu.Mov(emulator.Cpu.Eax);
-			if (emulator.Cpu.Jns) goto loc_41701D;
-			emulator.Cpu.Esi = emulator.Cpu.Dec(emulator.Cpu.Esi);
-			emulator.Cpu.Esi = emulator.Cpu.Or(emulator.Cpu.Esi, new Register8(0xFE/*-2*/));
-			emulator.Cpu.Esi = emulator.Cpu.Inc(emulator.Cpu.Esi);
+	loc_416FF1:
+		emulator.Cpu.Eax = emulator.Cpu.Sub(emulator.Cpu.Eax, emulator.Cpu.Edx);
+		emulator.Cpu.Eax = emulator.Cpu.Sar(emulator.Cpu.Eax, new Register8(1));
+		emulator.Cpu.Edx = emulator.Cpu.Lea(emulator.Cpu.Eax + emulator.Cpu.Eax * new Register32(4));
+		emulator.Cpu.Eax = emulator.Cpu.Mov(emulator.Memory32[new Register32(0x0048A290/*4760208*/)]);
+		emulator.Cpu.Edx = emulator.Cpu.Shl(emulator.Cpu.Edx, new Register8(0x03/*3*/));
+		emulator.Cpu.Eax = emulator.Cpu.Sub(emulator.Cpu.Eax, emulator.Cpu.Edx);
+		emulator.Cpu.Edx = emulator.Cpu.Mov(emulator.Memory32[new Register32(0x0048A280/*4760192*/)]);
+		emulator.Cpu.Esi = emulator.Cpu.And(emulator.Cpu.Esi, new Register32(0x80000001/*2147483649*/));
+		emulator.Cpu.Eax = emulator.Cpu.Lea(emulator.Cpu.Eax + emulator.Cpu.Edx * new Register32(1) + new Register32(0x0000009C/*156*/));
+		emulator.Memory32[emulator.Cpu.Esp + new Register32(0x0000000C/*12*/)] = emulator.Cpu.Mov(emulator.Cpu.Eax);
+		if (emulator.Cpu.Jns) goto loc_41701D;
+		emulator.Cpu.Esi = emulator.Cpu.Dec(emulator.Cpu.Esi);
+		emulator.Cpu.Esi = emulator.Cpu.Or(emulator.Cpu.Esi, new Register8(0xFE/*-2*/));
+		emulator.Cpu.Esi = emulator.Cpu.Inc(emulator.Cpu.Esi);
 
-			loc_41701D:
-			emulator.Cpu.Eax = emulator.Cpu.Mov(emulator.Memory32[new Register32(0x0048A28C/*4760204*/)]);
-			emulator.Cpu.Cdq();
-			if (emulator.Cpu.Je) goto loc_417035;
-			emulator.Cpu.Eax = emulator.Cpu.Sub(emulator.Cpu.Eax, emulator.Cpu.Edx);
-			emulator.Cpu.Edx = emulator.Cpu.Mov(emulator.Memory32[new Register32(0x0048A27C/*4760188*/)]);
-			emulator.Cpu.Eax = emulator.Cpu.Sar(emulator.Cpu.Eax, new Register8(1));
-			emulator.Cpu.Eax = emulator.Cpu.Lea(emulator.Cpu.Eax + emulator.Cpu.Edx * new Register32(1) + new Register32(0x000000E7/*231*/));
-			goto loc_416FBC;
+	loc_41701D:
+		emulator.Cpu.Eax = emulator.Cpu.Mov(emulator.Memory32[new Register32(0x0048A28C/*4760204*/)]);
+		emulator.Cpu.Cdq();
+		if (emulator.Cpu.Je) goto loc_417035;
+		emulator.Cpu.Eax = emulator.Cpu.Sub(emulator.Cpu.Eax, emulator.Cpu.Edx);
+		emulator.Cpu.Edx = emulator.Cpu.Mov(emulator.Memory32[new Register32(0x0048A27C/*4760188*/)]);
+		emulator.Cpu.Eax = emulator.Cpu.Sar(emulator.Cpu.Eax, new Register8(1));
+		emulator.Cpu.Eax = emulator.Cpu.Lea(emulator.Cpu.Eax + emulator.Cpu.Edx * new Register32(1) + new Register32(0x000000E7/*231*/));
+		goto loc_416FBC;
 
-			loc_417035:
-			emulator.Cpu.Eax = emulator.Cpu.Sub(emulator.Cpu.Eax, emulator.Cpu.Edx);
-			emulator.Cpu.Edx = emulator.Cpu.Mov(emulator.Memory32[new Register32(0x0048A27C/*4760188*/)]);
-			emulator.Cpu.Eax = emulator.Cpu.Sar(emulator.Cpu.Eax, new Register8(1));
-			emulator.Cpu.Eax = emulator.Cpu.Lea(emulator.Cpu.Eax + emulator.Cpu.Edx * new Register32(1) + new Register32(0x00000019/*25*/));
+	loc_417035:
+		emulator.Cpu.Eax = emulator.Cpu.Sub(emulator.Cpu.Eax, emulator.Cpu.Edx);
+		emulator.Cpu.Edx = emulator.Cpu.Mov(emulator.Memory32[new Register32(0x0048A27C/*4760188*/)]);
+		emulator.Cpu.Eax = emulator.Cpu.Sar(emulator.Cpu.Eax, new Register8(1));
+		emulator.Cpu.Eax = emulator.Cpu.Lea(emulator.Cpu.Eax + emulator.Cpu.Edx * new Register32(1) + new Register32(0x00000019/*25*/));
 
-			loc_417043:
-			emulator.Memory32[emulator.Cpu.Ecx + new Register32(0x00491710/*4790032*/)] = emulator.Cpu.Mov(new Register32(0x00000000/*0*/));
-			emulator.Memory32[emulator.Cpu.Esp + new Register32(0x00000004/*4*/)] = emulator.Cpu.Mov(emulator.Cpu.Eax);
-			emulator.Memory32[emulator.Cpu.Ecx + new Register32(0x00491714/*4790036*/)] = emulator.Cpu.Mov(new Register32(0x406C2000/*1080827904*/));
+	loc_417043:
+		emulator.Memory32[emulator.Cpu.Ecx + new Register32(0x00491710/*4790032*/)] = emulator.Cpu.Mov(new Register32(0x00000000/*0*/));
+		emulator.Memory32[emulator.Cpu.Esp + new Register32(0x00000004/*4*/)] = emulator.Cpu.Mov(emulator.Cpu.Eax);
+		emulator.Memory32[emulator.Cpu.Ecx + new Register32(0x00491714/*4790036*/)] = emulator.Cpu.Mov(new Register32(0x406C2000/*1080827904*/));
 
-			loc_41705B:
-			emulator.Cpu.Fild(emulator.Memory32[emulator.Cpu.Esp + new Register32(0x00000004/*4*/)]);
-			emulator.Cpu.Esi = emulator.Cpu.Pop32();
-			emulator.Memory64[emulator.Cpu.Ecx + new Register32(0x004916A8/*4789928*/)] = emulator.Cpu.Fst(emulator.Cpu.Fpu.Stack[0]);
-			emulator.Cpu.Fpu.Stack.Pop();
-			emulator.Cpu.Fild(emulator.Memory32[emulator.Cpu.Esp + new Register32(0x00000008/*8*/)]);
-			emulator.Memory64[emulator.Cpu.Ecx + new Register32(0x004916B0/*4789936*/)] = emulator.Cpu.Fst(emulator.Cpu.Fpu.Stack[0]);
-			emulator.Cpu.Fpu.Stack.Pop();
-			emulator.Cpu.Ecx = emulator.Cpu.Pop32();
-			return;
+	loc_41705B:
+		emulator.Cpu.Fild(emulator.Memory32[emulator.Cpu.Esp + new Register32(0x00000004/*4*/)]);
+		emulator.Cpu.Esi = emulator.Cpu.Pop32();
+		emulator.Memory64[emulator.Cpu.Ecx + new Register32(0x004916A8/*4789928*/)] = emulator.Cpu.Fst(emulator.Cpu.Fpu.Stack[0]);
+		emulator.Cpu.Fpu.Stack.Pop();
+		emulator.Cpu.Fild(emulator.Memory32[emulator.Cpu.Esp + new Register32(0x00000008/*8*/)]);
+		emulator.Memory64[emulator.Cpu.Ecx + new Register32(0x004916B0/*4789936*/)] = emulator.Cpu.Fst(emulator.Cpu.Fpu.Stack[0]);
+		emulator.Cpu.Fpu.Stack.Pop();
+		emulator.Cpu.Ecx = emulator.Cpu.Pop32();
+		return;
 
-		}
 	}
 }
