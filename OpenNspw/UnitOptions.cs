@@ -653,6 +653,11 @@ internal static class UnitOptions
 					MaxAmmo = 35,
 					RequiresCondition = new("!hangar"),
 				},
+				new WingGunOptions
+				{
+					Interval = 10,
+					Sound = "aa_blt1",
+				},
 				new HealthOptions
 				{
 					MaxHP = 14,
@@ -689,6 +694,11 @@ internal static class UnitOptions
 				{
 					MaxAmmo = 40,
 					RequiresCondition = new("!hangar"),
+				},
+				new WingGunOptions
+				{
+					Interval = 10,
+					Sound = "aa_blt2",
 				},
 				new HealthOptions
 				{
@@ -727,6 +737,11 @@ internal static class UnitOptions
 					MaxAmmo = 50,
 					RequiresCondition = new("!hangar"),
 				},
+				new WingGunOptions
+				{
+					Interval = 7,
+					Sound = "aa_shl4",
+				},
 				new HealthOptions
 				{
 					MaxHP = 11,
@@ -764,6 +779,11 @@ internal static class UnitOptions
 					MaxAmmo = 60,
 					RequiresCondition = new("!hangar"),
 				},
+				new WingGunOptions
+				{
+					Interval = 7,
+					Sound = "aa_shl4",
+				},
 				new HealthOptions
 				{
 					MaxHP = 28,
@@ -800,6 +820,11 @@ internal static class UnitOptions
 				{
 					MaxAmmo = 60,
 					RequiresCondition = new("!hangar"),
+				},
+				new WingGunOptions
+				{
+					Interval = 7,
+					Sound = "aa_shl4",
 				},
 				new HealthOptions
 				{
