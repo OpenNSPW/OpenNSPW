@@ -281,6 +281,17 @@ internal abstract class Mobile : IComponent<MobileOptions>, IUnit, ICreatedEvent
 	}
 
 	public virtual void UpdateFormation(Mobile leader, int positionNumber) { }
+
+	public void Evade(WPos destination, int duration)
+	{
+		Self.QueueActivity(isQueued: false, new Evade(
+			mobile: this,
+			speed: Speed,
+			acceleration: Acceleration,
+			destination: destination,
+			duration: duration
+		));
+	}
 }
 
 internal abstract class Mobile<TOptions> : Mobile

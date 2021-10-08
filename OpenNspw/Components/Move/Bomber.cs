@@ -1,5 +1,3 @@
-using OpenNspw.Activities;
-
 namespace OpenNspw.Components;
 
 internal sealed record BomberOptions : IComponentOptions<Bomber>
@@ -54,13 +52,10 @@ internal sealed class Bomber : IComponent<BomberOptions>, ICreatedEventListener,
 						4 => follower.Angle + WAngle.FromDegrees(45),
 						_ => throw new InvalidOperationException(),
 					};
-					follower.Self.QueueActivity(isQueued: false, new Evade(
-						mobile: follower,
-						speed: follower.Speed,
-						acceleration: follower.Acceleration,
+					follower.Evade(
 						destination: follower.Center + angle.ToVector(600),
 						duration: 10 + ((1 + (follower.PositionNumber % 5)) * 20
-					)));
+					));
 					follower.SetWaypoints(target.Center);
 					follower.ClearLeader();
 				}

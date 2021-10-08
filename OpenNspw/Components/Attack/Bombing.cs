@@ -71,13 +71,10 @@ internal sealed class Bombing : PausableConditionalComponent<BombingOptions>, IC
 		switch (Options.BombingMethod)
 		{
 			case BombingMethod.Horizontal:
-				self.QueueActivity(isQueued: false, new Evade(
-					mobile: Airplane,
-					speed: Airplane.Speed,
-					acceleration: Airplane.Acceleration,
+				Airplane.Evade(
 					destination: self.Center + self.Angle.ToVector(300),
 					duration: self.World.Random.Next(150, 200)
-				));
+				);
 				break;
 
 			case BombingMethod.Dive:

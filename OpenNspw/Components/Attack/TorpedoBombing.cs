@@ -1,4 +1,3 @@
-using OpenNspw.Activities;
 using OpenNspw.Projectiles;
 
 namespace OpenNspw.Components;
@@ -63,15 +62,12 @@ internal sealed class TorpedoBombing : PausableConditionalComponent<TorpedoBombi
 
 		// TODO
 
-		self.QueueActivity(isQueued: false, new Evade(
-			mobile: Airplane,
-			speed: Airplane.Speed,
-			acceleration: Airplane.Acceleration,
+		Airplane.Evade(
 			destination: self.Center + ((self.World.Random.Next(2) == 0)
 				? self.Angle + WAngle.FromDegrees(self.World.Random.Next(30, 70))
 				: self.Angle - WAngle.FromDegrees(self.World.Random.Next(30, 70))).ToVector(300),
 			duration: self.World.Random.Next(20, 320)
-		));
+		);
 
 		Armament.ClearTarget(clearAmmo: true);
 
