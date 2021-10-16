@@ -1045,6 +1045,10 @@ internal static class UnitOptions
 					MaxSpeed = 0.65f,
 					HitBoxSize = 12,
 				},
+				new LandingOperationOptions
+				{
+					Sound = "spl1",
+				},
 				new HealthOptions
 				{
 					MaxHP = 9,
@@ -1071,6 +1075,10 @@ internal static class UnitOptions
 					MinSpeed = 0.0f,
 					MaxSpeed = 0.65f,
 					HitBoxSize = 12,
+				},
+				new LandingOperationOptions
+				{
+					Sound = "spl1",
 				},
 				new HealthOptions
 				{
