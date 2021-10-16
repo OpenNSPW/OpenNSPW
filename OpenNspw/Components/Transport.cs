@@ -5,6 +5,7 @@ namespace OpenNspw.Components;
 internal sealed class TransportOptions : IComponentOptions<Transport>
 {
 	public HashSet<short> LandableTerrainTypes { get; init; } = new() { 9, 8, 7, 5, 2 };
+	public string? Unit { get; init; }
 
 	public Transport CreateComponent(Unit self) => new(self, this);
 }

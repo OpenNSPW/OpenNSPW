@@ -37,6 +37,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 40,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -70,6 +71,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 40,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -103,6 +105,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 56,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -136,6 +139,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 32,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -169,6 +173,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 32,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -202,6 +207,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 25,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -235,6 +241,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 28,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -268,6 +275,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 18,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -301,6 +309,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 18,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -334,6 +343,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 12,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -367,6 +377,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 16,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -396,6 +407,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 7,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -425,6 +437,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 7,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -464,6 +477,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 32,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -503,6 +517,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 37,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -542,6 +557,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 42,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -581,6 +597,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 27,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -620,6 +637,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 32,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -662,6 +680,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 14,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -704,6 +723,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 18,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -746,6 +766,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 11,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -788,6 +809,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 28,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -830,6 +852,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 32,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -879,6 +902,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 16,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -928,6 +952,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 20,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -977,6 +1002,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 32,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -1025,6 +1051,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 50,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -1056,6 +1083,7 @@ internal static class UnitOptions
 				new TransportOptions
 				{
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -1087,6 +1115,367 @@ internal static class UnitOptions
 				new TransportOptions
 				{
 				},
+				new DrawUnitOptions(),
+			}
+		},
+		{
+			"tr_sp_jpn",
+			new IComponentOptions[]
+			{
+				new TooltipOptions
+				{
+					Name = "Transport (Military Port)",
+				},
+				new LeaderOptions(),
+				new FollowerOptions(),
+				new ShipOptions
+				{
+					TurnSpeed = WAngle.FromDegrees(0.3f),
+					Acceleration = 0.01f,
+					MinSpeed = 0.0f,
+					MaxSpeed = 0.65f,
+					HitBoxSize = 12,
+				},
+				new LandingOperationOptions
+				{
+					Sound = "spl1",
+				},
+				new HealthOptions
+				{
+					MaxHP = 9,
+				},
+				new TransportOptions
+				{
+					Unit = "sp_jpn",
+				},
+				new DrawUnitOptions
+				{
+					Texture = "tr_jpn",
+				},
+			}
+		},
+		{
+			"tr_sp_usa",
+			new IComponentOptions[]
+			{
+				new TooltipOptions
+				{
+					Name = "Transport (Military Port)",
+				},
+				new LeaderOptions(),
+				new FollowerOptions(),
+				new ShipOptions
+				{
+					TurnSpeed = WAngle.FromDegrees(0.3f),
+					Acceleration = 0.01f,
+					MinSpeed = 0.0f,
+					MaxSpeed = 0.65f,
+					HitBoxSize = 12,
+				},
+				new LandingOperationOptions
+				{
+					Sound = "spl1",
+				},
+				new HealthOptions
+				{
+					MaxHP = 9,
+				},
+				new TransportOptions
+				{
+					Unit = "sp_usa",
+				},
+				new DrawUnitOptions
+				{
+					Texture = "tr_usa",
+				},
+			}
+		},
+		{
+			"tr_ap_jpn",
+			new IComponentOptions[]
+			{
+				new TooltipOptions
+				{
+					Name = "Transport (Airfield)",
+				},
+				new LeaderOptions(),
+				new FollowerOptions(),
+				new ShipOptions
+				{
+					TurnSpeed = WAngle.FromDegrees(0.3f),
+					Acceleration = 0.01f,
+					MinSpeed = 0.0f,
+					MaxSpeed = 0.65f,
+					HitBoxSize = 12,
+				},
+				new LandingOperationOptions
+				{
+					Sound = "spl1",
+				},
+				new HealthOptions
+				{
+					MaxHP = 9,
+				},
+				new TransportOptions
+				{
+					Unit = "ap_jpn",
+				},
+				new DrawUnitOptions
+				{
+					Texture = "tr_jpn",
+				},
+			}
+		},
+		{
+			"tr_ap_usa",
+			new IComponentOptions[]
+			{
+				new TooltipOptions
+				{
+					Name = "Transport (Airfield)",
+				},
+				new LeaderOptions(),
+				new FollowerOptions(),
+				new ShipOptions
+				{
+					TurnSpeed = WAngle.FromDegrees(0.3f),
+					Acceleration = 0.01f,
+					MinSpeed = 0.0f,
+					MaxSpeed = 0.65f,
+					HitBoxSize = 12,
+				},
+				new LandingOperationOptions
+				{
+					Sound = "spl1",
+				},
+				new HealthOptions
+				{
+					MaxHP = 9,
+				},
+				new TransportOptions
+				{
+					Unit = "ap_usa",
+				},
+				new DrawUnitOptions
+				{
+					Texture = "tr_usa",
+				},
+			}
+		},
+		{
+			"tr_gf1_jpn",
+			new IComponentOptions[]
+			{
+				new TooltipOptions
+				{
+					Name = "Transport (Trench)",
+				},
+				new LeaderOptions(),
+				new FollowerOptions(),
+				new ShipOptions
+				{
+					TurnSpeed = WAngle.FromDegrees(0.3f),
+					Acceleration = 0.01f,
+					MinSpeed = 0.0f,
+					MaxSpeed = 0.65f,
+					HitBoxSize = 12,
+				},
+				new LandingOperationOptions
+				{
+					Sound = "spl1",
+				},
+				new HealthOptions
+				{
+					MaxHP = 9,
+				},
+				new TransportOptions
+				{
+					Unit = "gf1_jpn",
+				},
+				new DrawUnitOptions
+				{
+					Texture = "tr_jpn",
+				},
+			}
+		},
+		{
+			"tr_gf1_usa",
+			new IComponentOptions[]
+			{
+				new TooltipOptions
+				{
+					Name = "Transport (Trench)",
+				},
+				new LeaderOptions(),
+				new FollowerOptions(),
+				new ShipOptions
+				{
+					TurnSpeed = WAngle.FromDegrees(0.3f),
+					Acceleration = 0.01f,
+					MinSpeed = 0.0f,
+					MaxSpeed = 0.65f,
+					HitBoxSize = 12,
+				},
+				new LandingOperationOptions
+				{
+					Sound = "spl1",
+				},
+				new HealthOptions
+				{
+					MaxHP = 9,
+				},
+				new TransportOptions
+				{
+					Unit = "gf1_usa",
+				},
+				new DrawUnitOptions
+				{
+					Texture = "tr_usa",
+				},
+			}
+		},
+		{
+			"tr_gf2_jpn",
+			new IComponentOptions[]
+			{
+				new TooltipOptions
+				{
+					Name = "Transport (Pillbox)",
+				},
+				new LeaderOptions(),
+				new FollowerOptions(),
+				new ShipOptions
+				{
+					TurnSpeed = WAngle.FromDegrees(0.3f),
+					Acceleration = 0.01f,
+					MinSpeed = 0.0f,
+					MaxSpeed = 0.65f,
+					HitBoxSize = 12,
+				},
+				new LandingOperationOptions
+				{
+					Sound = "spl1",
+				},
+				new HealthOptions
+				{
+					MaxHP = 9,
+				},
+				new TransportOptions
+				{
+					Unit = "gf2_jpn",
+				},
+				new DrawUnitOptions
+				{
+					Texture = "tr_jpn",
+				},
+			}
+		},
+		{
+			"tr_gf2_usa",
+			new IComponentOptions[]
+			{
+				new TooltipOptions
+				{
+					Name = "Transport (Pillbox)",
+				},
+				new LeaderOptions(),
+				new FollowerOptions(),
+				new ShipOptions
+				{
+					TurnSpeed = WAngle.FromDegrees(0.3f),
+					Acceleration = 0.01f,
+					MinSpeed = 0.0f,
+					MaxSpeed = 0.65f,
+					HitBoxSize = 12,
+				},
+				new LandingOperationOptions
+				{
+					Sound = "spl1",
+				},
+				new HealthOptions
+				{
+					MaxHP = 9,
+				},
+				new TransportOptions
+				{
+					Unit = "gf2_usa",
+				},
+				new DrawUnitOptions
+				{
+					Texture = "tr_usa",
+				},
+			}
+		},
+		{
+			"tr_gf3_jpn",
+			new IComponentOptions[]
+			{
+				new TooltipOptions
+				{
+					Name = "Transport (Fortress)",
+				},
+				new LeaderOptions(),
+				new FollowerOptions(),
+				new ShipOptions
+				{
+					TurnSpeed = WAngle.FromDegrees(0.3f),
+					Acceleration = 0.01f,
+					MinSpeed = 0.0f,
+					MaxSpeed = 0.65f,
+					HitBoxSize = 12,
+				},
+				new LandingOperationOptions
+				{
+					Sound = "spl1",
+				},
+				new HealthOptions
+				{
+					MaxHP = 9,
+				},
+				new TransportOptions
+				{
+					Unit = "gf3_jpn",
+				},
+				new DrawUnitOptions
+				{
+					Texture = "tr_jpn",
+				},
+			}
+		},
+		{
+			"tr_gf3_usa",
+			new IComponentOptions[]
+			{
+				new TooltipOptions
+				{
+					Name = "Transport (Fortress)",
+				},
+				new LeaderOptions(),
+				new FollowerOptions(),
+				new ShipOptions
+				{
+					TurnSpeed = WAngle.FromDegrees(0.3f),
+					Acceleration = 0.01f,
+					MinSpeed = 0.0f,
+					MaxSpeed = 0.65f,
+					HitBoxSize = 12,
+				},
+				new LandingOperationOptions
+				{
+					Sound = "spl1",
+				},
+				new HealthOptions
+				{
+					MaxHP = 9,
+				},
+				new TransportOptions
+				{
+					Unit = "gf3_usa",
+				},
+				new DrawUnitOptions
+				{
+					Texture = "tr_usa",
+				},
 			}
 		},
 		{
@@ -1110,6 +1499,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 260,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -1133,6 +1523,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 260,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -1150,6 +1541,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 320,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -1167,6 +1559,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 320,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -1184,6 +1577,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 150,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -1201,6 +1595,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 150,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -1218,6 +1613,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 150,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -1235,6 +1631,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 150,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -1256,6 +1653,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 180,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -1277,6 +1675,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 180,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -1298,6 +1697,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 320,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -1319,6 +1719,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 320,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -1340,6 +1741,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 400,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 		{
@@ -1361,6 +1763,7 @@ internal static class UnitOptions
 				{
 					MaxHP = 400,
 				},
+				new DrawUnitOptions(),
 			}
 		},
 	};

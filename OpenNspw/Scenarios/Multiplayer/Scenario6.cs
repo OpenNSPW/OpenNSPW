@@ -28,9 +28,9 @@ internal sealed class Scenario6 : MultiplayerScenario
 				.AddUnit("ca_jpn", new WPos(-7450, -4700), CardinalDirection.Northwest)
 				.AddUnit("ca_jpn", new WPos(-7450, -4850), CardinalDirection.Northwest)
 				.AddUnit("dd_jpn", new WPos(-7530, -5000), CardinalDirection.Northwest)
-				.AddUnit("tr_jpn", new WPos(-7340, -4690), CardinalDirection.South)
-				.AddUnit("tr_jpn", new WPos(-7360, -4840), CardinalDirection.Northwest)
-				.AddUnit("tr_jpn", new WPos(-7340, -4990), CardinalDirection.North)
+				.AddUnit("tr_gf1_jpn", new WPos(-7340, -4690), CardinalDirection.South)
+				.AddUnit("tr_gf2_jpn", new WPos(-7360, -4840), CardinalDirection.Northwest)
+				.AddUnit("tr_gf2_jpn", new WPos(-7340, -4990), CardinalDirection.North)
 				.AddUnit("ca_jpn", new WPos(-7250, -5180), CardinalDirection.North)
 				.AddUnit("ss_jpn", new WPos(-7800, -2000), CardinalDirection.East);
 		});

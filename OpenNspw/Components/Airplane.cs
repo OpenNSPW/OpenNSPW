@@ -25,6 +25,7 @@ internal sealed record AirplaneOptions : MobileOptions<Airplane>
 	public string? HangarCondition { get; init; } = "hangar";
 	public string HangarType { get; init; } = "";
 	public AirplaneWeapons Weapons { get; init; }
+	public string? FoldedCondition { get; init; } = "folded";
 
 	public override Airplane CreateComponent(Unit self) => new(self, this);
 }
@@ -100,6 +101,8 @@ internal sealed class Airplane : Mobile<AirplaneOptions>, IAddedToWorldEventList
 	public ConditionToken HangarToken { get; private set; }
 
 	public AirplaneWeapon Weapon { get; set; }
+
+	public ConditionToken FoldedToken { get; private set; }
 
 	public Airplane(Unit self, AirplaneOptions options) : base(self, options) { }
 
@@ -339,13 +342,20 @@ internal sealed class Airplane : Mobile<AirplaneOptions>, IAddedToWorldEventList
 
 	public void Fold()
 	{
+		if (!FoldedToken.IsValid)
+			FoldedToken = Self.GrantCondition(Options.FoldedCondition);
+
+		// TODO: use DrawUnit
 		if (Self.World.Assets.Textures.TryGetValue($"Textures/Units/{Self.Name}_folded", out var texture))
-			Self.Texture = texture;
+			Self.GetRequiredComponent<DrawUnit>().Texture = texture;
 	}
 
 	public void Unfold()
 	{
-		Self.Texture = Self.World.Assets.Textures[$"Textures/Units/{Self.Name}"];
+		if (FoldedToken.IsValid)
+			FoldedToken = Self.RevokeCondition(FoldedToken);
+
+		Self.GetRequiredComponent<DrawUnit>().Texture = Self.World.Assets.Textures[$"Textures/Units/{Self.Name}"];
 	}
 
 	public void Scatter()

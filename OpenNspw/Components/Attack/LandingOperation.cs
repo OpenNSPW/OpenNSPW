@@ -45,13 +45,15 @@ internal sealed class LandingOperation : PausableConditionalComponent<LandingOpe
 			self.World.PlaySound($"SoundEffects/{Options.Sound}", self.Center);
 
 		self.World.Add(new LandingCraft(
+			unit: null/* TODO: Transport.Options.Unit*/,
 			center: self.Center,
 			angle: angle,
 			speed: 1.0f,
 			acceleration: 0,
 			ticks: 0,
 			duration: 360,
-			landingCell: landingCell
+			landingCell: landingCell,
+			owner: self.Owner
 		));
 	}
 

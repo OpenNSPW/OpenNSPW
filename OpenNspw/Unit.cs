@@ -1,10 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using Aigamo.Saruhashi;
-using Aigamo.Saruhashi.MonoGame;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.Sprites;
-using MonoGame.Extended.TextureAtlases;
 using OpenNspw.Activities;
 using OpenNspw.Components;
 using OpenNspw.Orders;
@@ -19,7 +14,6 @@ internal sealed class Unit
 	public Player Owner { get; }
 	public bool IsInWorld { get; set; }
 	public string Name { get; }
-	public Texture2D Texture { get; set; }
 
 	public ComponentCollection Components { get; } = new();
 	public ConditionManager Conditions { get; } = new();
@@ -59,8 +53,6 @@ internal sealed class Unit
 		World = world;
 		Name = name;
 		Owner = owner;
-
-		Texture = world.Assets.Textures[$"Textures/Units/{name}"];
 
 		foreach (var component in UnitOptions.Components[name])
 			Components.Add(component.CreateComponent(this));
@@ -132,9 +124,6 @@ internal sealed class Unit
 
 	public void Draw(Graphics graphics, Camera camera)
 	{
-		var sprite = new Sprite(new TextureRegion2D(Texture, new Rectangle(80 * (Angle.Quantize() % (Texture.Width / 80)), 0, 80, 80)));
-		graphics.DrawImage(MonoGameImage.Create(sprite), camera.WorldToScreen(Center).ToPoint().ToDrawingPoint());
-
 		foreach (var drawable in _drawables)
 			drawable.Draw(this, graphics, camera);
 	}
