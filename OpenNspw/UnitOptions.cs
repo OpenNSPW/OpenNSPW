@@ -33,6 +33,10 @@ internal static class UnitOptions
 					Interval = 5,
 					Sound = "aa_blt3",
 				},
+				new TrailOptions
+				{
+					Offset = 26,
+				},
 				new HealthOptions
 				{
 					MaxHP = 40,
@@ -66,6 +70,10 @@ internal static class UnitOptions
 				{
 					Interval = 5,
 					Sound = "aa_blt3",
+				},
+				new TrailOptions
+				{
+					Offset = 26,
 				},
 				new HealthOptions
 				{
@@ -101,6 +109,10 @@ internal static class UnitOptions
 					Interval = 4,
 					Sound = "aa_blt3",
 				},
+				new TrailOptions
+				{
+					Offset = 26,
+				},
 				new HealthOptions
 				{
 					MaxHP = 56,
@@ -134,6 +146,10 @@ internal static class UnitOptions
 				{
 					Interval = 10,
 					Sound = "aa_blt3",
+				},
+				new TrailOptions
+				{
+					Offset = 22,
 				},
 				new HealthOptions
 				{
@@ -169,6 +185,10 @@ internal static class UnitOptions
 					Interval = 10,
 					Sound = "aa_blt3",
 				},
+				new TrailOptions
+				{
+					Offset = 22,
+				},
 				new HealthOptions
 				{
 					MaxHP = 32,
@@ -202,6 +222,10 @@ internal static class UnitOptions
 				{
 					Interval = 10,
 					Sound = "aa_blt3",
+				},
+				new TrailOptions
+				{
+					Offset = 22,
 				},
 				new HealthOptions
 				{
@@ -237,6 +261,10 @@ internal static class UnitOptions
 					Interval = 10,
 					Sound = "aa_blt3",
 				},
+				new TrailOptions
+				{
+					Offset = 22,
+				},
 				new HealthOptions
 				{
 					MaxHP = 28,
@@ -270,6 +298,10 @@ internal static class UnitOptions
 				{
 					Interval = 15,
 					Sound = "aa_blt3",
+				},
+				new TrailOptions
+				{
+					Offset = 16,
 				},
 				new HealthOptions
 				{
@@ -305,6 +337,10 @@ internal static class UnitOptions
 					Interval = 15,
 					Sound = "aa_blt3",
 				},
+				new TrailOptions
+				{
+					Offset = 16,
+				},
 				new HealthOptions
 				{
 					MaxHP = 18,
@@ -339,6 +375,10 @@ internal static class UnitOptions
 					Interval = 20,
 					Sound = "aa_blt3",
 				},
+				new TrailOptions
+				{
+					Offset = 16,
+				},
 				new HealthOptions
 				{
 					MaxHP = 12,
@@ -372,6 +412,10 @@ internal static class UnitOptions
 				{
 					Interval = 20,
 					Sound = "aa_blt3",
+				},
+				new TrailOptions
+				{
+					Offset = 16,
 				},
 				new HealthOptions
 				{
@@ -467,6 +511,10 @@ internal static class UnitOptions
 					Interval = 15,
 					Sound = "aa_blt3",
 				},
+				new TrailOptions
+				{
+					Offset = 26,
+				},
 				new HangarOptions
 				{
 					Capacity = 12,
@@ -506,6 +554,10 @@ internal static class UnitOptions
 				{
 					Interval = 15,
 					Sound = "aa_blt3",
+				},
+				new TrailOptions
+				{
+					Offset = 26,
 				},
 				new HangarOptions
 				{
@@ -547,6 +599,10 @@ internal static class UnitOptions
 					Interval = 15,
 					Sound = "aa_blt3",
 				},
+				new TrailOptions
+				{
+					Offset = 26,
+				},
 				new HangarOptions
 				{
 					Capacity = 14,
@@ -587,6 +643,10 @@ internal static class UnitOptions
 					Interval = 20,
 					Sound = "aa_blt3",
 				},
+				new TrailOptions
+				{
+					Offset = 22,
+				},
 				new HangarOptions
 				{
 					Capacity = 8,
@@ -626,6 +686,10 @@ internal static class UnitOptions
 				{
 					Interval = 20,
 					Sound = "aa_blt3",
+				},
+				new TrailOptions
+				{
+					Offset = 22,
 				},
 				new HangarOptions
 				{
@@ -1108,6 +1172,10 @@ internal static class UnitOptions
 				{
 					Sound = "spl1",
 				},
+				new TrailOptions
+				{
+					Offset = 16,
+				},
 				new HealthOptions
 				{
 					MaxHP = 9,
@@ -1140,6 +1208,10 @@ internal static class UnitOptions
 				{
 					Sound = "spl1",
 				},
+				new TrailOptions
+				{
+					Offset = 16,
+				},
 				new HealthOptions
 				{
 					MaxHP = 9,
@@ -1171,6 +1243,10 @@ internal static class UnitOptions
 				new LandingOperationOptions
 				{
 					Sound = "spl1",
+				},
+				new TrailOptions
+				{
+					Offset = 16,
 				},
 				new HealthOptions
 				{
@@ -1208,6 +1284,10 @@ internal static class UnitOptions
 				{
 					Sound = "spl1",
 				},
+				new TrailOptions
+				{
+					Offset = 16,
+				},
 				new HealthOptions
 				{
 					MaxHP = 9,
@@ -1243,6 +1323,10 @@ internal static class UnitOptions
 				new LandingOperationOptions
 				{
 					Sound = "spl1",
+				},
+				new TrailOptions
+				{
+					Offset = 16,
 				},
 				new HealthOptions
 				{
@@ -1280,6 +1364,10 @@ internal static class UnitOptions
 				{
 					Sound = "spl1",
 				},
+				new TrailOptions
+				{
+					Offset = 16,
+				},
 				new HealthOptions
 				{
 					MaxHP = 9,
@@ -1315,6 +1403,10 @@ internal static class UnitOptions
 				new LandingOperationOptions
 				{
 					Sound = "spl1",
+				},
+				new TrailOptions
+				{
+					Offset = 16,
 				},
 				new HealthOptions
 				{
@@ -1352,6 +1444,10 @@ internal static class UnitOptions
 				{
 					Sound = "spl1",
 				},
+				new TrailOptions
+				{
+					Offset = 16,
+				},
 				new HealthOptions
 				{
 					MaxHP = 9,
@@ -1387,6 +1483,10 @@ internal static class UnitOptions
 				new LandingOperationOptions
 				{
 					Sound = "spl1",
+				},
+				new TrailOptions
+				{
+					Offset = 16,
 				},
 				new HealthOptions
 				{
@@ -1424,6 +1524,10 @@ internal static class UnitOptions
 				{
 					Sound = "spl1",
 				},
+				new TrailOptions
+				{
+					Offset = 16,
+				},
 				new HealthOptions
 				{
 					MaxHP = 9,
@@ -1460,6 +1564,10 @@ internal static class UnitOptions
 				{
 					Sound = "spl1",
 				},
+				new TrailOptions
+				{
+					Offset = 16,
+				},
 				new HealthOptions
 				{
 					MaxHP = 9,
@@ -1495,6 +1603,10 @@ internal static class UnitOptions
 				new LandingOperationOptions
 				{
 					Sound = "spl1",
+				},
+				new TrailOptions
+				{
+					Offset = 16,
 				},
 				new HealthOptions
 				{
