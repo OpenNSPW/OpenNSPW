@@ -18,6 +18,7 @@ internal sealed class World
 
 	public Camera Camera { get; }
 
+	public ComponentDictionary Components { get; } = new();
 	public UnitCollection AllUnits { get; } = new();
 	public UnitCollection Units { get; } = new();
 

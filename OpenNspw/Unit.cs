@@ -15,7 +15,7 @@ internal sealed class Unit
 	public bool IsInWorld { get; set; }
 	public string Name { get; }
 
-	public ComponentCollection Components { get; } = new();
+	public ComponentCollection Components { get; }
 	public ConditionManager Conditions { get; } = new();
 
 	private Activity? _currentActivity;
@@ -32,16 +32,16 @@ internal sealed class Unit
 	private readonly IUpdatable[] _updatables;
 	private readonly IDrawable[] _drawables;
 
-	public T GetRequiredComponent<T>() where T : notnull => Components.GetRequiredComponent<T>();
-	public T? GetComponent<T>() => Components.GetComponent<T>();
+	public T GetRequiredComponent<T>() where T : IComponent => Components.GetRequiredComponent<T>();
+	public T? GetComponent<T>() where T : IComponent => Components.GetComponent<T>();
 
-	public bool TryGetComponent<T>([NotNullWhen(true)] out T? component)
+	public bool TryGetComponent<T>([NotNullWhen(true)] out T? component) where T : IComponent
 	{
 		component = GetComponent<T>();
 		return component is not null;
 	}
 
-	public bool HasComponent<T>() => GetComponent<T>() is not null;
+	public bool HasComponent<T>() where T : IComponent => GetComponent<T>() is not null;
 
 	public ConditionToken GrantCondition(string? condition) => Conditions.GrantCondition(this, condition);
 	public ConditionToken RevokeCondition(ConditionToken token) => Conditions.RevokeCondition(this, token);
@@ -53,6 +53,8 @@ internal sealed class Unit
 		World = world;
 		Name = name;
 		Owner = owner;
+
+		Components = new ComponentCollection(this);
 
 		foreach (var component in UnitOptions.Components[name])
 			Components.Add(component.CreateComponent(this));

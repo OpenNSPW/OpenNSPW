@@ -97,3 +97,36 @@ internal static class LazyExtensions
 		return lazy;
 	}
 }
+
+// Code from: https://github.com/OpenRA/OpenRA/blob/6810469634d43a7a3e8ab2664942e162c3f4436a/OpenRA.Game/Primitives/TypeDictionary.cs#L114
+internal static class TypeExtensions
+{
+	public static IEnumerable<Type> GetBaseTypes(this Type? type)
+	{
+		while (type is not null)
+		{
+			yield return type;
+			type = type.BaseType;
+		}
+	}
+}
+
+// Code from: https://github.com/OpenRA/OpenRA/blob/6810469634d43a7a3e8ab2664942e162c3f4436a/OpenRA.Game/TraitDictionary.cs#L20
+internal static class ListExtensions
+{
+	public static int BinarySearchMany(this List<Unit> units, int id)
+	{
+		var start = 0;
+		var end = units.Count;
+		while (start != end)
+		{
+			var mid = (start + end) / 2;
+			if (units[mid].Id < id)
+				start = mid + 1;
+			else
+				end = mid;
+		}
+
+		return start;
+	}
+}
