@@ -344,18 +344,12 @@ internal sealed class Airplane : Mobile<AirplaneOptions>, IAddedToWorldEventList
 	{
 		if (!FoldedToken.IsValid)
 			FoldedToken = Self.GrantCondition(Options.FoldedCondition);
-
-		// TODO: use DrawUnit
-		if (Self.World.Assets.Textures.TryGetValue($"Textures/Units/{Self.Name}_folded", out var texture))
-			Self.GetRequiredComponent<DrawUnit>().Texture = texture;
 	}
 
 	public void Unfold()
 	{
 		if (FoldedToken.IsValid)
 			FoldedToken = Self.RevokeCondition(FoldedToken);
-
-		Self.GetRequiredComponent<DrawUnit>().Texture = Self.World.Assets.Textures[$"Textures/Units/{Self.Name}"];
 	}
 
 	public void Scatter()

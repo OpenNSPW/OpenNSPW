@@ -680,7 +680,15 @@ internal static class UnitOptions
 				{
 					MaxHP = 14,
 				},
-				new DrawUnitOptions(),
+				new DrawUnitOptions
+				{
+					RequiresCondition = new("!folded"),
+				},
+				new DrawUnitOptions
+				{
+					RequiresCondition = new("folded"),
+					Texture = "ft_jpn_folded",
+				},
 			}
 		},
 		{
@@ -723,7 +731,15 @@ internal static class UnitOptions
 				{
 					MaxHP = 18,
 				},
-				new DrawUnitOptions(),
+				new DrawUnitOptions
+				{
+					RequiresCondition = new("!folded"),
+				},
+				new DrawUnitOptions
+				{
+					RequiresCondition = new("folded"),
+					Texture = "ft_usa_folded",
+				},
 			}
 		},
 		{
@@ -902,7 +918,15 @@ internal static class UnitOptions
 				{
 					MaxHP = 16,
 				},
-				new DrawUnitOptions(),
+				new DrawUnitOptions
+				{
+					RequiresCondition = new("!folded"),
+				},
+				new DrawUnitOptions
+				{
+					RequiresCondition = new("folded"),
+					Texture = "at_jpn_folded",
+				},
 			}
 		},
 		{
@@ -952,7 +976,15 @@ internal static class UnitOptions
 				{
 					MaxHP = 20,
 				},
-				new DrawUnitOptions(),
+				new DrawUnitOptions
+				{
+					RequiresCondition = new("!folded"),
+				},
+				new DrawUnitOptions
+				{
+					RequiresCondition = new("folded"),
+					Texture = "at_usa_folded",
+				},
 			}
 		},
 		{

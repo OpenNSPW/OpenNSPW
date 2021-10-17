@@ -25,6 +25,9 @@ internal sealed class DrawUnit : ConditionalComponent<DrawUnitOptions>, IDrawabl
 
 	void IDrawable.Draw(Unit self, Graphics graphics, Camera camera)
 	{
+		if (IsDisabled)
+			return;
+
 		var sprite = new Sprite(new TextureRegion2D(Texture, new Rectangle(80 * (self.Angle.Quantize() % (Texture.Width / 80)), 0, 80, 80)));
 		graphics.DrawImage(MonoGameImage.Create(sprite), camera.WorldToScreen(self.Center).ToPoint().ToDrawingPoint());
 	}
