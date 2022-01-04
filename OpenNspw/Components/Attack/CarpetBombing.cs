@@ -38,6 +38,9 @@ internal sealed class CarpetBombing : PausableConditionalComponent<CarpetBombing
 
 	void IUpdatable.Update(Unit self)
 	{
+		if (!self.IsInWorld)
+			return;
+
 		if (IsDisabled || IsPaused)
 			return;
 

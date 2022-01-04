@@ -50,6 +50,9 @@ internal sealed class Bombing : PausableConditionalComponent<BombingOptions>, IC
 
 	void IUpdatable.Update(Unit self)
 	{
+		if (!self.IsInWorld)
+			return;
+
 		if (IsDisabled || IsPaused)
 			return;
 

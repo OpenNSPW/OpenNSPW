@@ -34,6 +34,9 @@ internal sealed class TorpedoBombing : PausableConditionalComponent<TorpedoBombi
 
 	void IUpdatable.Update(Unit self)
 	{
+		if (!self.IsInWorld)
+			return;
+
 		if (IsDisabled || IsPaused)
 			return;
 

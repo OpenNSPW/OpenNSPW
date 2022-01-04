@@ -22,6 +22,9 @@ internal sealed class Gunship : PausableConditionalComponent<GunshipOptions>, IU
 
 	void IUpdatable.Update(Unit self)
 	{
+		if (!self.IsInWorld)
+			return;
+
 		if (IsDisabled || IsPaused)
 			return;
 

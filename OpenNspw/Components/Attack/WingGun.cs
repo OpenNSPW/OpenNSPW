@@ -26,6 +26,9 @@ internal sealed class WingGun : PausableConditionalComponent<WingGunOptions>, IU
 
 	void IUpdatable.Update(Unit self)
 	{
+		if (!self.IsInWorld)
+			return;
+
 		if (IsDisabled || IsPaused)
 			return;
 

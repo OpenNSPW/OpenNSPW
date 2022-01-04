@@ -299,6 +299,11 @@ internal static class UnitOptions
 					Interval = 15,
 					Sound = "aa_blt3",
 				},
+				new DepthChargeLauncherOptions
+				{
+					Interval = 35,
+					LauncherType = DepthChargeLauncherType.Normal,
+				},
 				new TrailOptions
 				{
 					Offset = 16,
@@ -336,6 +341,11 @@ internal static class UnitOptions
 				{
 					Interval = 15,
 					Sound = "aa_blt3",
+				},
+				new DepthChargeLauncherOptions
+				{
+					Interval = 35,
+					LauncherType = DepthChargeLauncherType.Normal,
 				},
 				new TrailOptions
 				{
@@ -375,6 +385,11 @@ internal static class UnitOptions
 					Interval = 20,
 					Sound = "aa_blt3",
 				},
+				new DepthChargeLauncherOptions
+				{
+					Interval = 25,
+					LauncherType = DepthChargeLauncherType.Random,
+				},
 				new TrailOptions
 				{
 					Offset = 16,
@@ -412,6 +427,11 @@ internal static class UnitOptions
 				{
 					Interval = 20,
 					Sound = "aa_blt3",
+				},
+				new DepthChargeLauncherOptions
+				{
+					Interval = 25,
+					LauncherType = DepthChargeLauncherType.Random,
 				},
 				new TrailOptions
 				{

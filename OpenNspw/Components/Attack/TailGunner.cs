@@ -21,6 +21,9 @@ internal sealed class TailGunner : PausableConditionalComponent<TailGunnerOption
 
 	void IUpdatable.Update(Unit self)
 	{
+		if (!self.IsInWorld)
+			return;
+
 		if (IsDisabled || IsPaused)
 			return;
 

@@ -11,6 +11,7 @@ internal sealed class Submarine : IComponent<SubmarineOptions>, ICreatedEventLis
 	public SubmarineOptions Options { get; }
 
 	public bool Submerged { get; private set; }
+	public WRect Bounds { get; set; }
 
 	private readonly Lazy<Ship> _ship;
 
