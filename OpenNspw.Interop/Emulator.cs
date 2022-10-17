@@ -18,7 +18,7 @@ internal sealed class Memory8
 
 	public Register8 this[Register32 address]
 	{
-		get => new Register8(Slice(address).Span[0]);
+		get => new(Slice(address).Span[0]);
 		set => _data.Span[Slice(address).Span[0]] = value.Value;
 	}
 }
@@ -38,7 +38,7 @@ internal sealed class Memory16
 
 	public Register16 this[Register32 address]
 	{
-		get => new Register16(BitConverter.ToUInt16(Slice(address).Span));
+		get => new(BitConverter.ToUInt16(Slice(address).Span));
 		set => BitConverter.GetBytes(value.Value).CopyTo(Slice(address));
 	}
 }
@@ -58,7 +58,7 @@ internal sealed class Memory32
 
 	public Register32 this[Register32 address]
 	{
-		get => new Register32(BitConverter.ToUInt32(Slice(address).Span));
+		get => new(BitConverter.ToUInt32(Slice(address).Span));
 		set => BitConverter.GetBytes(value.Value).CopyTo(Slice(address));
 	}
 }
@@ -78,14 +78,14 @@ internal sealed class Memory64
 
 	public Register64 this[Register32 address]
 	{
-		get => new Register64(BitConverter.ToUInt64(Slice(address).Span));
+		get => new(BitConverter.ToUInt64(Slice(address).Span));
 		set => BitConverter.GetBytes(value.Value).CopyTo(Slice(address));
 	}
 }
 
 public sealed class Emulator
 {
-	private static readonly Register32 Offset = new Register32(0x400000);
+	private static readonly Register32 Offset = new(0x400000);
 
 	private readonly byte[] _memory = new byte[DATA.Length];
 
