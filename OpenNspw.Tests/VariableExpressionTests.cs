@@ -11,8 +11,6 @@
  */
 #endregion
 
-using FluentAssertions;
-using Xunit;
 
 namespace OpenNspw.Tests;
 

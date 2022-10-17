@@ -1,6 +1,3 @@
-using FluentAssertions;
-using Xunit;
-
 namespace OpenNspw.Tests;
 
 // Code from: https://github.com/dotnet/runtime/blob/9319b6fbe0200625aa58ae37bbc1425e1479c3be/src/libraries/System.Drawing.Primitives/tests/PointTests.cs#L10
