@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+  </Folder>
+  <Project Path="OpenNspw.Interop/OpenNspw.Interop.csproj" />
+  <Project Path="OpenNspw.Tests/OpenNspw.Tests.csproj" />
+  <Project Path="OpenNspw/OpenNspw.csproj" />
+</Solution>
