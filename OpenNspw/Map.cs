@@ -60,7 +60,7 @@ internal sealed class Map
 					{
 						0 => new Rectangle(80 * (world.FrameCount / 30 % 2), 0, 80, 80),
 						_ => new Rectangle(80 * ((5 + tile) % 6), 80 * ((5 + tile) / 6), 80, 80),
-					}));
+					})) { OriginNormalized = new Vector2(0.5f, 0.5f) };
 					graphics.DrawImage(MonoGameImage.Create(sprite), camera.WorldToScreen(CenterOfCell(cell)).ToPoint().ToDrawingPoint());
 				}
 			}

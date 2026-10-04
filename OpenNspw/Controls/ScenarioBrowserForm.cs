@@ -1,5 +1,6 @@
 using Aigamo.Saruhashi;
 using Aigamo.Saruhashi.MonoGame;
+using Microsoft.Xna.Framework;
 using MonoGame.Extended.Graphics;
 using DPoint = System.Drawing.Point;
 
@@ -115,6 +116,6 @@ internal sealed class ScenarioBrowserForm : Form
 		base.OnPaint(e);
 
 		var month = DateTime.Today.Month;
-		e.Graphics.DrawImage(MonoGameImage.Create(new Sprite(_assets.Textures[$"Textures/background_{(month - 1) % 4}"])), new DPoint(1024 / 2, 768 / 2));
+		e.Graphics.DrawImage(MonoGameImage.Create(new Sprite(_assets.Textures[$"Textures/background_{(month - 1) % 4}"]) { OriginNormalized = new Vector2(0.5f, 0.5f) }), new DPoint(1024 / 2, 768 / 2));
 	}
 }

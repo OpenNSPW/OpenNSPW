@@ -27,7 +27,7 @@ internal sealed class MainMenuScreen : Screen
 		};
 		_form.Paint += (sender, e) =>
 		{
-			e.Graphics.DrawImage(MonoGameImage.Create(new Sprite(Game.Assets.Textures["Textures/nspw"])), new DPoint(1024 / 2, 768 / 2));
+			e.Graphics.DrawImage(MonoGameImage.Create(new Sprite(Game.Assets.Textures["Textures/nspw"]) { OriginNormalized = new Vector2(0.5f, 0.5f) }), new DPoint(1024 / 2, 768 / 2));
 		};
 		WindowManager.Root.Controls.Add(_form);
 		_form.Show();

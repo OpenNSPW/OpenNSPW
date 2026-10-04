@@ -55,7 +55,7 @@ internal sealed class SpriteEffect : IEffect
 			SpriteEffectMode.Four => Frame + world.LocalRandom.Next(2),
 			_ => throw new InvalidOperationException(),
 		};
-		var sprite = new Sprite(new Texture2DRegion(texture, new Rectangle(40 * frame, 0, 40, 40)));
+		var sprite = new Sprite(new Texture2DRegion(texture, new Rectangle(40 * frame, 0, 40, 40))) { OriginNormalized = new Vector2(0.5f, 0.5f) };
 		var center = Mode switch
 		{
 			SpriteEffectMode.Zero => Center,
