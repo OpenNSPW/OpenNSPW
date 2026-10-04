@@ -8,7 +8,7 @@ using DColor = System.Drawing.Color;
 using DPoint = System.Drawing.Point;
 using DRect = System.Drawing.Rectangle;
 using DSize = System.Drawing.Size;
-using DSolidBrush = System.Drawing.SolidBrush;
+using DSolidBrush = Aigamo.Saruhashi.SolidBrush;
 
 namespace OpenNspw.Controls;
 

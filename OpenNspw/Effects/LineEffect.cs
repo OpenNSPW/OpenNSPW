@@ -1,7 +1,7 @@
 using Aigamo.Saruhashi;
 using Aigamo.Saruhashi.MonoGame;
 using Microsoft.Xna.Framework;
-using DPen = System.Drawing.Pen;
+using DPen = Aigamo.Saruhashi.Pen;
 
 namespace OpenNspw.Effects;
 

@@ -39,7 +39,7 @@ internal sealed class MultiplayerScreen : Screen
 		_scenarioBrowserForm.FormClosed += (sender, e) =>
 		{
 			if (_scenarioBrowserForm.SelectedScenario is Type scenarioType && Activator.CreateInstance(scenarioType) is Scenario scenario)
-				ScreenManager.LoadScreen(new GameScreen(Game, scenario));
+				ScreenManager.ReplaceScreen(new GameScreen(Game, scenario));
 		};
 		WindowManager.Root.Controls.Add(_scenarioBrowserForm);
 		_scenarioBrowserForm.Show();

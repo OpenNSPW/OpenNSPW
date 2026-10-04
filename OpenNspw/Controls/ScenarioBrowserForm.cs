@@ -1,6 +1,6 @@
 using Aigamo.Saruhashi;
 using Aigamo.Saruhashi.MonoGame;
-using MonoGame.Extended.Sprites;
+using MonoGame.Extended.Graphics;
 using DPoint = System.Drawing.Point;
 
 namespace OpenNspw.Controls;

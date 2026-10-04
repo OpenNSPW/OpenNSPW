@@ -2,8 +2,7 @@ using Aigamo.Saruhashi;
 using Aigamo.Saruhashi.MonoGame;
 using Microsoft.Xna.Framework;
 using MonoGame.Extended;
-using MonoGame.Extended.Sprites;
-using MonoGame.Extended.TextureAtlases;
+using MonoGame.Extended.Graphics;
 
 namespace OpenNspw;
 
@@ -57,7 +56,7 @@ internal sealed class Map
 				{
 					var texture = world.Assets.Textures["Textures/terrain"];
 					var tile = Tiles[cell];
-					var sprite = new Sprite(new TextureRegion2D(texture, tile switch
+					var sprite = new Sprite(new Texture2DRegion(texture, tile switch
 					{
 						0 => new Rectangle(80 * (world.FrameCount / 30 % 2), 0, 80, 80),
 						_ => new Rectangle(80 * ((5 + tile) % 6), 80 * ((5 + tile) / 6), 80, 80),

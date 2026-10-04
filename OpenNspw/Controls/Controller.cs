@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using OpenNspw.Components;
 using DColor = System.Drawing.Color;
-using DPen = System.Drawing.Pen;
+using DPen = Aigamo.Saruhashi.Pen;
 using DPoint = System.Drawing.Point;
 
 namespace OpenNspw.Controls;

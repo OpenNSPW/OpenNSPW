@@ -2,8 +2,7 @@ using Aigamo.Saruhashi;
 using Aigamo.Saruhashi.MonoGame;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.Sprites;
-using MonoGame.Extended.TextureAtlases;
+using MonoGame.Extended.Graphics;
 
 namespace OpenNspw.Components;
 
@@ -28,7 +27,7 @@ internal sealed class DrawUnit : ConditionalComponent<DrawUnitOptions>, IDrawabl
 		if (IsDisabled)
 			return;
 
-		var sprite = new Sprite(new TextureRegion2D(Texture, new Rectangle(80 * (self.Angle.Quantize() % (Texture.Width / 80)), 0, 80, 80)));
+		var sprite = new Sprite(new Texture2DRegion(Texture, new Rectangle(80 * (self.Angle.Quantize() % (Texture.Width / 80)), 0, 80, 80)));
 		graphics.DrawImage(MonoGameImage.Create(sprite), camera.WorldToScreen(self.Center).ToPoint().ToDrawingPoint());
 	}
 }

@@ -1,7 +1,7 @@
 using Aigamo.Saruhashi;
 using Aigamo.Saruhashi.MonoGame;
 using Microsoft.Xna.Framework;
-using MonoGame.Extended.Sprites;
+using MonoGame.Extended.Graphics;
 using DPoint = System.Drawing.Point;
 using DRect = System.Drawing.Rectangle;
 using DSize = System.Drawing.Size;
@@ -43,7 +43,7 @@ internal sealed class MainMenuScreen : Screen
 			if (e.Button == MouseButtons.Left)
 				Game.Sound.Play("SoundEffects/btn_4");
 		};
-		_singleplayerButton.Click += (sender, e) => ScreenManager.LoadScreen(new SingleplayerScreen(Game));
+		_singleplayerButton.Click += (sender, e) => ScreenManager.ReplaceScreen(new SingleplayerScreen(Game));
 		_form.Controls.Add(_singleplayerButton);
 
 		_multiplayerButton = new Button
@@ -56,7 +56,7 @@ internal sealed class MainMenuScreen : Screen
 			if (e.Button == MouseButtons.Left)
 				Game.Sound.Play("SoundEffects/btn_4");
 		};
-		_multiplayerButton.Click += (sender, e) => ScreenManager.LoadScreen(new MultiplayerScreen(Game));
+		_multiplayerButton.Click += (sender, e) => ScreenManager.ReplaceScreen(new MultiplayerScreen(Game));
 		_form.Controls.Add(_multiplayerButton);
 
 		_quitButton = new Button

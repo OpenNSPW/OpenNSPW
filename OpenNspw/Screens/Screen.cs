@@ -28,6 +28,6 @@ internal abstract class Screen : GameScreenBase
 	public override void Update(GameTime gameTime)
 	{
 		if (this is not MainMenuScreen && Keyboard.GetState().IsKeyDown(XnaKeys.F4))
-			ScreenManager.LoadScreen(new MainMenuScreen(Game));
+			ScreenManager.ReplaceScreen(new MainMenuScreen(Game));
 	}
 }

@@ -5,11 +5,11 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using OpenNspw.Components;
 using DColor = System.Drawing.Color;
-using DPen = System.Drawing.Pen;
+using DPen = Aigamo.Saruhashi.Pen;
 using DPoint = System.Drawing.Point;
 using DRect = System.Drawing.Rectangle;
 using DSize = System.Drawing.Size;
-using DSolidBrush = System.Drawing.SolidBrush;
+using DSolidBrush = Aigamo.Saruhashi.SolidBrush;
 
 namespace OpenNspw.Controls;
 

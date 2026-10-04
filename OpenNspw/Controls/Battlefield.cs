@@ -5,7 +5,7 @@ using OpenNspw.Components;
 using OpenNspw.Effects;
 using OpenNspw.Orders;
 using DColor = System.Drawing.Color;
-using DPen = System.Drawing.Pen;
+using DPen = Aigamo.Saruhashi.Pen;
 using DPoint = System.Drawing.Point;
 using DSize = System.Drawing.Size;
 

@@ -1,8 +1,7 @@
 using Aigamo.Saruhashi;
 using Aigamo.Saruhashi.MonoGame;
 using Microsoft.Xna.Framework;
-using MonoGame.Extended.Sprites;
-using MonoGame.Extended.TextureAtlases;
+using MonoGame.Extended.Graphics;
 
 namespace OpenNspw.Effects;
 
@@ -56,7 +55,7 @@ internal sealed class SpriteEffect : IEffect
 			SpriteEffectMode.Four => Frame + world.LocalRandom.Next(2),
 			_ => throw new InvalidOperationException(),
 		};
-		var sprite = new Sprite(new TextureRegion2D(texture, new Rectangle(40 * frame, 0, 40, 40)));
+		var sprite = new Sprite(new Texture2DRegion(texture, new Rectangle(40 * frame, 0, 40, 40)));
 		var center = Mode switch
 		{
 			SpriteEffectMode.Zero => Center,

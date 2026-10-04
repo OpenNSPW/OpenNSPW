@@ -2,7 +2,7 @@ using Aigamo.Saruhashi;
 using Aigamo.Saruhashi.MonoGame;
 using MonoGame.Extended;
 using DColor = System.Drawing.Color;
-using DPen = System.Drawing.Pen;
+using DPen = Aigamo.Saruhashi.Pen;
 
 namespace OpenNspw.Components;
 

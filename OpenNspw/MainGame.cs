@@ -66,10 +66,10 @@ internal sealed class MainGame : Game
 		});
 		Components.Add(new InputListenerComponent(this, mouseListener, keyboardListener));
 
-		var fontSystem = FontSystemFactory.Create(GraphicsDevice);
+		var fontSystem = new FontSystem();
 		using var stream = TitleContainer.OpenStream("Content/Fonts/FreeSans.ttf");
 		fontSystem.AddFont(stream);
-		var defaultFont = new DynamicSpriteFontWrapper(fontSystem.GetFont(fontSize: 16));
+		var defaultFont = new DynamicSpriteFontWrapper((DynamicSpriteFont)fontSystem.GetFont(fontSize: 16));
 		WindowManager = new WindowManager(new DRect(0, 0, 1024, 768), new MonoGameGraphicsFactory(SpriteBatch, _viewportAdapter), defaultFont);
 		mouseListener.MouseDown += (sender, e) => WindowManager.OnMouseDown(e);
 		mouseListener.MouseMove += (sender, e) => WindowManager.OnMouseMove(e);
@@ -78,7 +78,7 @@ internal sealed class MainGame : Game
 		keyboardListener.KeyReleased += (sender, e) => WindowManager.OnKeyUp(new KeyEventArgs((SaruhashiKeys)e.Key));
 		Window.TextInput += (sender, e) => WindowManager.OnKeyPress(new KeyPressEventArgs(e.Character));
 
-		_screenManager.LoadScreen(new MainMenuScreen(this));
+		_screenManager.ShowScreen(new MainMenuScreen(this));
 	}
 
 	protected override void Update(GameTime gameTime)
